@@ -41,7 +41,7 @@ namespace DataAccessLayer
             Assert(OffsetToHash == 8, "OffsetToHash is {OffsetToHash} not 8 as expected");
             Assert(OffsetToSalt == 9, "OffsetToSalt is {OffsetToSalt} not 9 as expected");
         }
-        public UsersDAL ToUsers(SqlDataReader reader)
+        public UsersDAL ToUser(SqlDataReader reader)
         {
             UsersDAL proposedRV = new UsersDAL();
 
@@ -54,6 +54,8 @@ namespace DataAccessLayer
             proposedRV.UserName = reader.GetString(OffsetToUserName);
             proposedRV.Hash = reader.GetString(OffsetToHash);
             proposedRV.Salt = reader.GetString(OffsetToSalt);
+
+            return proposedRV;
         }
     }
 }

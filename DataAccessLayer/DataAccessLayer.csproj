@@ -48,6 +48,7 @@
     <Compile Include="LocationsDAL.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="RoleDAL.cs" />
+    <Compile Include="RoleMapper.cs" />
     <Compile Include="UserActivitiesDAL.cs" />
     <Compile Include="UserGroupsDAL.cs" />
     <Compile Include="UsersDAL.cs" />

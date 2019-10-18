@@ -69,5 +69,33 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public List<RoleDAL> RoleGetAll(int Skip, int Take)
+        {
+            List<RoleDAL> proposedReturnValue = new List<RoleDAL>();
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RoleGetAll",_con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@skip", Skip);
+                command.Parameters.AddWithValue("@take", Take);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    RoleMapper rm = new RoleMapper(reader);
+
+                    while (reader.Read())
+                    {
+                        RoleDAL item = rm.ToRole(reader);
+                        proposedReturnValue.Add(item);
+
+                    }
+                }
+            }
+            return proposedReturnValue;
+
+
+
+        }
+       
     }
 }
+
