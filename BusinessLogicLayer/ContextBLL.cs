@@ -14,7 +14,7 @@ namespace BusinessLogicLayer
         public ContextBLL()
         {
             _context.ConnectionString =
-                ConfigurationManager.ConnectionStrings["DefultConnection"].ConnectionString;
+            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
         public void Dispose()
@@ -22,29 +22,29 @@ namespace BusinessLogicLayer
             _context.Dispose();
         }
 
-        public List<RoleBLL> RoleGetAll (int skip, int take)
+        public List<RoleBLL> RoleGetAll(int skip, int take)
         {
             List<RoleBLL> ProposedReturnValue = new List<RoleBLL>();
             List<RoleDAL> items = _context.RoleGetAll(skip, take);
 
             foreach (RoleDAL item in items)
             {
-                RoleBLL correctedItem = RoleBLL(item);
+                RoleBLL correctedItem = new RoleBLL(item);
                 ProposedReturnValue.Add(correctedItem);
             }
+
             return ProposedReturnValue;
 
         }
         public RoleBLL RoleFindByID(int RoleID)
         {
-            RoleBLL proposedReturnValue = null
-                RoleDAL item = _context.RoleFindbyID(RoleID);
-            if (item ! = null)
+            RoleBLL proposedReturnValue = null;
+            RoleDAL item = _context.RoleFindbyID(RoleID);
+            if (item != null)
             {
                 proposedReturnValue = new RoleBLL(item);
             }
             return proposedReturnValue;
         }
-        
     }
 }

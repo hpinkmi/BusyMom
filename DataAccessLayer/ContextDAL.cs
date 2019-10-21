@@ -95,7 +95,96 @@ namespace DataAccessLayer
 
 
         }
-       
+        public int RolesObtainCount()
+        {
+            int proposedReturnValue = 0;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RolesObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                proposedReturnValue = (int)command.ExecuteScalar();
+            }
+            return proposedReturnValue;
+        }
+        public int RoleCreate(string RoleName)
+        {
+            int proposedReturnValue = 0;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RoleCreate", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@RoleName", RoleName);
+                command.Parameters.AddWithValue("@RoleID", 0);
+                command.Parameters["@RoleID"].Direction = System.Data.ParameterDirection.Output;
+                command.ExecuteNonQuery();
+                proposedReturnValue = (int)command.Parameters["@RoleID"].Value;
+            }
+            return proposedReturnValue;
+        }
+        public int RoleCreateIDReturned(string RoleName)
+        {
+            int proposedReturnValue = 0;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RoleCreateIDReturned", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@RoleName", RoleName);
+
+
+                proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+            }
+            return proposedReturnValue;
+        }
+        public void RoleDelete(int RoleID)
+        {
+
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RoleDelete", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@RoleID", RoleID);
+                command.ExecuteNonQuery();
+
+
+            }
+
+        }
+        public void RoleUpdateJust(int RoleID, string RoleName)
+        {
+
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RoleUpdateJust", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@RoleID", RoleID);
+                command.Parameters.AddWithValue("@RoleName", RoleName);
+                object datareturned = command.ExecuteNonQuery();
+
+
+            }
+
+        }
+        public int RoleUpdateSafe(int RoleID, string OldRoleName, string NewRoleName)
+        {
+
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("RoleUpdateSafe", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@RoleID", RoleID);
+                command.Parameters.AddWithValue("@OldRoleName", OldRoleName);
+                command.Parameters.AddWithValue("@NewRoleName", NewRoleName);
+                return command.ExecuteNonQuery();
+
+
+            }
+
+        }
+        #endregion role stuff
+
+
     }
+
 }
 

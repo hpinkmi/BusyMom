@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataAccessLayer;
+using BusinessLogicLayer;
 
 namespace BusyMomWeb.Controllers
 {
@@ -11,12 +13,23 @@ namespace BusyMomWeb.Controllers
         // GET: Roles
         public ActionResult Index()
         {
+            List<RoleBLL> items = null;
+            using (BusinessLogicLayer.ContextBLL ctx = new BusinessLogicLayer.ContextBLL())
+            {
+                items = ctx.RoleGetAll(0, 100);
+            }
             return View();
         }
 
         // GET: Roles/Details/5
         public ActionResult Details(int id)
         {
+            RoleDAL it = null;
+            using (DataAccessLayer.ContextDAL ctx = new DataAccessLayer.ContextDAL())
+            {
+                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
+                it = ctx.RoleFindbyID(id);
+            }
             return View();
         }
 
@@ -45,6 +58,12 @@ namespace BusyMomWeb.Controllers
         // GET: Roles/Edit/5
         public ActionResult Edit(int id)
         {
+            RoleDAL item;
+            using (ContextDAL ctx= new ContextDAL())
+            {
+                ctx.ConnectionString = @"Data Source =.\sqlexpress; Initial Catalog = BusyMom; Integrated Security = True";
+                item = ctx.RoleFindbyID(id);
+            }
             return View();
         }
 
