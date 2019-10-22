@@ -8,12 +8,15 @@ namespace DataAccessLayer
 {
     public class GroupActivitiesDAL
     {
+       
         public int GroupID { get; set; }
         public int ActivityID { get; set; }
-        public string Owner { get; set; }
+        public string ActivityOwner { get; set; }
+
+      
         public override string ToString()
         {
-            return $"{GroupID,5}{ActivityID,5}{Owner,5}";
+            return $"{GroupID,5}{ActivityID,5}{ActivityOwner,20}";
         }
     }
 }

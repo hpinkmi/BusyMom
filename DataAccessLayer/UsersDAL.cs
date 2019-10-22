@@ -10,7 +10,6 @@ namespace DataAccessLayer
     {
         #region columns from primary table
         public int UserID { get; set; } 
-        public int GroupID { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Email { get; set; }
@@ -20,9 +19,17 @@ namespace DataAccessLayer
         public string Salt { get; set; }
         #endregion
 
-       public override string ToString()
+        #region colums from foreign tables
+        public string RoleID { get; set; }
+        public string GroupID { get; set; }
+        public string ActivityID { get; set; }
+        
+
+        #endregion
+
+        public override string ToString()
         {
-            return $"UserId:{UserID,5} GroupID: {GroupID,5} LastName: {LastName,15} FirstName {FirstName,15} Email: {Email,25} Phone {Phone,8} UserName: {UserName,15} Hash {Hash} Salth: {Salt}";
+            return $"UserId:{UserID,5} GroupID: {GroupID,5} LastName: {LastName,15} FirstName {FirstName,15} Email: {Email,25} Phone {Phone,8} UserName: {UserName,15} Hash {Hash} Salt: {Salt} RoleID: {RoleID} GroupID: {GroupID} ActivityID: {ActivityID}";
         }
             
         }

@@ -8,12 +8,17 @@ namespace DataAccessLayer
 {
     public class UserGroupsDAL
     {
+        #region columns from primary table
         public int UserID { get; set;}
         public int GroupID { get; set; }
         public int RoleID { get; set; }
+
+        #endregion
+
+
         public override string ToString()
         {
-            return $"{UserID,5} {GroupID,5}{RoleID,5}";
+            return $"UserID:{UserID,5} GroupID:{GroupID,5} RoleID: {RoleID,5}";
         }
     }
 }

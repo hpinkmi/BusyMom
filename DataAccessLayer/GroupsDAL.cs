@@ -12,7 +12,7 @@ namespace DataAccessLayer
         public string GroupName { get; set; }
         public override string ToString()
         {
-            return $"{GroupID}{GroupName}";
+            return $"{GroupID,5}{GroupName,5}";
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BusinessLogicLayer
         public List<RoleBLL> RoleGetAll(int skip, int take)
         {
             List<RoleBLL> ProposedReturnValue = new List<RoleBLL>();
-            List<RoleDAL> items = _context.RoleGetAll(skip, take);
+            List<RoleDAL> items = _context.RolesGetAll(skip, take);
 
             foreach (RoleDAL item in items)
             {

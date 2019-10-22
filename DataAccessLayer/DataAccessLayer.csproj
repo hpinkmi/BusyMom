@@ -42,15 +42,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivitiesDAL.cs" />
+    <Compile Include="ActivitiesMapper.cs" />
     <Compile Include="ContextDAL.cs" />
     <Compile Include="GroupActivitiesDAL.cs" />
+    <Compile Include="GroupActivitiesMapper.cs" />
     <Compile Include="GroupsDAL.cs" />
+    <Compile Include="GroupsMapper.cs" />
     <Compile Include="LocationsDAL.cs" />
+    <Compile Include="LocationsMapper.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="RoleDAL.cs" />
     <Compile Include="RoleMapper.cs" />
+    <Compile Include="UserActivitiesMapper.cs" />
     <Compile Include="UserActivitiesDAL.cs" />
     <Compile Include="UserGroupsDAL.cs" />
+    <Compile Include="UserGroupsMapper.cs" />
     <Compile Include="UsersDAL.cs" />
     <Compile Include="UsersMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

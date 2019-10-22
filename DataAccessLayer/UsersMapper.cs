@@ -10,7 +10,6 @@ namespace DataAccessLayer
     class UsersMapper : Mapper
     {
         int OffsetToUserID;
-        int OffsetToGroupID;
         int OffsetToLastName;
         int OffsetToFirstName;
         int OffsetToEmail;
@@ -22,7 +21,6 @@ namespace DataAccessLayer
         public UsersMapper(SqlDataReader reader)
         {
             OffsetToUserID = reader.GetOrdinal("UserID");
-            OffsetToGroupID = reader.GetOrdinal("GroupID");
             OffsetToLastName = reader.GetOrdinal("LastName");
             OffsetToFirstName = reader.GetOrdinal("FirstName");
             OffsetToEmail = reader.GetOrdinal("Email");
@@ -32,7 +30,6 @@ namespace DataAccessLayer
             OffsetToSalt = reader.GetOrdinal("Salt");
 
             Assert(OffsetToUserID == 0, "OffsetToUserID is {OffsetToUserID} not 0 as expected");
-            Assert(OffsetToGroupID == 2, "OffsetToGroupID is {OffsetToGroupID} not 2 as expected");
             Assert(OffsetToLastName == 3, "OffsetToLastName is {OffsetToLastName} not 3 as expected");
             Assert(OffsetToFirstName == 4, "OffsetToFirstName is {OffsetToFirstName} not 4 as expected");
             Assert(OffsetToEmail == 5, "OffsetToEmail is {OffsetToEmail} not 5 as expected");
@@ -46,7 +43,6 @@ namespace DataAccessLayer
             UsersDAL proposedRV = new UsersDAL();
 
             proposedRV.UserID = reader.GetInt32(OffsetToUserID);
-            proposedRV.GroupID = reader.GetInt32(OffsetToGroupID);
             proposedRV.LastName = reader.GetString(OffsetToLastName);
             proposedRV.FirstName = reader.GetString(OffsetToFirstName);
             proposedRV.Email = reader.GetString(OffsetToEmail);
