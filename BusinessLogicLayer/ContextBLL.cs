@@ -152,48 +152,178 @@ namespace BusinessLogicLayer
         public void UsersDelete (UsersBLL User)
         {
             _context.UsersDelete(User.UserID);
-        }
-
-
-
-            
+        }    
         #endregion Users
         #region UserGroups
-        #endregion UserGroups
+
         public void UserGroupsCreate(int UserID, int GroupID, int RoleID)
         {
-            _context.UserGroupsCreate(userGroups.UserID, userGroups.GroupID,userGroups.RoleID);
+            _context.UserGroupsCreate(UserID,GroupID,RoleID);
         }
-        public void UserGroupsCreate(UserGroupsBLL User)
+        public void UserGroupsCreate(UserGroupsBLL userGroups)
         {
-        _context.UsersGroupsCreate(userGroups.UserID,userGroups.GroupID, UserGroups.RoleID);
+        _context.UserGroupsCreate(userGroups.UserID,userGroups.GroupID, userGroups.RoleID);
         }
-        public void UserGroupsDelete(UserGroupsBLL)
+        public void UserGroupsDelete(UserGroupsBLL userGroups)
         {
-            _context.UserGroupsDelete(userGroups.UserID,user);
+            _context.UserGroupsDelete(userGroups.UserID, userGroups.GroupID);
         }
+        #endregion UserGroups
         #region GroupActivities
-        public void GroupActivitiesCreate(int GroupID, int ActivityID, string ActivityOwner)
+        public void GroupActivitiesCreate(int ActivityID, int GroupID, string ActivityOwner)
         {
-            int proposedReturnValue = -1;
-            proposedReturnValue =
-            _context.GroupActivitiesCreate(groupActivites.GroupID, groupActivities.ActivityID, groupActivities.ActivityName);
-            return proposedReturnValue;
+            _context.GroupActivitiesCreate(ActivityID, GroupID,ActivityOwner);  
         }
-        public void UserGroupsCreate(UserGroupsBLL User)
+
+        public void GroupActivitiesDelete(GroupActivitiesBLL GroupActivities)
         {
-            _context.UsersGroupsCreate(userGroups.UserID, userGroups.GroupID, UserGroups.RoleID);
-        }
-        public void UserGroupsDelete(UserGroupsBLL)
-        {
-            _context.UserGroupsDelete(userGroups.UserID, user);
+            _context.GroupActivitiesDelete(GroupActivities.ActivityID,GroupActivities.GroupID);
         }
         #endregion GroupActivities
         #region Groups
+        public int GroupsCreate(int GroupID, string GroupName )
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.GroupsCreate(GroupName);
+            return proposedReturnValue;
+        }
+        
+        public int GroupsCreate(GroupsBLL groups)
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.GroupsCreate(groups.GroupName);
+            return proposedReturnValue;
+        }
+        public GroupsBLL GroupsFindByID(int GroupID)
+    {
+        GroupsBLL proposedReturnValue = null;
+        GroupsDAL DataLayerObject = _context.GroupsFindbyID(GroupID);
+            if (null != DataLayerObject)
+            {
+                proposedReturnValue = new GroupsBLL(DataLayerObject);
+            }
+            return proposedReturnValue;
+    }
+        public List<GroupsBLL> GroupsGetAll(int skip, int take)
+        {
+            List<GroupsBLL> proposedReturnValue = new List<GroupsBLL>();
+            List<GroupsDAL> ListofDataLayerObject = _context.GroupsGetAll(skip, take);
+            foreach (GroupsDAL Groups in ListofDataLayerObject)
+                {
+                GroupsBLL BusinessObject = new GroupsBLL(Groups);
+                proposedReturnValue.Add(BusinessObject);
+                }
+            return proposedReturnValue;
+         }
+        public List<GroupsBLL> GroupsGetAllbyActivityID(int skip, int take, int ActivityID)
+        {
+            List<GroupsBLL> proposedReturnValue = new List<GroupsBLL>();
+            List<GroupsDAL> ListofDataLayerObjects = _context.GroupsGetAllbyActivityID(skip, take, ActivityID);
+            foreach (GroupsDAL Groups in ListofDataLayerObjects)
+            {
+                GroupsBLL BusinessObject = new GroupsBLL(Groups);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
+        }
+        public void GroupsUpdateJust(int GroupID, string GroupName)
+        {
+            _context.GroupsUpdateJust(GroupID, GroupName);
+        }
+        public void GroupsDelete(int GroupID)
+    {
+        _context.GroupsDelete(GroupID);
+    }
+        public void GroupsDelete(GroupsBLL groups)
+    {
+            _context.GroupsDelete(groups.GroupID);
+    }
         #endregion Groups
         #region UserActivities
+        public void UserActivitiesCreate(int UserID, int ActivityID)
+        {
+            _context.UserActivitiesCreate(UserID, ActivityID);
+        }
+
+        public void UserActivitiesDelete(UserActivitiesBLL UserActivities)
+        {
+            _context.UserActivitiesDelete(UserActivities.UserID,UserActivities.ActivityID);
+        }
         #endregion UserActivities
         #region Activities
+        public int ActivitiesCreate(string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.ActivitiesCreate(ActivityName, Approveby, TimeofActivity, LocationID, ApproveTime);
+            return proposedReturnValue;
+        }
+        public int ActivitiesCreate(ActivitiesBLL activities)
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.ActivitiesCreate(activities.ActivityName,activities.Approveby,activities.TimeofActivity, activities.LocationID, activities.ApproveTime);
+            return proposedReturnValue;
+        }
+        public ActivitiesBLL ActivitiesFindbyLocationID(int LocationID)
+        {
+            ActivitiesBLL ProposedReturnValue = null;
+            ActivitiesDAL DataLayerObject = _context.ActivitiesFindbyLocationID(LocationID);
+            if (null != DataLayerObject)
+            {
+                ProposedReturnValue = new ActivitiesBLL(DataLayerObject);
+            }
+            return ProposedReturnValue;
+
+        }
+        public List<ActivitiesBLL> ActivitiesGetAll(int skip, int take)
+        {
+            List<ActivitiesBLL> proposedReturnValue = new List<ActivitiesBLL>();
+            List<ActivitiesDAL> ListofDataLayerObjects = _context.ActivitiesGetAll(skip, take);
+            foreach (ActivitiesDAL activities in ListofDataLayerObjects)
+            {
+                ActivitiesBLL BusinessObject = new ActivitiesBLL(activities);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
+        }
+        public List<ActivitiesBLL> ActivitiesGetAllbyGroupID(int skip, int take, int GroupID)
+        {
+            List<ActivitiesBLL> proposedReturnValue = new List<ActivitiesBLL>();
+            List<ActivitiesDAL> ListofDataLayerObjects = _context.ActivitiesGetAllbyGroupID(skip, take, GroupID);
+            foreach (ActivitiesDAL activities in ListofDataLayerObjects)
+            {
+                ActivitiesDAL BusinessObject = new ActivitiesDAL(activities);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
+        }
+        public List<ActivitiesBLL> ActivitiesGetAllbyUserID(int skip, int take, int UserID)
+        {
+            List<ActivitiesBLL> proposedReturnValue = new List<ActivitiesBLL>();
+            List<ActivitiesDAL> ListofDataLayerObjects = _context.ActivitiesGetAllbyUserID(skip, take, UserID);
+            foreach (ActivitiesDAL activities in ListofDataLayerObjects)
+            {
+                ActivitiesDAL BusinessObject = new ActivitiesDAL(activities);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
+        }
+        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
+        {
+            _context.ActivitiesUpdateJust(ActivityID, ActivityName, Approveby, TimeofActivity, LocationID, ApproveTime);
+        }
+        public void ActivitiesUpdateJust(ActivitiesBLL activities)
+        {
+            _context.ActivitiesUpdateJust(activities.ActivityID, activities.ActivityName, activities.Approveby, activities.TimeofActivity, activities.LocationID, activities.ApproveTime);
+        }
+        public void ActivitiesDelete(int ActivityID)
+        {
+            _context.ActivitiesDelete(ActivityID);
+        }
+        public void ActivitiesDelete(ActivitiesBLL activities)
+        {
+            _context.ActivitiesDelete(activities.ActivityID);
+        }
+
         #endregion Activities
         #region Locations
         #endregion Locations

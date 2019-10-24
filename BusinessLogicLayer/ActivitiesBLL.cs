@@ -11,16 +11,17 @@ namespace BusinessLogicLayer
        public int ActivityID { get; set; }
         public string ActivityName { get; set; }
         public string Approveby { get; set; }
-        public string TimeofActivity { get; set; }
+        public DateTime TimeofActivity { get; set; }
         public int LocationID { get; set; }
-        public string ApproveTime { get; set; }
-        public ActivitiesBLL(ActivitiesBLL activities)
+        public DateTime ApproveTime { get; set; }
+        public ActivitiesBLL(ActivitiesDAL activities)
         {
             ActivityID = activities.ActivityID;
             ActivityName = activities.ActivityName;
+            Approveby = activities.Approveby;
             TimeofActivity = activities.TimeofActivity;
             LocationID = activities.LocationID;
-            Approveby = activities.Approveby;
+            ApproveTime = activities.ApproveTime;
         }
         public ActivitiesBLL()
         {

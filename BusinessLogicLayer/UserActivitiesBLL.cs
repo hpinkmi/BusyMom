@@ -9,11 +9,11 @@ namespace BusinessLogicLayer
 {
     public class UserActivitiesBLL
     {
-        public int UserId { get; set; }
+        public int UserID { get; set; }
         public int ActivityID { get; set; }
         public UserActivitiesBLL(UserActivitiesDAL userActivities)
         {
-            UserId = userActivities.UserID;
+            UserID = userActivities.UserID;
             ActivityID = userActivities.ActivityID;
         }
         public UserActivitiesBLL()

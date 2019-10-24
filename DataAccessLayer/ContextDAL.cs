@@ -523,10 +523,10 @@ namespace DataAccessLayer
 
         #endregion GroupActivities
         #region UserActivies
-        public void UserActiviesCreate(int UserID, int ActivityID)
+        public void UserActivitiesCreate(int UserID, int ActivityID)
         {
             EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupActivitiesCreate", _con))
+            using (SqlCommand command = new SqlCommand("UserActivitiesCreate", _con))
             {
                 command.CommandType = System.Data.CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@UserID", UserID);
@@ -574,6 +574,32 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public ActivitiesDAL ActivitiesFindbyLocationID(int LocationID)
+        {
+            ActivitiesDAL proposedReturnValue = null;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("ActivitiesFindByLocationID", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@LocationID", LocationID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    ActivitiesMapper rm = new ActivitiesMapper(reader);
+                    int count = 0;
+                    while (reader.Read())
+                    {
+                        proposedReturnValue = rm.ToActivities(reader);
+                        count++;
+                    }
+                    if (count > 1)
+                    {
+                        throw new Exception($"{count} Multiple Activities found for LocationID {LocationID}");
+                    }
+
+                }
+            }
+            return proposedReturnValue;
+        }
         public List<ActivitiesDAL> ActivitiesGetAll(int Skip, int Take)
         {
             List<ActivitiesDAL> proposedReturnValue = new List<ActivitiesDAL>();
@@ -597,7 +623,31 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
-        public int ActivitiesCreate(string ActivityName, string Approveby, string TimeofActivity, int LocationID,string ApproveTime)
+        public List<ActivitiesDAL> ActivitiesGetAllbyGroupID(int Skip, int Take, int GroupID)
+        {
+            List<ActivitiesDAL> proposedReturnValue = new List<ActivitiesDAL>();
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("ActivitiesGetAllbyGroupID", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@skip", Skip);
+                command.Parameters.AddWithValue("@take", Take);
+                command.Parameters.AddWithValue("@GroupID", GroupID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    ActivitiesMapper rm = new ActivitiesMapper(reader);
+
+                    while (reader.Read())
+                    {
+                        ActivitiesDAL item = rm.ToActivities(reader);
+                        proposedReturnValue.Add(item);
+
+                    }
+                }
+            }
+            return proposedReturnValue;
+        }
+        public int ActivitiesCreate(string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
         {
             int proposedReturnValue = 0;
             EnsureConnected();
@@ -607,6 +657,7 @@ namespace DataAccessLayer
                 command.Parameters.AddWithValue("@ActivityID", 0);
                 command.Parameters.AddWithValue("@ActivityName",ActivityName);
                 command.Parameters.AddWithValue("@Approveby",Approveby);
+                command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
                 command.Parameters.AddWithValue("@LocationID", LocationID);
                 command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
                 command.Parameters["@ActivityID"].Direction = System.Data.ParameterDirection.Output;
@@ -630,7 +681,7 @@ namespace DataAccessLayer
             }
 
         }
-        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, string Approveby, string TimeofActivity, int LocationID, string ApproveTime)
+        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
         {
 
             EnsureConnected();

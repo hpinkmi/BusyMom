@@ -37,9 +37,9 @@ namespace DataAccessLayer
             proposedRV.ActivityID = reader.GetInt32(OffsetToActivityID);
             proposedRV.ActivityName = reader.GetString(OffsetToActivityName);
             proposedRV.Approveby = reader.GetString(OffsetToApproveby);
-            proposedRV.TimeofActivity = reader.GetString(OffsetToTimeofActivity);
+            proposedRV.TimeofActivity = reader.GetDateTime(OffsetToTimeofActivity);
             proposedRV.LocationID = reader.GetInt32(OffsetToLocationID);
-            proposedRV.ApproveTime = reader.GetString(OffsetToApproveTime);
+            proposedRV.ApproveTime = reader.GetDateTime(OffsetToApproveTime);
             return proposedRV;
         }
 
