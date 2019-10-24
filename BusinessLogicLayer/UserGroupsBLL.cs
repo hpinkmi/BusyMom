@@ -12,11 +12,11 @@ namespace BusinessLogicLayer
         public int UserID { get; set; }
         public int GroupID { get; set; }
         public int RoleID { get; set; }
-        public UserGroupsBLL(UserGroupsDAL userActivities)
+        public UserGroupsBLL(UserGroupsDAL userGroups)
         {
-            UserID = userActivities.UserID;
-            GroupID = userActivities.GroupID;
-            RoleID = userActivities.RoleID;
+            UserID = userGroups.UserID;
+            GroupID = userGroups.GroupID;
+            RoleID = userGroups.RoleID;
         }
         public UserGroupsBLL()
         {

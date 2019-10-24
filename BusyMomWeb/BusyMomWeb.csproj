@@ -8,7 +8,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{99FD8D29-09B8-4F84-8DC9-35B602CDB45D}</ProjectGuid>
+    <ProjectGuid>{62042C4F-76F7-4D02-8CB5-B89DEFA21175}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -170,20 +170,15 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Roles\Index.cshtml" />
-    <Content Include="Views\Roles\Detail.cshtml" />
-    <Content Include="Views\Roles\Create.cshtml" />
-    <Content Include="Views\Roles\Edit.cshtml" />
-    <Content Include="Views\Roles\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Activities\" />
-    <Folder Include="Views\Details\" />
     <Folder Include="Views\GroupActivities\" />
     <Folder Include="Views\Groups\" />
     <Folder Include="Views\Locations\" />
+    <Folder Include="Views\Roles\" />
     <Folder Include="Views\UserActivities\" />
     <Folder Include="Views\UserGroups\" />
     <Folder Include="Views\Users\" />
@@ -227,7 +222,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52840</DevelopmentServerPort>
+          <DevelopmentServerPort>57019</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>https://localhost:44381/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

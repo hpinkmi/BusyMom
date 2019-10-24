@@ -102,7 +102,7 @@ namespace BusinessLogicLayer
             }
             return proposedReturnValue;
         }
-        public List<UsersBLL> UsersFindByUserName(string UserName)
+        public UsersBLL UsersFindByUserName(string UserName)
         {
             UsersBLL proposedReturnValue = null;
             UsersDAL DataLayerObject = _context.UsersFindbyUserName(UserName);
@@ -125,19 +125,69 @@ namespace BusinessLogicLayer
         }
         public List<UsersBLL> UsersGetAllbyActivityID(int skip, int take, int ActivityID)
         {
-            List<UsersBLL> BusinessObject = new List<UsersBLL>();
-            List<UsersDAL> ListofDataLayerObjects = _context.UsersGetAllbyActivityID(skip, take);
-            foreach (UserDAL User in ListofDataLayerObjects)
+            List<UsersBLL> proposedReturnValue = new List<UsersBLL>();
+            List<UsersDAL> ListofDataLayerObjects = _context.UsersGetAllbyActivityID(skip, take, ActivityID);
+            foreach (UsersDAL User in ListofDataLayerObjects)
             {
-
+                UsersBLL BusinessObject = new UsersBLL(User);
+                proposedReturnValue.Add(BusinessObject);
             }
+            return proposedReturnValue;
         }
+        public List<UsersBLL> UsersGetAllbyGroupId(int skip, int take, int GroupID)
+        {
+            List<UsersBLL> proposedReturnValue = new List<UsersBLL>();
+            List<UsersDAL> ListofDataLayerObjects =_context.UsersGetAllbyGroupID(skip, take, GroupID);
+            foreach (UsersDAL Users in ListofDataLayerObjects)
+            {
+                UsersBLL BusinessObject = new UsersBLL(Users);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
+        }
+        public void UserUpdateJust(int UserID, string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
+        {
+            _context.UsersUpdateJust(UserID, LastName, FirstName, Email, Phone, UserName, Hash, Salt);
+        }
+        public void UsersDelete (UsersBLL User)
+        {
+            _context.UsersDelete(User.UserID);
+        }
+
+
 
             
         #endregion Users
         #region UserGroups
         #endregion UserGroups
+        public void UserGroupsCreate(int UserID, int GroupID, int RoleID)
+        {
+            _context.UserGroupsCreate(userGroups.UserID, userGroups.GroupID,userGroups.RoleID);
+        }
+        public void UserGroupsCreate(UserGroupsBLL User)
+        {
+        _context.UsersGroupsCreate(userGroups.UserID,userGroups.GroupID, UserGroups.RoleID);
+        }
+        public void UserGroupsDelete(UserGroupsBLL)
+        {
+            _context.UserGroupsDelete(userGroups.UserID,user);
+        }
         #region GroupActivities
+        public void GroupActivitiesCreate(int GroupID, int ActivityID, string ActivityOwner)
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue =
+            _context.GroupActivitiesCreate(groupActivites.GroupID, groupActivities.ActivityID, groupActivities.ActivityName);
+            return proposedReturnValue;
+        }
+        public void UserGroupsCreate(UserGroupsBLL User)
+        {
+            _context.UsersGroupsCreate(userGroups.UserID, userGroups.GroupID, UserGroups.RoleID);
+        }
+        public void UserGroupsDelete(UserGroupsBLL)
+        {
+            _context.UserGroupsDelete(userGroups.UserID, user);
+        }
         #endregion GroupActivities
         #region Groups
         #endregion Groups

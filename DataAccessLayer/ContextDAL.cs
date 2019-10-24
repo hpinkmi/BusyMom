@@ -259,7 +259,7 @@ namespace DataAccessLayer
                 }
                 return proposedReturnValue;
             }
-        public UsersDAL UsersGetAllbyGroupID (int skip, int take, int GroupID)
+        public List<UsersDAL> UsersGetAllbyGroupID (int skip, int take, int GroupID)
         {
             List<UsersDAL> proposedReturnValue = new List<UsersDAL>();
             EnsureConnected();
