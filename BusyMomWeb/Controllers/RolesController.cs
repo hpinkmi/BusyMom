@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
-using DataAccessLayer;
+
 
 namespace BusyMomWeb.Controllers
 {
@@ -14,7 +14,7 @@ namespace BusyMomWeb.Controllers
         public ActionResult Index()
         {
             List<RoleBLL> items = null;
-            using (BusinessLogicLayer.ContextBLL ctx = new BusinessLogicLayer.ContextBLL())
+            using (ContextBLL ctx = new ContextBLL())
             {
 
                 items = ctx.RolesGetAll(0, 100);
@@ -26,11 +26,11 @@ namespace BusyMomWeb.Controllers
         // GET: Roles/Details/5
         public ActionResult Details(int id)
         {
-            RoleDAL it = null;
-            using (DataAccessLayer.ContextDAL ctx = new DataAccessLayer.ContextDAL())
+            RoleBLL it = null;
+            using (ContextBLL ctx = new ContextBLL())
             {
-                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
-                it = ctx.RoleFindbyID(id);
+
+                it = ctx.RoleFindByID(id);
             }
             return View();
         }

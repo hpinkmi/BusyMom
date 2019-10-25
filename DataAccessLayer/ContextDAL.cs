@@ -152,14 +152,15 @@ namespace DataAccessLayer
         }
         #endregion role stuff
         #region users 
-        public UsersDAL UsersFindByEmail(string Email)
+
+        public UsersDAL UserFindByID(int UserID)
         {
             UsersDAL proposedReturnValue = null;
             EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserFindByEmail", _con))
+            using (SqlCommand command = new SqlCommand("UserFindByID", _con))
             {
                 command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("Email", Email);
+                command.Parameters.AddWithValue("@UserID", UserID);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     UsersMapper rm = new UsersMapper(reader);
@@ -172,11 +173,39 @@ namespace DataAccessLayer
 
                     if (count > 1)
                     {
-                        throw new Exception($"{count} Multiple Users found for Email {Email}");
+                        throw new Exception($"{count} Multiple Users found for UserID {UserID}");
                     }
                 }
             }
             return proposedReturnValue;
+        }
+        public UsersDAL UsersFindbyEmail(string Email)
+        {
+            UsersDAL proposedReturnValue = null;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("UserFindbyEmail", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Email", Email);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    UsersMapper rm = new UsersMapper(reader);
+                    int count = 0;
+                    while (reader.Read())
+                    {
+                        proposedReturnValue = rm.ToUser(reader);
+                        count++;
+                        {
+                            if (count > 1)
+                            {
+                                throw new Exception($"{count}Multiple Users found for Email {Email}");
+                            }
+                        }
+                    }
+
+                }
+                return proposedReturnValue;
+            }
         }
         public UsersDAL UsersFindbyUserName(string UserName)
         {
@@ -540,7 +569,7 @@ namespace DataAccessLayer
         }
         #endregion UserActivities
         #region Activities Stuff
-        public ActivitiesDAL ActivityFindByID(int ActivityID)
+        public ActivitiesDAL ActivitiesFindByID(int ActivityID)
         {
             ActivitiesDAL proposedReturnValue = null;
             EnsureConnected();

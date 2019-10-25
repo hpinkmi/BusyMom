@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
-using DataAccessLayer;
+
 
 namespace BusyMomWeb.Controllers
 {
@@ -14,7 +14,7 @@ namespace BusyMomWeb.Controllers
         public ActionResult Index()
         {
             List<UsersBLL> items = null;
-            using (BusinessLogicLayer.ContextBLL ctx = new BusinessLogicLayer.ContextBLL())
+            using (ContextBLL ctx = new ContextBLL())
             {
                 items = ctx.UsersGetAll(0,100);
             }
@@ -22,13 +22,12 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Users/Details/5
-        public ActionResult Details(string email)
+        public ActionResult Details(int id)
         {
-            UsersDAL it = null;
-            using (DataAccessLayer.ContextDAL ctx = new DataAccessLayer.ContextDAL())
-            {
-                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
-                it = ctx.UsersFindByEmail(email);
+            UsersBLL it = null;
+            using (ContextBLL ctx = new ContextBLL())
+            {  
+             it = ctx.UserFindByID(id);
             }
             return View(it);
         }
@@ -56,26 +55,26 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(string email)
+        public ActionResult Edit(int id)
         {
-            UsersDAL item;
-            using(ContextDAL ctx= new ContextDAL())
-            {
-                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
-                item = ctx.UsersFindByEmail(email);
-            }
-            return View(item);
+            UsersBLL User;
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    User = ctx.UserFindByID(id);
+                }
+                return View("ItemNotFound");
         }
 
         // POST: Users/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, UsersBLL collection)
         {
             try
             {
-
-                // TODO: Add update logic here
-
+                using (ContextBLL ctx= new ContextBLL())
+                {
+                    ctx.UserUpdateJust(id, collection.LastName, collection.FirstName,collection.Email,collection.Phone,collection.UserName,collection.Hash,collection.Salt);
+                }
                 return RedirectToAction("Index");
             }
             catch

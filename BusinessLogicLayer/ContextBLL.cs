@@ -92,10 +92,20 @@ namespace BusinessLogicLayer
             proposeReturnValue = _context.UsersCreate(User.LastName, User.FirstName, User.Email, User.Phone, User.UserName, User.Hash, User.Salt);
             return proposeReturnValue;
         }
+        public UsersBLL UserFindByID(int UserID)
+        {
+            UsersBLL proposedReturnValue = null;
+            UsersDAL DataLayerObject = _context.UserFindByID(UserID);
+            if (null != DataLayerObject)
+            {
+                proposedReturnValue = new UsersBLL(DataLayerObject);
+            }
+            return proposedReturnValue;
+        }
         public UsersBLL UsersFindByEmail(string Email)
         {
             UsersBLL proposedReturnValue = null;
-            UsersDAL DataLayerObject = _context.UsersFindByEmail(Email);
+            UsersDAL DataLayerObject = _context.UsersFindbyEmail(Email);
             if (null != DataLayerObject)
             {
                 proposedReturnValue = new UsersBLL(DataLayerObject);
@@ -262,6 +272,17 @@ namespace BusinessLogicLayer
             int proposedReturnValue = -1;
             proposedReturnValue = _context.ActivitiesCreate(activities.ActivityName,activities.Approveby,activities.TimeofActivity, activities.LocationID, activities.ApproveTime);
             return proposedReturnValue;
+        }
+        public ActivitiesBLL ActivitiesFindbyID(int ActivityID)
+        {
+            ActivitiesBLL ProposedReturnValue = null;
+            ActivitiesDAL DataLayerObject = _context.ActivitiesFindByID(ActivityID);
+            if (null != DataLayerObject)
+            {
+                ProposedReturnValue = new ActivitiesBLL(DataLayerObject);
+            }
+            return ProposedReturnValue;
+
         }
         public ActivitiesBLL ActivitiesFindbyLocationID(int LocationID)
         {

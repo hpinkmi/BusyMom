@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 
+
 namespace BusyMomWeb.Controllers
 {
     public class LocationsController : Controller
@@ -12,13 +13,24 @@ namespace BusyMomWeb.Controllers
         // GET: Locations
         public ActionResult Index()
         {
-            return View();
+            List<LocationsBLL> items = null;
+            using (ContextBLL ctx = new ContextBLL())
+            {
+
+                items = ctx.LocationsGetAll(0, 100);
+            }
+            return View(items);
         }
 
         // GET: Locations/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            LocationsBLL it = null;
+            using (ContextBLL ctx = new ContextBLL())
+            {
+                it = ctx.LocationsFindbyID(id);
+            }
+            return View(it);
         }
 
         // GET: Locations/Create
