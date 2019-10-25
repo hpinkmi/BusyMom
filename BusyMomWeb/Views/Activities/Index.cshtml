@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BusinessLogicLayer.ActivitiesBLL>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approveby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeofActivity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApproveTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approveby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeofActivity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApproveTime)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

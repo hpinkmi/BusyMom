@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
@@ -12,12 +13,25 @@ namespace BusyMomWeb.Controllers
         // GET: Roles
         public ActionResult Index()
         {
-            return View();
+            List<RoleBLL> items = null;
+            using (BusinessLogicLayer.ContextBLL ctx = new BusinessLogicLayer.ContextBLL())
+            {
+
+                items = ctx.RolesGetAll(0, 100);
+            }
+            return View(items);
+            
         }
 
         // GET: Roles/Details/5
         public ActionResult Details(int id)
         {
+            RoleDAL it = null;
+            using (DataAccessLayer.ContextDAL ctx = new DataAccessLayer.ContextDAL())
+            {
+                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
+                it = ctx.RoleFindbyID(id);
+            }
             return View();
         }
 
@@ -46,44 +60,99 @@ namespace BusyMomWeb.Controllers
         // GET: Roles/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            RoleBLL Role;
+            try
+            {
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    Role = ctx.RoleFindByID(id);
+                    if( null== Role)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(Role);
         }
 
         // POST: Roles/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, BusinessLogicLayer.RoleBLL collection)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    ctx.RoleUpdateJust(collection);
+                }
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception Ex)
             {
-                return View();
+                ViewBag.Exception = Ex;
+                return View("Error");
             }
         }
 
         // GET: Roles/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            RoleBLL Role;
+            try
+            {
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    Role = ctx.RoleFindByID(id);
+                    if (null== Role)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(Role);
         }
 
         // POST: Roles/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, BusinessLogicLayer.RoleBLL collection)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
                 // TODO: Add delete logic here
+                {
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        ctx.RoleDelete(id);
+                    }
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception Ex)
             {
-                return View();
+                ViewBag.Exception = Ex;
+                return View("Error");
             }
         }
     }

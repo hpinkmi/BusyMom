@@ -91,9 +91,6 @@ namespace DataAccessLayer
                 }
             }
             return proposedReturnValue;
-
-
-
         }
         public int RoleCreate(string RoleName)
         {
@@ -154,9 +151,6 @@ namespace DataAccessLayer
 
         }
         #endregion role stuff
-
-
-
         #region users 
         public UsersDAL UsersFindByEmail(string Email)
         {
@@ -355,8 +349,6 @@ namespace DataAccessLayer
         }
 
         #endregion
-
-
         #region Groups
         public GroupsDAL GroupsFindbyID(int GroupID)
         {
@@ -633,6 +625,30 @@ namespace DataAccessLayer
                 command.Parameters.AddWithValue("@skip", Skip);
                 command.Parameters.AddWithValue("@take", Take);
                 command.Parameters.AddWithValue("@GroupID", GroupID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    ActivitiesMapper rm = new ActivitiesMapper(reader);
+
+                    while (reader.Read())
+                    {
+                        ActivitiesDAL item = rm.ToActivities(reader);
+                        proposedReturnValue.Add(item);
+
+                    }
+                }
+            }
+            return proposedReturnValue;
+        }
+        public List<ActivitiesDAL> ActivitiesGetAllbyUserID(int Skip, int Take, int UserID)
+        {
+            List<ActivitiesDAL> proposedReturnValue = new List<ActivitiesDAL>();
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("ActivitiesGetAllbyUserID", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@skip", Skip);
+                command.Parameters.AddWithValue("@take", Take);
+                command.Parameters.AddWithValue("@GroupID", UserID);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     ActivitiesMapper rm = new ActivitiesMapper(reader);

@@ -291,7 +291,7 @@ namespace BusinessLogicLayer
             List<ActivitiesDAL> ListofDataLayerObjects = _context.ActivitiesGetAllbyGroupID(skip, take, GroupID);
             foreach (ActivitiesDAL activities in ListofDataLayerObjects)
             {
-                ActivitiesDAL BusinessObject = new ActivitiesDAL(activities);
+                ActivitiesBLL BusinessObject = new ActivitiesBLL(activities);
                 proposedReturnValue.Add(BusinessObject);
             }
             return proposedReturnValue;
@@ -302,7 +302,7 @@ namespace BusinessLogicLayer
             List<ActivitiesDAL> ListofDataLayerObjects = _context.ActivitiesGetAllbyUserID(skip, take, UserID);
             foreach (ActivitiesDAL activities in ListofDataLayerObjects)
             {
-                ActivitiesDAL BusinessObject = new ActivitiesDAL(activities);
+                ActivitiesBLL BusinessObject = new ActivitiesBLL(activities);
                 proposedReturnValue.Add(BusinessObject);
             }
             return proposedReturnValue;
@@ -326,6 +326,57 @@ namespace BusinessLogicLayer
 
         #endregion Activities
         #region Locations
+        public int LocationsCreate(string LocationName, string Address1, string Address2, string City, string State, string Zip)
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.LocationsCreate(LocationName, Address1, Address2, City, State, Zip);
+            return proposedReturnValue;
+        }
+        public int LocationsCreate(LocationsBLL locations)
+        {
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.LocationsCreate(locations.LocationName, locations.Address1, locations.Address2, locations.City,locations.State, locations.Zip);
+            return proposedReturnValue;
+        }
+        public LocationsBLL LocationsFindbyID(int LocationID)
+        {
+            LocationsBLL ProposedReturnValue = null;
+            LocationsDAL DataLayerObject = _context.LocationFindByID(LocationID);
+            if (null != DataLayerObject)
+            {
+                ProposedReturnValue = new LocationsBLL(DataLayerObject);
+            }
+            return ProposedReturnValue;
+
+        }
+        public List<LocationsBLL> LocationsGetAll(int skip, int take)
+        {
+            List<LocationsBLL> proposedReturnValue = new List<LocationsBLL>();
+            List<LocationsDAL> ListofDataLayerObjects = _context.LocationGetAll(skip, take);
+            foreach (LocationsDAL activities in ListofDataLayerObjects)
+            {
+                LocationsBLL BusinessObject = new LocationsBLL(activities);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
+        }
+        public void LocationsUpdateJust(int LocationID, string LocationName, string Address1, string Address2, string City, string Zip)
+        {
+            _context.LocationUpdateJust(LocationID, LocationName, Address1, Address2, Address2, City, Zip);
+        }
+        public void LocationsUpdateJust(LocationsBLL locations)
+        {
+            _context.LocationUpdateJust(locations.LocationID, locations.LocationName, locations.Address1, locations.Address2, locations.City, locations.State, locations.Zip);
+        }
+        public void LocationsDelete(int LocationID)
+        {
+            _context.LocationDelete(LocationID);
+        }
+        public void LocationsDelete(LocationsBLL locations)
+        {
+            _context.ActivitiesDelete(locations.LocationID);
+        }
+
         #endregion Locations
     }
 }

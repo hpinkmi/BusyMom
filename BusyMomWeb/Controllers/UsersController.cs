@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
@@ -12,13 +13,24 @@ namespace BusyMomWeb.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View();
+            List<UsersBLL> items = null;
+            using (BusinessLogicLayer.ContextBLL ctx = new BusinessLogicLayer.ContextBLL())
+            {
+                items = ctx.UsersGetAll(0,100);
+            }
+            return View(items);
         }
 
         // GET: Users/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string email)
         {
-            return View();
+            UsersDAL it = null;
+            using (DataAccessLayer.ContextDAL ctx = new DataAccessLayer.ContextDAL())
+            {
+                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
+                it = ctx.UsersFindByEmail(email);
+            }
+            return View(it);
         }
 
         // GET: Users/Create
@@ -44,9 +56,15 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string email)
         {
-            return View();
+            UsersDAL item;
+            using(ContextDAL ctx= new ContextDAL())
+            {
+                ctx.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=BusyMom;Integrated Security=True";
+                item = ctx.UsersFindByEmail(email);
+            }
+            return View(item);
         }
 
         // POST: Users/Edit/5
@@ -55,6 +73,7 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
+
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
