@@ -185,7 +185,7 @@ namespace BusinessLogicLayer
             _context.GroupActivitiesCreate(ActivityID, GroupID,ActivityOwner);  
         }
 
-        public void GroupActivitiesDelete(GroupActivitiesBLL GroupActivities)
+        public void GroupsActivitiesDelete(GroupActivitiesBLL GroupActivities)
         {
             _context.GroupActivitiesDelete(GroupActivities.ActivityID,GroupActivities.GroupID);
         }

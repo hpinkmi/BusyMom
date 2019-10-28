@@ -29,14 +29,14 @@ namespace DataAccessLayer
             OffsetToHash = reader.GetOrdinal("Hash");
             OffsetToSalt = reader.GetOrdinal("Salt");
 
-            Assert(OffsetToUserID == 0, "OffsetToUserID is {OffsetToUserID} not 0 as expected");
-            Assert(OffsetToLastName == 3, "OffsetToLastName is {OffsetToLastName} not 3 as expected");
-            Assert(OffsetToFirstName == 4, "OffsetToFirstName is {OffsetToFirstName} not 4 as expected");
-            Assert(OffsetToEmail == 5, "OffsetToEmail is {OffsetToEmail} not 5 as expected");
-            Assert(OffsetToPhone == 6, "OffsetToPhone is {OffsetToPhone} not 6 as expected");
-            Assert(OffsetToUserName == 7, "OffsetToUserName is {OffsetToUserName} not 7 as expected");
-            Assert(OffsetToHash == 8, "OffsetToHash is {OffsetToHash} not 8 as expected");
-            Assert(OffsetToSalt == 9, "OffsetToSalt is {OffsetToSalt} not 9 as expected");
+            Assert(OffsetToUserID == 0, $"OffsetToUserID is {OffsetToUserID} not 0 as expected");
+            Assert(OffsetToLastName == 1, $"OffsetToLastName is {OffsetToLastName} not 1 as expected");
+            Assert(OffsetToFirstName == 2, $"OffsetToFirstName is {OffsetToFirstName} not 2 as expected");
+            Assert(OffsetToEmail == 3, $"OffsetToEmail is {OffsetToEmail} not 3 as expected");
+            Assert(OffsetToPhone == 4, $"OffsetToPhone is {OffsetToPhone} not 4 as expected");
+            Assert(OffsetToUserName == 5, $"OffsetToUserName is {OffsetToUserName} not 5 as expected");
+            Assert(OffsetToHash == 6, $"OffsetToHash is {OffsetToHash} not 6 as expected");
+            Assert(OffsetToSalt == 7, $"OffsetToSalt is {OffsetToSalt} not 7 as expected");
         }
         public UsersDAL ToUser(SqlDataReader reader)
         {

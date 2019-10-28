@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BusinessLogicLayer.GroupActivitiesBLL>
+﻿@model IEnumerable<BusinessLogicLayer.GroupsBLL>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -9,10 +9,7 @@
             @Html.DisplayNameFor(model => model.GroupID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActivityID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActivityOwner)
+            @Html.DisplayNameFor(model => model.GroupName)
         </th>
         <th></th>
     </tr>
@@ -23,10 +20,7 @@
             @Html.DisplayFor(modelItem => item.GroupID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ActivityID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivityOwner)
+            @Html.DisplayFor(modelItem => item.GroupName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

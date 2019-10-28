@@ -129,6 +129,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,7 +179,6 @@
     <Content Include="Views\Activities\Detail.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
-    <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\Create.cshtml" />
     <Content Include="Views\Groups\Delete.cshtml" />
     <Content Include="Views\Groups\Details.cshtml" />
@@ -191,10 +192,12 @@
     <Content Include="Views\Locations\Index.cshtml" />
     <Content Include="Views\Locations\Delete.cshtml" />
     <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -213,10 +216,6 @@
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">
       <Project>{f0cea547-e2fd-4c14-b813-b9d7ae36c68b}</Project>
       <Name>BusinessLogicLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
-      <Project>{4e2452e7-816d-4b6e-acea-8bddd0602876}</Project>
-      <Name>DataAccessLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

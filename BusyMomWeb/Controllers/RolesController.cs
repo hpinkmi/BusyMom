@@ -32,7 +32,7 @@ namespace BusyMomWeb.Controllers
 
                 it = ctx.RoleFindByID(id);
             }
-            return View();
+            return View(it);
         }
 
         // GET: Roles/Create
@@ -43,17 +43,21 @@ namespace BusyMomWeb.Controllers
 
         // POST: Roles/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(RoleBLL collection)
         {
             try
             {
                 // TODO: Add insert logic here
+                using (ContextBLL ctx= new ContextBLL())
+                {
+                    ctx.RoleCreate(collection.RoleName);
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error",ex);
             }
         }
 
@@ -61,29 +65,18 @@ namespace BusyMomWeb.Controllers
         public ActionResult Edit(int id)
         {
             RoleBLL Role;
-            try
+            using (ContextBLL ctx = new ContextBLL())
             {
-                using (ContextBLL ctx = new ContextBLL())
                 {
                     Role = ctx.RoleFindByID(id);
-                    if( null== Role)
-                    {
-                        return View("ItemNotFound");
-                    }
                 }
-                
+                return View(Role);
             }
-            catch (Exception ex)
-            {
-                ViewBag.Exception = ex;
-                return View("Error");
-            }
-            return View(Role);
         }
 
         // POST: Roles/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, BusinessLogicLayer.RoleBLL collection)
+        public ActionResult Edit(int id, RoleBLL collection)
         {
             try
             {
@@ -131,7 +124,7 @@ namespace BusyMomWeb.Controllers
 
         // POST: Roles/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, BusinessLogicLayer.RoleBLL collection)
+        public ActionResult Delete(int id, RoleBLL collection)
         {
             try
             {

@@ -13,23 +13,24 @@ namespace DataAccessLayer
         int OffsetToActivityName;
         int OffsetToApproveby;
         int OffsetToTimeofActivity;
-        int OffsetToLocationID;
         int OffsetToApproveTime;
+        int OffsetToLocationID;
+        
 
         public ActivitiesMapper(SqlDataReader reader)
         {
             OffsetToActivityID = reader.GetOrdinal("ActivityID");
             Assert(0 == OffsetToActivityID, $"ActivityID is {OffsetToActivityID} instead of 0 as expected");
             OffsetToActivityName = reader.GetOrdinal("ActivityName");
-            Assert(1 == OffsetToActivityID, $"ActivityName is {OffsetToActivityName} instead of 1 as expected");
+            Assert(1 == OffsetToActivityName, $"ActivityName is {OffsetToActivityName} instead of 1 as expected");
             OffsetToApproveby = reader.GetOrdinal("Approveby");
             Assert(2 == OffsetToApproveby, $"Approveby is {OffsetToApproveby} instead of 2 as expected");
             OffsetToTimeofActivity = reader.GetOrdinal("TimeofActivity");
             Assert(3 == OffsetToTimeofActivity, $"TimeofActivity is {OffsetToTimeofActivity} instead of 3 as expected"); 
             OffsetToLocationID = reader.GetOrdinal("LocationID");
-            Assert(4 == OffsetToLocationID, $"LocationID is {OffsetToLocationID} instead of 4 as expected");
+            Assert(5 == OffsetToLocationID, $"LocationID is {OffsetToLocationID} instead of 6 as expected");
             OffsetToApproveTime = reader.GetOrdinal("ApproveTime");
-            Assert(5 == OffsetToApproveTime, $"ApproveTime is {OffsetToApproveTime} instead of 5 as expected");
+            Assert(4 == OffsetToApproveTime, $"ApproveTime is {OffsetToApproveTime} instead of 4 as expected");
         }
         public ActivitiesDAL ToActivities(SqlDataReader reader)
         {

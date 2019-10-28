@@ -8,7 +8,8 @@ using BusinessLogicLayer;
 
 namespace BusyMomWeb.Controllers
 {
-    public class ActivitiesController : Controller
+
+     public class ActivitiesController : Controller
     {
         // GET: Activities
         public ActionResult Index()
