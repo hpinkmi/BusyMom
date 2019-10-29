@@ -47,9 +47,9 @@
             @Html.DisplayFor(modelItem => item.ApproveTime)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ActivityID }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.ActivityID }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.ActivityID  })
         </td>
     </tr>
 }

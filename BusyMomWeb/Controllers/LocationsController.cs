@@ -8,6 +8,7 @@ using BusinessLogicLayer;
 
 namespace BusyMomWeb.Controllers
 {
+    
     public class LocationsController : Controller
     {
         // GET: Locations

@@ -8,7 +8,9 @@ using BusinessLogicLayer;
 
 namespace BusyMomWeb.Controllers
 {
+    
     public class GroupsController : Controller
+        
     {
         // GET: Groups
         public ActionResult Index()
