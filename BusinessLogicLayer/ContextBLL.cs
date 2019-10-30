@@ -77,6 +77,12 @@ namespace BusinessLogicLayer
         {
             _context.RoleUpdateJust(Role.RoleID, Role.RoleName);
         }
+        public int RolesObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.RolesObtainCount();
+            return proposedReturnValue;
+        }
 
         #endregion Roles
         #region Users
@@ -166,8 +172,14 @@ namespace BusinessLogicLayer
         public void UsersDelete (UsersBLL User)
         {
             _context.UsersDelete(User.UserID);
-        }  
-        
+        }
+        public int UsersObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.UsersObtainCount();
+            return proposedReturnValue;
+        }
+
         #endregion Users
         #region UserGroups
 
@@ -183,6 +195,12 @@ namespace BusinessLogicLayer
         {
             _context.UserGroupsDelete(userGroups.UserID, userGroups.GroupID);
         }
+        public int UserGroupsObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.UserGroupsObtainCount();
+            return proposedReturnValue;
+        }
         #endregion UserGroups
         #region GroupActivities
         public void GroupActivitiesCreate(int ActivityID, int GroupID, string ActivityOwner)
@@ -193,6 +211,12 @@ namespace BusinessLogicLayer
         public void GroupsActivitiesDelete(GroupActivitiesBLL GroupActivities)
         {
             _context.GroupActivitiesDelete(GroupActivities.ActivityID,GroupActivities.GroupID);
+        }
+        public int GroupActivitiesObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.GroupActivitiesObtainCount();
+            return proposedReturnValue;
         }
         #endregion GroupActivities
         #region Groups
@@ -253,6 +277,12 @@ namespace BusinessLogicLayer
     {
             _context.GroupsDelete(groups.GroupID);
     }
+        public int GroupsObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.GroupsObtainCount();
+            return proposedReturnValue;
+        }
         #endregion Groups
         #region UserActivities
         public void UserActivitiesCreate(int UserID, int ActivityID)
@@ -263,6 +293,12 @@ namespace BusinessLogicLayer
         public void UserActivitiesDelete(UserActivitiesBLL UserActivities)
         {
             _context.UserActivitiesDelete(UserActivities.UserID,UserActivities.ActivityID);
+        }
+        public int UserActivitiesObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.UserActivitiesObtainCount();
+            return proposedReturnValue;
         }
         #endregion UserActivities
         #region Activities
@@ -349,6 +385,12 @@ namespace BusinessLogicLayer
         {
             _context.ActivitiesDelete(activities.ActivityID);
         }
+        public int ActivitiesObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.ActivitiesObtainCount();
+            return proposedReturnValue;
+        }
 
         #endregion Activities
         #region Locations
@@ -401,6 +443,12 @@ namespace BusinessLogicLayer
         public void LocationDelete(LocationsBLL locations)
         {
             _context.ActivitiesDelete(locations.LocationID);
+        }
+        public int LocatoinsObtainCount()
+        {
+            int proposedReturnValue = 0;
+            proposedReturnValue = _context.LocationsObtainCount();
+            return proposedReturnValue;
         }
 
         #endregion Locations

@@ -92,6 +92,20 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public int RolesObtainCount()
+        {
+            int proposedReturnValue = -1;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RolesObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
+            
+            return proposedReturnValue;
+        }
+
         public int RoleCreate(string RoleName)
         {
             int proposedReturnValue = 0;
@@ -447,6 +461,19 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public int GroupsObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("GroupsObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
+            return proposedReturnValue;
+        }
         public int GroupsCreate(string GroupName)
         {
             int proposedReturnValue = 0;
@@ -513,6 +540,19 @@ namespace DataAccessLayer
             }
 
         }
+        public int UserGroupsObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("UserGroupsObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
+            return proposedReturnValue;
+        }
         #endregion UserGroup
         #region GroupActivities
         public int GroupActivitiesCreate(int GroupID, int ActivityID, string ActivityOwner)
@@ -528,6 +568,19 @@ namespace DataAccessLayer
                 command.ExecuteNonQuery();
 
             }
+            return proposedReturnValue;
+        }
+        public int GroupActivitiesObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("GroupsObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
             return proposedReturnValue;
         }
         public void GroupActivitiesDelete(int GroupID, int ActivityID)
@@ -566,6 +619,19 @@ namespace DataAccessLayer
                 command.Parameters.AddWithValue("@ActivityID", ActivityID);
                 command.ExecuteNonQuery();
             }
+        }
+        public int UserActivitiesObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("UserActivitiesObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
+            return proposedReturnValue;
         }
         #endregion UserActivities
         #region Activities Stuff
@@ -692,6 +758,19 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public int ActivitiesObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("ActivitiesObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
+            return proposedReturnValue;
+        }
         public int ActivitiesCreate(string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
         {
             int proposedReturnValue = 0;
@@ -794,6 +873,19 @@ namespace DataAccessLayer
                     }
                 }
             }
+            return proposedReturnValue;
+        }
+        public int LocationsObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("LocationsObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
             return proposedReturnValue;
         }
         public int LocationsCreate(string LocationName, string Address1, string Address2, string City, string State, string Zip)
