@@ -18,7 +18,7 @@ namespace BusyMomWeb.Controllers
             using (ContextBLL ctx = new ContextBLL())
             {
 
-                items = ctx.LocationsGetAll(0, 100);
+                items = ctx.LocationGetAll(0, 100);
             }
             return View(items);
         }
@@ -29,7 +29,7 @@ namespace BusyMomWeb.Controllers
             LocationsBLL it = null;
             using (ContextBLL ctx = new ContextBLL())
             {
-                it = ctx.LocationsFindbyID(id);
+                it = ctx.LocationFindbyID(id);
             }
             return View(it);
         }
@@ -37,43 +37,76 @@ namespace BusyMomWeb.Controllers
         // GET: Locations/Create
         public ActionResult Create()
         {
-            return View();
+            LocationsBLL defLocations = new LocationsBLL();
+            defLocations.LocationID = 0;
+            return View(defLocations);
         }
 
         // POST: Locations/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(LocationsBLL collection)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                using (ContextBLL ctx = new ContextBLL())
                 // TODO: Add insert logic here
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception Ex)
             {
-                return View();
+                ViewBag.Exection = Ex;
+                return View("Error");
             }
         }
 
         // GET: Locations/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            LocationsBLL locations;
+            try
+            {
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    locations = ctx.LocationFindbyID(id);
+                    if (null == locations)
+                    {
+                        return View("ItemNotFound");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(locations);
         }
 
         // POST: Locations/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, LocationsBLL collection)
         {
             try
             {
-                // TODO: Add update logic here
-
+                if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                using (ContextBLL ctx = new ContextBLL()) 
+                {
+                    ctx.LocationsUpdateJust(collection);
+                }
                 return RedirectToAction("Index");
-            }
-            catch
+            }  
+            catch (Exception ex)
             {
+                ViewBag.Exception = ex;
                 return View();
             }
         }
@@ -81,22 +114,49 @@ namespace BusyMomWeb.Controllers
         // GET: Locations/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            LocationsBLL locations;
+            try
+            {
+                using (ContextBLL ctx= new ContextBLL())
+                {
+                    locations = ctx.LocationFindbyID(id);
+                    if (null==locations)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(locations);
         }
 
         // POST: Locations/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, LocationsBLL collection)
         {
             try
-            {
+            { if(ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                {
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        ctx.LocationDelete(id);
+                    }
+                }
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ViewBag.Exception = ex;
+                return View("Error");
             }
         }
     }

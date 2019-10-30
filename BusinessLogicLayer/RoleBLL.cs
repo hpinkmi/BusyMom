@@ -18,7 +18,7 @@ namespace BusinessLogicLayer
         }
             public RoleBLL()
         {
-            //defult ctor is Required for MVC
+           
         }
     }
 }

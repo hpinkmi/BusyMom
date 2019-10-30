@@ -16,9 +16,8 @@ namespace BusyMomWeb.Controllers
         public ActionResult Index()
         {
             List<GroupsBLL> items = null;
-            using (BusinessLogicLayer.ContextBLL ctx = new BusinessLogicLayer.ContextBLL())
-            {
-
+            using (ContextBLL ctx = new ContextBLL())
+            { 
                 items = ctx.GroupsGetAll(0, 100);
             }
             return View(items);
@@ -38,39 +37,73 @@ namespace BusyMomWeb.Controllers
         // GET: Groups/Create
         public ActionResult Create()
         {
-            return View();
+            
+                GroupsBLL defGroups = new GroupsBLL();
+                defGroups.GroupID = 0;
+                return View(defGroups);
+            
         }
 
         // POST: Groups/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(GroupsBLL collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    ctx.GroupsCreate(collection.GroupID,collection.GroupName);
+                }
                 return RedirectToAction("Index");
             }
-            catch
+
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
         }
 
         // GET: Groups/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            GroupsBLL groups;
+            try
+            {
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    groups = ctx.GroupsFindByID(id);
+                    if (null == groups)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(groups);
         }
 
         // POST: Groups/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, GroupsBLL collection)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                {
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        ctx.GroupsUpdateJust(collection.GroupID,collection.GroupName);
+                    }
+                }
                 // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -82,7 +115,24 @@ namespace BusyMomWeb.Controllers
         // GET: Groups/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            GroupsBLL groups;
+            try
+            {
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    groups = ctx.GroupsFindByID(id);
+                    if (null==groups)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(groups);
         }
 
         // POST: Groups/Delete/5
@@ -91,13 +141,24 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                {
+                    using (ContextBLL ctx= new ContextBLL())
+                    {
+                        ctx.GroupsDelete(id);
+                    }
+                }
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Exception = ex;
+                return View("Error");
             }
         }
     }

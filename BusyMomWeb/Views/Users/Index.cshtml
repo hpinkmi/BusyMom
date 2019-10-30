@@ -6,7 +6,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserID)
+            @*@Html.DisplayNameFor(model => model.UserID)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LastName)
@@ -24,10 +24,10 @@
             @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Hash)
+            @*@Html.DisplayNameFor(model => model.Hash)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Salt)
+            @*@Html.DisplayNameFor(model => model.Salt)*@
         </th>
         <th></th>
     </tr>
@@ -35,7 +35,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.UserID)
+            @*@Html.DisplayFor(modelItem => item.UserID)*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LastName)
@@ -53,10 +53,10 @@
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Hash)
+            @*@Html.DisplayFor(modelItem => item.Hash)*@
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Salt)
+            @*@Html.DisplayFor(modelItem => item.Salt)*@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |

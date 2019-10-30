@@ -30,7 +30,7 @@ namespace BusinessLogicLayer
         }
         public UsersBLL()
         {
-            //default  contor is Required for MVC
+            
         }
     }
 }

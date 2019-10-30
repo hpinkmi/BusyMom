@@ -36,22 +36,28 @@ namespace BusyMomWeb.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-            return View();
+            UsersBLL defUser = new UsersBLL();
+            defUser.UserID = 0;
+            return View(defUser);
         }
 
         // POST: Users/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(UsersBLL collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ViewBag.Exeception = ex;
+                return View("Error");
             }
         }
 
@@ -59,11 +65,23 @@ namespace BusyMomWeb.Controllers
         public ActionResult Edit(int id)
         {
             UsersBLL User;
+            try
+            { 
                 using (ContextBLL ctx = new ContextBLL())
                 {
                     User = ctx.UserFindByID(id);
+                    if (null == User)
+                    {
+                        return View("ItemNotFound");
+                    }
                 }
-                return View("ItemNotFound");
+            }
+           catch(Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(User);
         }
 
         // POST: Users/Edit/5
@@ -72,14 +90,19 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
                 using (ContextBLL ctx= new ContextBLL())
                 {
                     ctx.UserUpdateJust(id, collection.LastName, collection.FirstName,collection.Email,collection.Phone,collection.UserName,collection.Hash,collection.Salt);
                 }
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.Exception = ex;
                 return View();
             }
         }
@@ -87,22 +110,50 @@ namespace BusyMomWeb.Controllers
         // GET: Users/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            UsersBLL users;
+            try
+            {
+                using (ContextBLL ctx= new ContextBLL())
+                {
+                    users = ctx.UserFindByID(id);
+                    if(null==users)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(users);
         }
 
         // POST: Users/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, UsersBLL collection)
         {
             try
             {
+                if(ModelState.IsValid)
+                {
+                    return View(collection);
+                }
+                {
+                    using (ContextBLL ctx=new ContextBLL())
+                    {
+                        ctx.UsersDelete(id);
+                    }
+                }
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ViewBag.Exception = ex;
+                return View("Error");
             }
         }
     }

@@ -159,10 +159,15 @@ namespace BusinessLogicLayer
         {
             _context.UsersUpdateJust(UserID, LastName, FirstName, Email, Phone, UserName, Hash, Salt);
         }
+        public void UsersDelete(int UserID)
+        {
+            _context.UsersDelete(UserID);
+        }
         public void UsersDelete (UsersBLL User)
         {
             _context.UsersDelete(User.UserID);
-        }    
+        }  
+        
         #endregion Users
         #region UserGroups
 
@@ -347,19 +352,19 @@ namespace BusinessLogicLayer
 
         #endregion Activities
         #region Locations
-        public int LocationsCreate(string LocationName, string Address1, string Address2, string City, string State, string Zip)
+        public int LocationCreate(string LocationName, string Address1, string Address2, string City, string State, string Zip)
         {
             int proposedReturnValue = -1;
             proposedReturnValue = _context.LocationsCreate(LocationName, Address1, Address2, City, State, Zip);
             return proposedReturnValue;
         }
-        public int LocationsCreate(LocationsBLL locations)
+        public int LocationCreate(LocationsBLL locations)
         {
             int proposedReturnValue = -1;
             proposedReturnValue = _context.LocationsCreate(locations.LocationName, locations.Address1, locations.Address2, locations.City,locations.State, locations.Zip);
             return proposedReturnValue;
         }
-        public LocationsBLL LocationsFindbyID(int LocationID)
+        public LocationsBLL LocationFindbyID(int LocationID)
         {
             LocationsBLL ProposedReturnValue = null;
             LocationsDAL DataLayerObject = _context.LocationFindByID(LocationID);
@@ -370,7 +375,7 @@ namespace BusinessLogicLayer
             return ProposedReturnValue;
 
         }
-        public List<LocationsBLL> LocationsGetAll(int skip, int take)
+        public List<LocationsBLL> LocationGetAll(int skip, int take)
         {
             List<LocationsBLL> proposedReturnValue = new List<LocationsBLL>();
             List<LocationsDAL> ListofDataLayerObjects = _context.LocationGetAll(skip, take);
@@ -389,11 +394,11 @@ namespace BusinessLogicLayer
         {
             _context.LocationUpdateJust(locations.LocationID, locations.LocationName, locations.Address1, locations.Address2, locations.City, locations.State, locations.Zip);
         }
-        public void LocationsDelete(int LocationID)
+        public void LocationDelete(int LocationID)
         {
             _context.LocationDelete(LocationID);
         }
-        public void LocationsDelete(LocationsBLL locations)
+        public void LocationDelete(LocationsBLL locations)
         {
             _context.ActivitiesDelete(locations.LocationID);
         }
