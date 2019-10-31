@@ -218,6 +218,10 @@
       <Project>{f0cea547-e2fd-4c14-b813-b9d7ae36c68b}</Project>
       <Name>BusinessLogicLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{082721c6-f2fb-4b30-b323-cee903a4dc53}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

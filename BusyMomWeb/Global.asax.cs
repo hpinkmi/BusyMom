@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BusinessLogicLayer;
+using BusyMomWeb.Models;
+using Logger;
+
 
 namespace BusyMomWeb
 {
@@ -34,6 +39,13 @@ namespace BusyMomWeb
                     HttpContext.Current.User = p;
                 
             
+        }
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var ex = Server.GetLastError();
+            if (ex is ThreadAbortException)
+                return; // Redirects may cause this exception..
+            Logger.Logger.Log(ex);
         }
     }
 }

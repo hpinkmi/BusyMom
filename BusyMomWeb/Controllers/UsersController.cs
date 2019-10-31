@@ -14,31 +14,55 @@ namespace BusyMomWeb.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            List<UsersBLL> items = null;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
-                items = ctx.UsersGetAll(0,100);
+                List<UsersBLL> items = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    items = ctx.UsersGetAll(0, 100);
+                }
+                return View(items);
             }
-            return View(items);
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View(ex);
+            }
         }
 
         // GET: Users/Details/5
         public ActionResult Details(int id)
         {
-            UsersBLL it = null;
-            using (ContextBLL ctx = new ContextBLL())
-            {  
-             it = ctx.UserFindByID(id);
+            try
+            {
+                UsersBLL it = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    it = ctx.UserFindByID(id);
+                }
+                return View(it);
             }
-            return View(it);
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // GET: Users/Create
         public ActionResult Create()
         {
-            UsersBLL defUser = new UsersBLL();
-            defUser.UserID = 0;
-            return View(defUser);
+            try
+            {
+                UsersBLL defUser = new UsersBLL();
+                defUser.UserID = 0;
+                return View(defUser);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // POST: Users/Create
@@ -59,8 +83,8 @@ namespace BusyMomWeb.Controllers
             }
             catch(Exception ex)
             {
-                ViewBag.Exeception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -81,8 +105,8 @@ namespace BusyMomWeb.Controllers
             }
            catch(Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
             return View(User);
         }
@@ -105,8 +129,8 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View();
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -127,8 +151,8 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
             return View(users);
         }
@@ -155,8 +179,8 @@ namespace BusyMomWeb.Controllers
             }
             catch(Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
             }
         }
     }

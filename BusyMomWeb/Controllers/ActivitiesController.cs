@@ -4,12 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
+using BusyMomWeb.Models;
+using Logger;
 
 
 namespace BusyMomWeb.Controllers
 {
 
-     public class ActivitiesController : Controller
+    public class ActivitiesController : Controller
     {
         List<SelectListItem> LocationGetAll()
         {
@@ -29,16 +31,22 @@ namespace BusyMomWeb.Controllers
         // GET: Activities
         public ActionResult Index()
         {
-            List<ActivitiesBLL> items = null;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
+                List<ActivitiesBLL> items = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
 
-                items = ctx.ActivitiesGetAll(0, 100);
+                    items = ctx.ActivitiesGetAll(0, 100);
+                }
+                return View(items);
             }
-            return View(items);
-           
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
-
         // GET: Activities/Details/5
         public ActionResult Details(int id)
         {
@@ -65,11 +73,20 @@ namespace BusyMomWeb.Controllers
 
         // GET: Activities/Create
         public ActionResult Create()
+
         {
-            ActivitiesBLL defActivities = new ActivitiesBLL();
-            defActivities.ActivityID = 0;
-            ViewBag.LocationID = LocationGetAll();
-            return View(defActivities);
+            try
+            {
+                ActivitiesBLL defActivities = new ActivitiesBLL();
+                defActivities.ActivityID = 0;
+                ViewBag.Locations= LocationGetAll();
+                return View(defActivities);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
+            }
         }
 
         // POST: Activities/Create
@@ -87,10 +104,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ViewBag.Execption = Ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -111,8 +128,8 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
             ViewBag.Locations = LocationGetAll();
             return View(activities);
@@ -136,10 +153,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ViewBag.Exception = Ex;
-                return View();
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -160,7 +177,7 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
+                Logger.Logger.Log(ex);
                 return View("Error");
             }
             return View(activities);
@@ -186,10 +203,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ViewBag.Exception = Ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
     }

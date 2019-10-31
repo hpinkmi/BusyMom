@@ -27,31 +27,32 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.ActivityID)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivityName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approveby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeofActivity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LocationID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApproveTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ActivityID }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.ActivityID }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.ActivityID  })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @*@Html.DisplayFor(modelItem => item.ActivityID)*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ActivityName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Approveby)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TimeofActivity)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ApproveTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LocationID)
+    </td>
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ActivityID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ActivityID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ActivityID })
+    </td>
+</tr>
 }
 
 </table>

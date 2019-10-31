@@ -14,32 +14,56 @@ namespace BusyMomWeb.Controllers
         // GET: Locations
         public ActionResult Index()
         {
-            List<LocationsBLL> items = null;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
+                List<LocationsBLL> items = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
 
-                items = ctx.LocationGetAll(0, 100);
+                    items = ctx.LocationGetAll(0, 100);
+                }
+                return View(items);
             }
-            return View(items);
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // GET: Locations/Details/5
         public ActionResult Details(int id)
         {
-            LocationsBLL it = null;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
-                it = ctx.LocationFindbyID(id);
+                LocationsBLL it = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    it = ctx.LocationFindbyID(id);
+                }
+                return View(it);
             }
-            return View(it);
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // GET: Locations/Create
         public ActionResult Create()
         {
-            LocationsBLL defLocations = new LocationsBLL();
-            defLocations.LocationID = 0;
-            return View(defLocations);
+            try
+            {
+                LocationsBLL defLocations = new LocationsBLL();
+                defLocations.LocationID = 0;
+                return View(defLocations);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // POST: Locations/Create
@@ -57,10 +81,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ViewBag.Exection = Ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -82,8 +106,8 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
             return View(locations);
         }
@@ -106,8 +130,8 @@ namespace BusyMomWeb.Controllers
             }  
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View();
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -128,8 +152,8 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
             return View(locations);
         }
@@ -155,8 +179,8 @@ namespace BusyMomWeb.Controllers
             }
             catch(Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
     }

@@ -14,32 +14,55 @@ namespace BusyMomWeb.Controllers
         // GET: Roles
         public ActionResult Index()
         {
-            List<RoleBLL> items = null;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
+                List<RoleBLL> items = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
 
-                items = ctx.RolesGetAll(0, 100);
+                    items = ctx.RolesGetAll(0, 100);
+                }
+                return View(items);
             }
-            return View(items);
-            
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // GET: Roles/Details/5
         public ActionResult Details(int id)
         {
-            RoleBLL it = null;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
+                RoleBLL it = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
 
-                it = ctx.RoleFindByID(id);
+                    it = ctx.RoleFindByID(id);
+                }
+                return View(it);
             }
-            return View(it);
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
         // GET: Roles/Create
         public ActionResult Create()
         {
+            try
+            {
                 return View();
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
         }
 
 
@@ -59,6 +82,7 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Logger.Log(ex);
                 return View("Error",ex);
             }
         }
@@ -66,13 +90,21 @@ namespace BusyMomWeb.Controllers
         // GET: Roles/Edit/5
         public ActionResult Edit(int id)
         {
-            RoleBLL Role;
-            using (ContextBLL ctx = new ContextBLL())
+            try
             {
+                RoleBLL Role;
+                using (ContextBLL ctx = new ContextBLL())
                 {
-                    Role = ctx.RoleFindByID(id);
+                    {
+                        Role = ctx.RoleFindByID(id);
+                    }
+                    return View(Role);
                 }
-                return View(Role);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
             }
         }
 
@@ -94,10 +126,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ViewBag.Exception = Ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
 
@@ -118,8 +150,8 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
             return View(Role);
         }
@@ -144,10 +176,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ViewBag.Exception = Ex;
-                return View("Error");
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
     }

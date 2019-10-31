@@ -29,6 +29,13 @@ namespace BusyMomWeb.Controllers
             return View();
         }
         [HttpGet]
+        public ActionResult Logout()
+        {
+            Session.Remove("AuthUserName");
+            Session.Remove("AuthRoles");
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
         public ActionResult Login()
         {
             LoginModel m = new LoginModel();
@@ -47,10 +54,25 @@ namespace BusyMomWeb.Controllers
                 if (user == null)
                 {
                     info.Message = $"The UserName'{info.UserName}' does not exist in the database";
+                    return View(info);
                 }
                 string actual = user.Hash;
                 string potential = info.Password;
-                bool validateduser = potential == actual;
+                string ValidationType = $"ClearText:({user.UserName})";
+                bool validateduser = actual == potential;
+                if (validateduser)
+                {
+                    potential = info.Password + user.Salt;
+                    try
+                    {
+                        validateduser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
+                        ValidationType = $"HASHED;({user.UserName})";
+                    }
+                    catch (Exception)
+                    {
+                        validateduser = false;
+                    }
+                }
                 if (validateduser)
                 {
                     Session["AuthUserName"] = user.UserName;
@@ -79,7 +101,7 @@ namespace BusyMomWeb.Controllers
             }
             catch (Exception ex)
             {
-                //Logger.Log(ex);
+                Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
 
@@ -88,8 +110,13 @@ namespace BusyMomWeb.Controllers
         [HttpPost]
         public ActionResult Register(RegistrationModel register)
         {
-            
-            
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(register);
+                }
+
                 using (ContextBLL ctx = new ContextBLL())
                 {
                     UsersBLL user = ctx.UsersFindByEmail(register.Email);
@@ -99,31 +126,39 @@ namespace BusyMomWeb.Controllers
                         return View(register);
                     }
                     UsersBLL users = ctx.UsersFindByUserName(register.UserName);
-                    if (user != null)
+                    if (users != null)
                     {
                         register.Message = $"The UserName'{register.UserName} is already in use";
                         return View(register);
                     }
-                    user = new UsersBLL();
-                    user.LastName = register.LastName;
-                    user.FirstName = register.FirstName;
-                    user.Phone = register.Phone;
-                    user.Email = register.Email;
-                    user.UserName = register.UserName;
-                    user.Salt = System.Web.Helpers.Crypto.
+                    users = new UsersBLL();
+                    users.LastName = register.LastName;
+                    users.FirstName = register.FirstName;
+                    users.Phone = register.Phone;
+                    users.Email = register.Email;
+                    users.UserName = register.UserName;
+                    users.Salt = System.Web.Helpers.Crypto.
                         GenerateSalt(15);
                     user.Hash = System.Web.Helpers.Crypto.
                         HashPassword(register.Password + user.Salt);
-                    
+
 
                     ctx.UserCreate(users);
-                    Session["AUTHUsername"] = user.Email;
+                    users = ctx.UsersFindByUserName(register.UserName);
+                    Session["AUTHUsername"] = user.UserName;
                     Session["AUTHRoles"] = "LoggedIn";
                     Session["AUTHTYPE"] = "HASHED";
-                    return RedirectToAction("Index");
                 }
+              
             }
-        }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
+            return RedirectToAction("Index");
 
-   
+        }
+    }
 }
+
