@@ -42,13 +42,25 @@ namespace BusyMomWeb.Controllers
         // GET: Activities/Details/5
         public ActionResult Details(int id)
         {
-            ActivitiesBLL it = null;
-            using (ContextBLL ctx = new ContextBLL())
-
+            ActivitiesBLL activities;
+            try
             {
-                it = ctx.ActivitiesFindbyID(id);
+                using (ContextBLL ctx = new ContextBLL())
+
+                {
+                    activities = ctx.ActivitiesFindbyID(id);
+                    if(null == activities)
+                    {
+                        return View("ItemNotFound");
+                    }
+                }
             }
-            return View(it);
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex;
+                return View("Error");
+            }
+            return View(activities);
         }
 
         // GET: Activities/Create

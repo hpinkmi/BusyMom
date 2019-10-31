@@ -197,7 +197,7 @@ namespace DataAccessLayer
         {
             UsersDAL proposedReturnValue = null;
             EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserFindbyEmail", _con))
+            using (SqlCommand command = new SqlCommand("UsersFindbyEmail", _con))
             {
                 command.CommandType = System.Data.CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@Email", Email);
@@ -320,7 +320,20 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
-        
+        public int UsersObtainCount()
+        {
+            int proposedReturnValue = -1;
+            EnsureConnected();
+            using (SqlCommand command = new SqlCommand("UsersObtainCount", _con))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                object answer = command.ExecuteScalar();
+                proposedReturnValue = (int)answer;
+            }
+
+            return proposedReturnValue;
+        }
+
         public int UsersCreate(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
             int proposedReturnValue = 0;

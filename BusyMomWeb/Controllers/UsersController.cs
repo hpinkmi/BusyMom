@@ -47,10 +47,13 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 if (!ModelState.IsValid)
                 {
                     return View(collection);
+                }
+                using (ContextBLL ctx= new ContextBLL())
+                {
+                    ctx.UserCreate(collection);
                 }
                 return RedirectToAction("Index");
             }
