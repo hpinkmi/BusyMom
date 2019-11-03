@@ -46,6 +46,7 @@ namespace BusyMomWeb.Controllers
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
+
         }
         // GET: Activities/Details/5
         public ActionResult Details(int id)

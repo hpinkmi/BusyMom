@@ -21,29 +21,31 @@ namespace Logger
                 connectionstring = ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString;
             }
             catch (Exception ex)
+            //catch (Exception)
             {
                 throw new Exception("Something went wrong while getting the DefaultConnectionString for Logger");
             }
         }
         // this method is static so that it will have semantics like Console.WriteLine
-        public static void Log(Exception ex)
+        public static bool Log(Exception ex)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionstring))
                 {
                     con.Open();
-                    using (var com = con.CreateCommand())
+                    using (SqlCommand com = con.CreateCommand())
                     {
                         com.CommandText = "InsertLogItem";
                         com.CommandType = System.Data.CommandType.StoredProcedure;
-                        com.Parameters.AddWithValue("@message", ex.Message);
-                        com.Parameters.AddWithValue("@stacktrace", ex.StackTrace.ToString());
+                        com.Parameters.AddWithValue("@Message", ex.Message);
+                        com.Parameters.AddWithValue("@Stacktrace", ex.StackTrace.ToString());
                         com.ExecuteNonQuery();
                     }
                 }
             }
             catch (Exception exc)
+            // this is our failsafe if the database is down
             {
                 var p = HttpContext.Current.Server.MapPath("~");
                 p += @"ErrorLog.Log";
@@ -55,7 +57,7 @@ namespace Logger
                 System.IO.File.AppendAllText(p, ex.ToString());
 
             }
-
+            return false;
         }
     }
 }

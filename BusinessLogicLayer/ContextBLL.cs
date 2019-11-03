@@ -15,7 +15,7 @@ namespace BusinessLogicLayer
         public ContextBLL()
         {
             _context.ConnectionString =
-            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString;
         }
 
         public void Dispose()

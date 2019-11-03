@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Logger;
 
 namespace DataAccessLayer
 {
@@ -47,54 +48,70 @@ namespace DataAccessLayer
         public RoleDAL RoleFindbyID(int RoleID)
         {
             RoleDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("RoleFindByID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@RoleID", RoleID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RoleFindByID", _con))
                 {
-                    RoleMapper rm = new RoleMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RoleID", RoleID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToRole(reader);
-                        count++;
-                    }
-                    if (count > 1)
-                    {
-                        throw new Exception($"{count} Mutiple Role found for ID {RoleID}");
+                        RoleMapper rm = new RoleMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToRole(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count} Mutiple Role found for ID {RoleID}");
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public List<RoleDAL> RolesGetAll(int Skip, int Take)
         {
             List<RoleDAL> proposedReturnValue = new List<RoleDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("RolesGetAll", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RolesGetAll", _con))
                 {
-                    RoleMapper rm = new RoleMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        RoleDAL item = rm.ToRole(reader);
-                        proposedReturnValue.Add(item);
+                        RoleMapper rm = new RoleMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            RoleDAL item = rm.ToRole(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int RolesObtainCount()
         {
             int proposedReturnValue = -1;
+            try
+            {
                 EnsureConnected();
                 using (SqlCommand command = new SqlCommand("RolesObtainCount", _con))
                 {
@@ -102,6 +119,11 @@ namespace DataAccessLayer
                     object answer = command.ExecuteScalar();
                     proposedReturnValue = (int)answer;
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
             
             return proposedReturnValue;
         }
@@ -109,57 +131,83 @@ namespace DataAccessLayer
         public int RoleCreate(string RoleName)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("RoleCreate", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@RoleName", RoleName);
-                command.Parameters.AddWithValue("@RoleID", 0);
-                command.Parameters["@RoleID"].Direction = System.Data.ParameterDirection.Output;
-                command.ExecuteNonQuery();
-                proposedReturnValue = (int)command.Parameters["@RoleID"].Value;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RoleCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RoleName", RoleName);
+                    command.Parameters.AddWithValue("@RoleID", 0);
+                    command.Parameters["@RoleID"].Direction = System.Data.ParameterDirection.Output;
+                    command.ExecuteNonQuery();
+                    proposedReturnValue = (int)command.Parameters["@RoleID"].Value;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int RoleCreateIDReturned(string RoleName)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("RoleCreateIDReturned", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@RoleName", RoleName);
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RoleCreateIDReturned", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RoleName", RoleName);
 
 
-                proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                    proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public void RoleDelete(int RoleID)
         {
-
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("RoleDelete", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@RoleID", RoleID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RoleDelete", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RoleID", RoleID);
+                    command.ExecuteNonQuery();
 
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+                {
 
             }
 
         }
         public void RoleUpdateJust(int RoleID, string RoleName)
         {
-
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("RoleUpdateJust", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@RoleID", RoleID);
-                command.Parameters.AddWithValue("@RoleName", RoleName);
-                object datareturned = command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("RoleUpdateJust", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RoleID", RoleID);
+                    command.Parameters.AddWithValue("@RoleName", RoleName);
+                    object datareturned = command.ExecuteNonQuery();
 
+
+                }
+            }
+            catch ( Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
 
@@ -170,111 +218,143 @@ namespace DataAccessLayer
         public UsersDAL UserFindByID(int UserID)
         {
             UsersDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserFindByID", _con))
+                try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID", UserID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserFindByID", _con))
                 {
-                    UsersMapper rm = new UsersMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToUser(reader);
-                        count++;
-                    }
+                        UsersMapper rm = new UsersMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToUser(reader);
+                            count++;
+                        }
 
-                    if (count > 1)
-                    {
-                        throw new Exception($"{count} Multiple Users found for UserID {UserID}");
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count} Multiple Users found for UserID {UserID}");
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public UsersDAL UsersFindbyEmail(string Email)
         {
             UsersDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UsersFindbyEmail", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@Email", Email);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UsersFindbyEmail", _con))
                 {
-                    UsersMapper rm = new UsersMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Email", Email);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToUser(reader);
-                        count++;
+                        UsersMapper rm = new UsersMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
                         {
-                            if (count > 1)
+                            proposedReturnValue = rm.ToUser(reader);
+                            count++;
                             {
-                                throw new Exception($"{count}Multiple Users found for Email {Email}");
+                                if (count > 1)
+                                {
+                                    throw new Exception($"{count}Multiple Users found for Email {Email}");
+                                }
                             }
                         }
-                    }
 
+                    }
+                    return proposedReturnValue;
                 }
-                return proposedReturnValue;
             }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+            return proposedReturnValue;
         }
         public UsersDAL UsersFindbyUserName(string UserName)
         {
             UsersDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserFindbyUserName", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserName", UserName);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UsersFindbyUserName", _con))
                 {
-                    UsersMapper rm = new UsersMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserName", UserName);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToUser(reader);
-                        count++;
+                        UsersMapper rm = new UsersMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
                         {
-                            if (count > 1)
+                            proposedReturnValue = rm.ToUser(reader);
+                            count++;
                             {
-                                throw new Exception($"{count}Multiple Users found for UserName {UserName}");
+                                if (count > 1)
+                                {
+                                    throw new Exception($"{count}Multiple Users found for UserName {UserName}");
+                                }
                             }
                         }
-                    }
 
+                    }
+                    return proposedReturnValue;
                 }
-                return proposedReturnValue;
             }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+            return proposedReturnValue;
         }
         public List<UsersDAL> UsersGetAll(int Skip, int Take)
         {
             List<UsersDAL> proposedReturnValue = new List<UsersDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UsersGetAll", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UsersGetAll", _con))
                 {
-                    UsersMapper rm = new UsersMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        UsersDAL item = rm.ToUser(reader);
-                        proposedReturnValue.Add(item);
+                        UsersMapper rm = new UsersMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            UsersDAL item = rm.ToUser(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public List<UsersDAL> UsersGetAllbyActivityID(int skip, int take, int ActivityID)
             {
                 List<UsersDAL> proposedReturnValue = new List<UsersDAL>();
+            try
+            {
                 EnsureConnected();
                 using (SqlCommand command = new SqlCommand("UsersGetAllActivityID", _con))
                 {
@@ -294,112 +374,158 @@ namespace DataAccessLayer
                         }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
                 return proposedReturnValue;
             }
         public List<UsersDAL> UsersGetAllbyGroupID (int skip, int take, int GroupID)
         {
             List<UsersDAL> proposedReturnValue = new List<UsersDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UsersGetAllGroupID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", skip);
-                command.Parameters.AddWithValue("@take", take);
-                command.Parameters.AddWithValue("@GroupID",GroupID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UsersGetAllGroupID", _con))
                 {
-                    UsersMapper rm = new UsersMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", skip);
+                    command.Parameters.AddWithValue("@take", take);
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        UsersDAL item = rm.ToUser(reader);
-                        proposedReturnValue.Add(item);
+                        UsersMapper rm = new UsersMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            UsersDAL item = rm.ToUser(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int UsersObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UsersObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UsersObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
             }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
+            }
             return proposedReturnValue;
         }
 
         public int UsersCreate(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserCreate", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID", 0);
-                command.Parameters.AddWithValue("@LastName", LastName);
-                command.Parameters.AddWithValue("@FirstName", FirstName);
-                command.Parameters.AddWithValue("@Email", Email);
-                command.Parameters.AddWithValue("Phone", Phone);
-                command.Parameters.AddWithValue("UserName", UserName);
-                command.Parameters.AddWithValue("@Hash", Hash);
-                command.Parameters.AddWithValue("@Salt", Salt);
-                command.Parameters["@UserID"].Direction = System.Data.ParameterDirection.Output;
-                command.ExecuteNonQuery();
-                proposedReturnValue = (int)command.Parameters["@UserID"].Value;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", 0);
+                    command.Parameters.AddWithValue("@LastName", LastName);
+                    command.Parameters.AddWithValue("@FirstName", FirstName);
+                    command.Parameters.AddWithValue("@Email", Email);
+                    command.Parameters.AddWithValue("@Phone", Phone);
+                    command.Parameters.AddWithValue("@UserName", UserName);
+                    command.Parameters.AddWithValue("@Hash", Hash);
+                    command.Parameters.AddWithValue("@Salt", Salt);
+                    command.Parameters["@UserID"].Direction = System.Data.ParameterDirection.Output;
+                    command.ExecuteNonQuery();
+                    proposedReturnValue = (int)command.Parameters["@UserID"].Value;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int UsersCreateIDReturn(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserCreateIDReturn", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LastName", LastName);
-                command.Parameters.AddWithValue("@FirstName", FirstName);
-                command.Parameters.AddWithValue("@Email", Email);
-                command.Parameters.AddWithValue("@Phone", Phone);
-                command.Parameters.AddWithValue("@UserName", UserName);
-                command.Parameters.AddWithValue("@Hash", Hash);
-                command.Parameters.AddWithValue("@Salt", Salt);
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserCreateIDReturn", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LastName", LastName);
+                    command.Parameters.AddWithValue("@FirstName", FirstName);
+                    command.Parameters.AddWithValue("@Email", Email);
+                    command.Parameters.AddWithValue("@Phone", Phone);
+                    command.Parameters.AddWithValue("@UserName", UserName);
+                    command.Parameters.AddWithValue("@Hash", Hash);
+                    command.Parameters.AddWithValue("@Salt", Salt);
 
-                proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                    proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public void UsersDelete(int UserID)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UsersDelete", _con))
+            try
+            {
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UsersDelete", _con))
+                {
+
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("UserID", UserID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
             {
 
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("UserID", UserID);
-                command.ExecuteNonQuery();
             }
         }
         public void UsersUpdateJust(int UserID, string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserUpdateJust", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("UserID", UserID);
-                command.Parameters.AddWithValue("LastName", LastName);
-                command.Parameters.AddWithValue("FirstName", FirstName);
-                command.Parameters.AddWithValue("Email", Email);
-                command.Parameters.AddWithValue("Phone", Phone);
-                command.Parameters.AddWithValue("UserName", UserName);
-                command.Parameters.AddWithValue("Hash", Hash);
-                command.Parameters.AddWithValue("Salt", Salt);
-                object datareturned = command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserUpdateJust", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("UserID", UserID);
+                    command.Parameters.AddWithValue("LastName", LastName);
+                    command.Parameters.AddWithValue("FirstName", FirstName);
+                    command.Parameters.AddWithValue("Email", Email);
+                    command.Parameters.AddWithValue("Phone", Phone);
+                    command.Parameters.AddWithValue("UserName", UserName);
+                    command.Parameters.AddWithValue("Hash", Hash);
+                    command.Parameters.AddWithValue("Salt", Salt);
+                    object datareturned = command.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
         }
@@ -408,81 +534,110 @@ namespace DataAccessLayer
         #region Groups
         public GroupsDAL GroupsFindbyID(int GroupID)
         {
+           
             GroupsDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsFindByID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsFindByID", _con))
                 {
-                    GroupsMapper rm = new GroupsMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToGroups(reader);
-                        count++;
-                    }
-                    if (count > 1)
-                    {
-                        throw new Exception($"{count}Multiple Groups found for ID {GroupID}");
+                        GroupsMapper rm = new GroupsMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToGroups(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count}Multiple Groups found for ID {GroupID}");
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public List<GroupsDAL> GroupsGetAll(int Skip, int Take)
                 {
                 List<GroupsDAL> proposedReturnValue = new List<GroupsDAL>();
+            try
+            {
                 EnsureConnected();
-                using (SqlCommand command = new SqlCommand ("GroupsGetAll", _con))
+                using (SqlCommand command = new SqlCommand("GroupsGetAll", _con))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@skip", Skip);
                     command.Parameters.AddWithValue("@take", Take);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                            GroupsMapper rm = new GroupsMapper(reader);
-                            while (reader.Read())
-                            {
-                                GroupsDAL item = rm.ToGroups(reader);
-                                proposedReturnValue.Add(item);
-                            }
+                        GroupsMapper rm = new GroupsMapper(reader);
+                        while (reader.Read())
+                        {
+                            GroupsDAL item = rm.ToGroups(reader);
+                            proposedReturnValue.Add(item);
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
                     return proposedReturnValue;
                 }
         public List<GroupsDAL> GroupsGetAllbyActivityID(int ActivityID, int Skip,int Take)
         {
             List<GroupsDAL> proposedReturnValue = new List<GroupsDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsGetAllbyActivityID",_con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsGetAllbyActivityID", _con))
                 {
-                    GroupsMapper rm = new GroupsMapper(reader);
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        GroupsDAL item = rm.ToGroups(reader);
-                        proposedReturnValue.Add(item);
+                        GroupsMapper rm = new GroupsMapper(reader);
+                        while (reader.Read())
+                        {
+                            GroupsDAL item = rm.ToGroups(reader);
+                            proposedReturnValue.Add(item);
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int GroupsObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
 
             return proposedReturnValue;
@@ -490,36 +645,57 @@ namespace DataAccessLayer
         public int GroupsCreate(string GroupName)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsCreate",_con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@GroupName", GroupName);
-                command.Parameters["@GroupID"].Direction = System.Data.ParameterDirection.Output;
-                command.ExecuteNonQuery();
-                proposedReturnValue = (int)command.Parameters["@UserID"].Value;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupName", GroupName);
+                    command.Parameters["@GroupID"].Direction = System.Data.ParameterDirection.Output;
+                    command.ExecuteNonQuery();
+                    proposedReturnValue = (int)command.Parameters["@UserID"].Value;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public void GroupsDelete(int GroupID)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsDelete"))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsDelete"))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
         }
         public void GroupsUpdateJust(int GroupID, string GroupName)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsUpdateJust",_con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@GroupId", GroupID);
-                command.Parameters.AddWithValue("@GroupName", GroupName);
-                object datareturned = command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsUpdateJust", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupId", GroupID);
+                    command.Parameters.AddWithValue("@GroupName", GroupName);
+                    object datareturned = command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
           
         }
@@ -528,40 +704,60 @@ namespace DataAccessLayer
         #region UserGroups
         public void UserGroupsCreate(int UserID, int GroupID, int RoleID )
         {
-            
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserGroupsCreate",_con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID",UserID);
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                command.Parameters.AddWithValue("@RoleID", RoleID);
-                command.ExecuteNonQuery();
-                
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserGroupsCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    command.Parameters.AddWithValue("@RoleID", RoleID);
+                    command.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             
         }
         public void UserGroupsDelete(int UserID, int GroupID)
         {
-            EnsureConnected();
-            using(SqlCommand command = new SqlCommand("UserGroupsDelete",_con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID", UserID);
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserGroupsDelete", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
 
         }
         public int UserGroupsObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserGroupsObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserGroupsObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
 
             return proposedReturnValue;
@@ -571,14 +767,21 @@ namespace DataAccessLayer
         public int GroupActivitiesCreate(int GroupID, int ActivityID, string ActivityOwner)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupActivitiesCreate", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                command.Parameters.AddWithValue("@ActivityOwner", ActivityOwner);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupActivitiesCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    command.Parameters.AddWithValue("@ActivityOwner", ActivityOwner);
+                    command.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
             return proposedReturnValue;
@@ -586,25 +789,38 @@ namespace DataAccessLayer
         public int GroupActivitiesObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupsObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
             }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
+            }
             return proposedReturnValue;
         }
         public void GroupActivitiesDelete(int GroupID, int ActivityID)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("GroupActivitiesDelete",_con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupActivitiesDelete", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
         }
 
@@ -612,36 +828,57 @@ namespace DataAccessLayer
         #region UserActivies
         public void UserActivitiesCreate(int UserID, int ActivityID)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserActivitiesCreate", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID", UserID);
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserActivitiesCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    command.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
         }
         public void UserActivitiesDelete(int UserID, int ActivityID)
         {
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserActivitiesDelete", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID", UserID);
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserActivitiesDelete", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
         }
         public int UserActivitiesObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserActivitiesObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserActivitiesObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
 
             return proposedReturnValue;
@@ -651,135 +888,178 @@ namespace DataAccessLayer
         public ActivitiesDAL ActivitiesFindByID(int ActivityID)
         {
             ActivitiesDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitiesFindByID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitiesFindByID", _con))
                 {
-                    ActivitiesMapper rm = new ActivitiesMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToActivities(reader);
-                        count++;
-                    }
-                    if (count > 1)
-                    {
-                        throw new Exception($"{count} Multiple Activities found for ID {ActivityID}");
-                    }
+                        ActivitiesMapper rm = new ActivitiesMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToActivities(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count} Multiple Activities found for ID {ActivityID}");
+                        }
 
+                    }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public ActivitiesDAL ActivitiesFindbyLocationID(int LocationID)
         {
             ActivitiesDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitiesFindByLocationID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LocationID", LocationID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitiesFindByLocationID", _con))
                 {
-                    ActivitiesMapper rm = new ActivitiesMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LocationID", LocationID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToActivities(reader);
-                        count++;
-                    }
-                    if (count > 1)
-                    {
-                        throw new Exception($"{count} Multiple Activities found for LocationID {LocationID}");
-                    }
+                        ActivitiesMapper rm = new ActivitiesMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToActivities(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count} Multiple Activities found for LocationID {LocationID}");
+                        }
 
+                    }
                 }
             }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+        
             return proposedReturnValue;
         }
         public List<ActivitiesDAL> ActivitiesGetAll(int Skip, int Take)
         {
             List<ActivitiesDAL> proposedReturnValue = new List<ActivitiesDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitiesGetAll", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitiesGetAll", _con))
                 {
-                    ActivitiesMapper rm = new ActivitiesMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        ActivitiesDAL item = rm.ToActivities(reader);
-                        proposedReturnValue.Add(item);
+                        ActivitiesMapper rm = new ActivitiesMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            ActivitiesDAL item = rm.ToActivities(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public List<ActivitiesDAL> ActivitiesGetAllbyGroupID(int Skip, int Take, int GroupID)
         {
             List<ActivitiesDAL> proposedReturnValue = new List<ActivitiesDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitiesGetAllbyGroupID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                command.Parameters.AddWithValue("@GroupID", GroupID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitiesGetAllbyGroupID", _con))
                 {
-                    ActivitiesMapper rm = new ActivitiesMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    command.Parameters.AddWithValue("@GroupID", GroupID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        ActivitiesDAL item = rm.ToActivities(reader);
-                        proposedReturnValue.Add(item);
+                        ActivitiesMapper rm = new ActivitiesMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            ActivitiesDAL item = rm.ToActivities(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public List<ActivitiesDAL> ActivitiesGetAllbyUserID(int Skip, int Take, int UserID)
         {
             List<ActivitiesDAL> proposedReturnValue = new List<ActivitiesDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitiesGetAllbyUserID", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                command.Parameters.AddWithValue("@GroupID", UserID);
-                using (SqlDataReader reader = command.ExecuteReader())
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitiesGetAllbyUserID", _con))
                 {
-                    ActivitiesMapper rm = new ActivitiesMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    command.Parameters.AddWithValue("@GroupID", UserID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        ActivitiesDAL item = rm.ToActivities(reader);
-                        proposedReturnValue.Add(item);
+                        ActivitiesMapper rm = new ActivitiesMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            ActivitiesDAL item = rm.ToActivities(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int ActivitiesObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitiesObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitiesObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
+            }
+            catch (Exception ex) when(Logger.Logger.Log(ex))
+            {
+
             }
 
             return proposedReturnValue;
@@ -787,52 +1067,68 @@ namespace DataAccessLayer
         public int ActivitiesCreate(string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitesCreate", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ActivityID", 0);
-                command.Parameters.AddWithValue("@ActivityName",ActivityName);
-                command.Parameters.AddWithValue("@Approveby",Approveby);
-                command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
-                command.Parameters.AddWithValue("@LocationID", LocationID);
-                command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
-                command.Parameters["@ActivityID"].Direction = System.Data.ParameterDirection.Output;
-                command.ExecuteNonQuery();
-                proposedReturnValue = (int)command.Parameters["@ActivityID"].Value;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitesCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ActivityID", 0);
+                    command.Parameters.AddWithValue("@ActivityName", ActivityName);
+                    command.Parameters.AddWithValue("@Approveby", Approveby);
+                    command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
+                    command.Parameters.AddWithValue("@LocationID", LocationID);
+                    command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
+                    command.Parameters["@ActivityID"].Direction = System.Data.ParameterDirection.Output;
+                    command.ExecuteNonQuery();
+                    proposedReturnValue = (int)command.Parameters["@ActivityID"].Value;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         // returns the new id as a scaler
         public void ActivitiesDelete(int ActivityID)
         {
-
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("ActivitesDelete", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                command.ExecuteNonQuery();
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("ActivitesDelete", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    command.ExecuteNonQuery();
 
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
-
         }
         public void ActivitiesUpdateJust(int ActivityID, string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
         {
-
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("UserUpdateJust", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ActivityID", ActivityID);
-                command.Parameters.AddWithValue("@ActivityName",ActivityName);
-                command.Parameters.AddWithValue("@Approveby", Approveby);
-                command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
-                command.Parameters.AddWithValue("@LocationID", LocationID);
-                command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
-                object datareturned = command.ExecuteNonQuery();
-
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserUpdateJust", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ActivityID", ActivityID);
+                    command.Parameters.AddWithValue("@ActivityName", ActivityName);
+                    command.Parameters.AddWithValue("@Approveby", Approveby);
+                    command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
+                    command.Parameters.AddWithValue("@LocationID", LocationID);
+                    command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
+                    object datareturned = command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
 
@@ -841,83 +1137,118 @@ namespace DataAccessLayer
         #region Locations Stuff
         public LocationsDAL LocationFindByID(int LocationID)
         {
-            LocationsDAL proposedReturnValue = null;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationFindByID", _con))
-            {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LocationID", LocationID);
-                using (SqlDataReader reader = command.ExecuteReader())
+            //try
+            //{
+                LocationsDAL proposedReturnValue = null;
+            try
+            { 
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationFindByID", _con))
                 {
-                    LocationsMapper rm = new LocationsMapper(reader);
-                    int count = 0;
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LocationID", LocationID);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        proposedReturnValue = rm.ToLocations(reader);
-                        count++;
-                    }
-                    if (count > 1)
-                    {
-                        throw new Exception($"{count} Multiple Locations found for ID {LocationID}");
-                    }
+                        LocationsMapper rm = new LocationsMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToLocations(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count} Multiple Locations found for ID {LocationID}");
+                        }
 
+                    }
                 }
+                return proposedReturnValue;
+            }
+            catch (Exception ex) when(Logger.Logger.Log(ex))
+            {
+                //Logger.Logger.Log(ex);
+                //return View("Error", ex);
             }
             return proposedReturnValue;
         }
         public List<LocationsDAL> LocationGetAll(int Skip, int Take)
         {
-            List<LocationsDAL> proposedReturnValue = new List<LocationsDAL>();
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationGetAll", _con))
-            {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@skip", Skip);
-                command.Parameters.AddWithValue("@take", Take);
-                using (SqlDataReader reader = command.ExecuteReader())
+            //try
+            //{
+                List<LocationsDAL> proposedReturnValue = new
+                List<LocationsDAL>();
+            try
+            { 
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationGetAll", _con))
                 {
-                    LocationsMapper rm = new LocationsMapper(reader);
-
-                    while (reader.Read())
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        LocationsDAL item = rm.ToLocations(reader);
-                        proposedReturnValue.Add(item);
+                        LocationsMapper rm = new LocationsMapper(reader);
 
+                        while (reader.Read())
+                        {
+                            LocationsDAL item = rm.ToLocations(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
         public int LocationsObtainCount()
         {
             int proposedReturnValue = -1;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationsObtainCount", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                object answer = command.ExecuteScalar();
-                proposedReturnValue = (int)answer;
+                //int proposedReturnValue = -1;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationsObtainCount", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    object answer = command.ExecuteScalar();
+                    proposedReturnValue = (int)answer;
+                }
             }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
+            }
             return proposedReturnValue;
         }
         public int LocationsCreate(string LocationName, string Address1, string Address2, string City, string State, string Zip)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationCreate", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LocationID", 0);
-                command.Parameters.AddWithValue("@LocationName",LocationName);
-                command.Parameters.AddWithValue("@Address1", Address1);
-                command.Parameters.AddWithValue("@Address2", Address2);
-                command.Parameters.AddWithValue("@City", City);
-                command.Parameters.AddWithValue("@State", State);
-                command.Parameters.AddWithValue("@Zip", Zip);
-                command.Parameters["@LocationID"].Direction = System.Data.ParameterDirection.Output;
-                command.ExecuteNonQuery();
-                proposedReturnValue = (int)command.Parameters["@LocationID"].Value;
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationCreate", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LocationID", 0);
+                    command.Parameters.AddWithValue("@LocationName", LocationName);
+                    command.Parameters.AddWithValue("@Address1", Address1);
+                    command.Parameters.AddWithValue("@Address2", Address2);
+                    command.Parameters.AddWithValue("@City", City);
+                    command.Parameters.AddWithValue("@State", State);
+                    command.Parameters.AddWithValue("@Zip", Zip);
+                    command.Parameters["@LocationID"].Direction = System.Data.ParameterDirection.Output;
+                    command.ExecuteNonQuery();
+                    proposedReturnValue = (int)command.Parameters["@LocationID"].Value;
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
             }
             return proposedReturnValue;
         }
@@ -925,54 +1256,70 @@ namespace DataAccessLayer
         public int LocationCreateIDReturned(string LocationName, string Address1, string Address2, string City, string State, string Zip)
         {
             int proposedReturnValue = 0;
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationCreateIDReturned", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LocationName",LocationName);
-                command.Parameters.AddWithValue("@Address1", Address1);
-                command.Parameters.AddWithValue("@Address2",Address2);
-                command.Parameters.AddWithValue("@City", City);
-                command.Parameters.AddWithValue("@State", State);
-                command.Parameters.AddWithValue("@Zip", Zip);
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationCreateIDReturned", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LocationName", LocationName);
+                    command.Parameters.AddWithValue("@Address1", Address1);
+                    command.Parameters.AddWithValue("@Address2", Address2);
+                    command.Parameters.AddWithValue("@City", City);
+                    command.Parameters.AddWithValue("@State", State);
+                    command.Parameters.AddWithValue("@Zip", Zip);
 
-                proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                    proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                }
+                //return proposedReturnValue;
+            }
+            catch (Exception ex) when(Logger.Logger.Log(ex))
+            {
             }
             return proposedReturnValue;
         }
         public void LocationDelete(int LocationID)
         {
-
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationDelete", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LocationID", LocationID);
-                command.ExecuteNonQuery();
-
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationDelete", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LocationID", LocationID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
-
         }
         public void LocationUpdateJust(int LocationID, string LocationName, string Address1, string Address2, string City, string State, string Zip)
         {
-
-            EnsureConnected();
-            using (SqlCommand command = new SqlCommand("LocationUpdateJust", _con))
+            try
             {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@LocationID", LocationID);
-                command.Parameters.AddWithValue("@LocationName",LocationName);
-                command.Parameters.AddWithValue("@Address1",Address1);
-                command.Parameters.AddWithValue("@Address2",Address2);
-                command.Parameters.AddWithValue("@City",City);
-                command.Parameters.AddWithValue("@State", State);
-                command.Parameters.AddWithValue("@Zip", Zip);
-                object datareturned = command.ExecuteNonQuery();
 
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("LocationUpdateJust", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@LocationID", LocationID);
+                    command.Parameters.AddWithValue("@LocationName", LocationName);
+                    command.Parameters.AddWithValue("@Address1", Address1);
+                    command.Parameters.AddWithValue("@Address2", Address2);
+                    command.Parameters.AddWithValue("@City", City);
+                    command.Parameters.AddWithValue("@State", State);
+                    command.Parameters.AddWithValue("@Zip", Zip);
+                    object datareturned = command.ExecuteNonQuery();
+
+
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
 
             }
-
         }
         #endregion Location Stuff
 

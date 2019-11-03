@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
+using System.ComponentModel.DataAnnotations;
+using Logger;
 
 namespace BusyMomWeb.Controllers
 {
@@ -41,8 +43,8 @@ namespace BusyMomWeb.Controllers
             LoginModel m = new LoginModel();
             m.Message = TempData["Message"]?.ToString() ?? "";
             m.ReturnURL = TempData["ReturnURL"]?.ToString() ?? @"~/Home";
-            m.UserName = "User";
-            m.Password = "Password";
+            m.UserName = "";
+            m.Password = "";
             return View(m);
         }
         [HttpPost]
@@ -89,13 +91,13 @@ namespace BusyMomWeb.Controllers
             try
             {
                 RegistrationModel Rm = new RegistrationModel();
-                Rm.LastName = "LastName";
-                Rm.FirstName = "FirstName";
-                Rm.Email = "Email";
-                Rm.Phone = "Phone";
-                Rm.UserName = "UserName";
-                Rm.Password = "Password";
-                Rm.PasswordAgain = "PasswordAgain";
+                Rm.LastName = "";
+                Rm.FirstName = "";
+                Rm.Email = "";
+                Rm.Phone = "";
+                Rm.UserName = "";
+                Rm.Password = "";
+                Rm.PasswordAgain = "";
                 Rm.Message = "";
                 return View(Rm);
             }
@@ -104,8 +106,9 @@ namespace BusyMomWeb.Controllers
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
-
         }
+
+        
 
         [HttpPost]
         public ActionResult Register(RegistrationModel register)
@@ -122,7 +125,7 @@ namespace BusyMomWeb.Controllers
                     UsersBLL user = ctx.UsersFindByEmail(register.Email);
                     if (user != null)
                     {
-                        register.Message = $"The Email Address          '{register.Email}' already exists in the database";
+                        register.Message = $"The Email Address'{register.Email}' already exists in the database";
                         return View(register);
                     }
                     UsersBLL users = ctx.UsersFindByUserName(register.UserName);
@@ -131,33 +134,36 @@ namespace BusyMomWeb.Controllers
                         register.Message = $"The UserName'{register.UserName} is already in use";
                         return View(register);
                     }
+                    string Salt = System.Web.Helpers.Crypto.GenerateSalt(MagicConstants.SaltSize);
+                    string Hash = System.Web.Helpers.Crypto.
+                        HashPassword(register.Password + Salt);
                     users = new UsersBLL();
+
                     users.LastName = register.LastName;
                     users.FirstName = register.FirstName;
                     users.Phone = register.Phone;
                     users.Email = register.Email;
                     users.UserName = register.UserName;
-                    users.Salt = System.Web.Helpers.Crypto.
-                        GenerateSalt(15);
-                    user.Hash = System.Web.Helpers.Crypto.
-                        HashPassword(register.Password + user.Salt);
-
-
+                    //users.Salt = System.Web.Helpers.Crypto.
+                    //    GenerateSalt(Constants.SaltLength);
+                    //user.Hash = System.Web.Helpers.Crypto.
+                    //    HashPassword(register.Password + user.Salt);
+                    
+                    
                     ctx.UserCreate(users);
-                    users = ctx.UsersFindByUserName(register.UserName);
+                    //users = ctx.UsersFindByUserName(register.UserName);
                     Session["AUTHUsername"] = user.UserName;
                     Session["AUTHRoles"] = "LoggedIn";
                     Session["AUTHTYPE"] = "HASHED";
+                    return RedirectToAction("Index");
                 }
               
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-            return RedirectToAction("Index");
-
+                return View("Error",ex);
+            }           
         }
     }
 }
