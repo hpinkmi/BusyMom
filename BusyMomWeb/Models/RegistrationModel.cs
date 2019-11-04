@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace BusyMomWeb.Models
 {
     public class RegistrationModel
@@ -28,6 +29,7 @@ namespace BusyMomWeb.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
         [Required]
+        [Compare("Password")]
         [DataType(DataType.Password)]
         [Display(Name = "Password Again")]
         public string PasswordAgain { get; set; }

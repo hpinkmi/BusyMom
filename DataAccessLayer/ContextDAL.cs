@@ -8,6 +8,7 @@ using Logger;
 
 namespace DataAccessLayer
 {
+    //stack
     public class ContextDAL : IDisposable
     {
         #region Context stuff
@@ -432,7 +433,7 @@ namespace DataAccessLayer
             return proposedReturnValue;
         }
 
-        public int UsersCreate(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
+        public int UserCreate(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
             int proposedReturnValue = 0;
             try
@@ -460,7 +461,7 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
-        public int UsersCreateIDReturn(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
+        public int UserCreateIDReturn(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
             int proposedReturnValue = 0;
             try

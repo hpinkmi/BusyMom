@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Threading;
+using System.Security.Principal;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using Logger;
-
 
 namespace BusyMomWeb
 {
@@ -31,14 +30,14 @@ namespace BusyMomWeb
             {
                 return;
             }
-                
-                    GenericIdentity i = new GenericIdentity(UserName, "MyCustomType");
-                    if (Sessrole == null) { Sessrole = ""; }
-                    string[] roles = Sessrole.Split(',');
-                    GenericPrincipal p = new GenericPrincipal(i, roles);
-                    HttpContext.Current.User = p;
-                
-            
+
+            GenericIdentity i = new GenericIdentity(UserName, "MyCustomType");
+            if (Sessrole == null) { Sessrole = ""; }
+            string[] roles = Sessrole.Split(',');
+            GenericPrincipal p = new GenericPrincipal(i, roles);
+            HttpContext.Current.User = p;
+
+
         }
         protected void Application_Error(object sender, EventArgs e)
         {

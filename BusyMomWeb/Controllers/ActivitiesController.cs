@@ -7,10 +7,9 @@ using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using Logger;
 
-
 namespace BusyMomWeb.Controllers
 {
-
+    [MustBeLoggedIn]
     public class ActivitiesController : Controller
     {
         List<SelectListItem> LocationGetAll()
@@ -58,7 +57,7 @@ namespace BusyMomWeb.Controllers
 
                 {
                     activities = ctx.ActivitiesFindbyID(id);
-                    if(null == activities)
+                    if (null == activities)
                     {
                         return View("ItemNotFound");
                     }
@@ -80,13 +79,13 @@ namespace BusyMomWeb.Controllers
             {
                 ActivitiesBLL defActivities = new ActivitiesBLL();
                 defActivities.ActivityID = 0;
-                ViewBag.Locations= LocationGetAll();
+                ViewBag.Locations = LocationGetAll();
                 return View(defActivities);
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -103,12 +102,12 @@ namespace BusyMomWeb.Controllers
                 }
                 using (ContextBLL ctx = new ContextBLL())
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -121,7 +120,7 @@ namespace BusyMomWeb.Controllers
                 using (ContextBLL ctx = new ContextBLL())
                 {
                     activities = ctx.ActivitiesFindbyID(id);
-                    if (null ==User)
+                    if (null == User)
                     {
                         return View("ItemNotFound");
                     }
@@ -130,7 +129,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
             ViewBag.Locations = LocationGetAll();
             return View(activities);
@@ -157,7 +156,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -167,10 +166,10 @@ namespace BusyMomWeb.Controllers
             ActivitiesBLL activities;
             try
             {
-                using (ContextBLL ctx= new ContextBLL())
+                using (ContextBLL ctx = new ContextBLL())
                 {
                     activities = ctx.ActivitiesFindbyID(id);
-                    if (null== activities)
+                    if (null == activities)
                     {
                         return View("ItemNotFound");
                     }
@@ -190,12 +189,12 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     return View(collection);
                 }
                 {
-                    using (ContextBLL ctx= new ContextBLL())
+                    using (ContextBLL ctx = new ContextBLL())
                     {
                         ctx.ActivitiesDelete(id);
                     }
@@ -207,7 +206,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
     }

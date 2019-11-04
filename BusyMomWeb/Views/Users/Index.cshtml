@@ -1,12 +1,18 @@
 ﻿@model IEnumerable<BusinessLogicLayer.UsersBLL>
 
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.UserID)*@
+            @*Html.DisplayNameFor(model => model.UserID)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LastName)
@@ -23,12 +29,12 @@
         <th>
             @Html.DisplayNameFor(model => model.UserName)
         </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Hash)*@
+        @*<th>
+            @Html.DisplayNameFor(model => model.Hash)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.Salt)*@
-        </th>
+            Html.DisplayNameFor(model => model.Salt)
+        </th>*@
         <th></th>
     </tr>
 
@@ -52,16 +58,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Hash)*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Hash)
         </td>
         <td>
-            @*@Html.DisplayFor(modelItem => item.Salt)*@
-        </td>
+            @Html.DisplayFor(modelItem => item.Salt)
+        </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.UserID}) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.UserID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserID  }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.UserID }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.UserID})
         </td>
     </tr>
 }

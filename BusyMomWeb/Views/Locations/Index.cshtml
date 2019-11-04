@@ -1,12 +1,18 @@
 ﻿@model IEnumerable<BusinessLogicLayer.LocationsBLL>
 
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.LocationID)*@
+            @Html.DisplayNameFor(model => model.LocationID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LocationName)
@@ -32,7 +38,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @*@Html.DisplayFor(modelItem => item.LocationID)*@
+            @Html.DisplayFor(modelItem => item.LocationID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LocationName)
@@ -53,9 +59,9 @@
             @Html.DisplayFor(modelItem => item.Zip)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.LocationID  }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.LocationID }) |
-            @Html.ActionLink("Delete", "Delete", new {id=item.LocationID })
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

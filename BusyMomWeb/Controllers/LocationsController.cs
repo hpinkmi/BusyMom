@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
-
+using BusyMomWeb.Models;
 
 namespace BusyMomWeb.Controllers
 {
-    
+    [MustBeLoggedIn]
     public class LocationsController : Controller
     {
         // GET: Locations
@@ -77,14 +77,14 @@ namespace BusyMomWeb.Controllers
                     return View(collection);
                 }
                 using (ContextBLL ctx = new ContextBLL())
-                // TODO: Add insert logic here
+                    // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -107,7 +107,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
             return View(locations);
         }
@@ -122,16 +122,16 @@ namespace BusyMomWeb.Controllers
                 {
                     return View(collection);
                 }
-                using (ContextBLL ctx = new ContextBLL()) 
+                using (ContextBLL ctx = new ContextBLL())
                 {
                     ctx.LocationsUpdateJust(collection);
                 }
                 return RedirectToAction("Index");
-            }  
+            }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -141,10 +141,10 @@ namespace BusyMomWeb.Controllers
             LocationsBLL locations;
             try
             {
-                using (ContextBLL ctx= new ContextBLL())
+                using (ContextBLL ctx = new ContextBLL())
                 {
                     locations = ctx.LocationFindbyID(id);
-                    if (null==locations)
+                    if (null == locations)
                     {
                         return View("ItemNotFound");
                     }
@@ -153,7 +153,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
             return View(locations);
         }
@@ -163,7 +163,8 @@ namespace BusyMomWeb.Controllers
         public ActionResult Delete(int id, LocationsBLL collection)
         {
             try
-            { if(ModelState.IsValid)
+            {
+                if (ModelState.IsValid)
                 {
                     return View(collection);
                 }
@@ -177,10 +178,10 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
     }

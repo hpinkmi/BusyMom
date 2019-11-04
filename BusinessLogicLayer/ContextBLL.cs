@@ -89,13 +89,13 @@ namespace BusinessLogicLayer
         public int UserCreate(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
         {
             int proposedReturnValue = -1;
-            proposedReturnValue = _context.UsersCreate(LastName, FirstName, Email, Phone, UserName, Hash, Salt);
+            proposedReturnValue = _context.UserCreate(LastName, FirstName, Email, Phone, UserName, Hash, Salt);
             return proposedReturnValue;
         }
         public int UserCreate(UsersBLL User)
         {
             int proposeReturnValue = -1;
-            proposeReturnValue = _context.UsersCreate(User.LastName, User.FirstName, User.Email, User.Phone, User.UserName, User.Hash, User.Salt);
+            proposeReturnValue = _context.UserCreate(User.LastName, User.FirstName, User.Email, User.Phone, User.UserName, User.Hash, User.Salt);
             return proposeReturnValue;
         }
         public UsersBLL UserFindByID(int UserID)

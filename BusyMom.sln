@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Busymom.sql = Busymom.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyMomWeb", "BusyMomWeb\BusyMomWeb.csproj", "{62042C4F-76F7-4D02-8CB5-B89DEFA21175}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{082721C6-F2FB-4B30-B323-CEE903A4DC53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyMomWeb", "BusyMomWeb\BusyMomWeb.csproj", "{24EE28A2-62C2-42E8-81E8-C40073DA02DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,14 +30,14 @@ Global
 		{4E2452E7-816D-4B6E-ACEA-8BDDD0602876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E2452E7-816D-4B6E-ACEA-8BDDD0602876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E2452E7-816D-4B6E-ACEA-8BDDD0602876}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62042C4F-76F7-4D02-8CB5-B89DEFA21175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62042C4F-76F7-4D02-8CB5-B89DEFA21175}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62042C4F-76F7-4D02-8CB5-B89DEFA21175}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62042C4F-76F7-4D02-8CB5-B89DEFA21175}.Release|Any CPU.Build.0 = Release|Any CPU
 		{082721C6-F2FB-4B30-B323-CEE903A4DC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{082721C6-F2FB-4B30-B323-CEE903A4DC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{082721C6-F2FB-4B30-B323-CEE903A4DC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{082721C6-F2FB-4B30-B323-CEE903A4DC53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24EE28A2-62C2-42E8-81E8-C40073DA02DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24EE28A2-62C2-42E8-81E8-C40073DA02DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24EE28A2-62C2-42E8-81E8-C40073DA02DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24EE28A2-62C2-42E8-81E8-C40073DA02DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

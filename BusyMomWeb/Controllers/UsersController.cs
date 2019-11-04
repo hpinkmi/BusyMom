@@ -4,14 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
-
+using BusyMomWeb.Models;
 
 namespace BusyMomWeb.Controllers
 {
-   
     public class UsersController : Controller
     {
-        // GET: Users
+        [MustBeLoggedIn]
         public ActionResult Index()
         {
             try
@@ -75,16 +74,16 @@ namespace BusyMomWeb.Controllers
                 {
                     return View(collection);
                 }
-                using (ContextBLL ctx= new ContextBLL())
+                using (ContextBLL ctx = new ContextBLL())
                 {
                     ctx.UserCreate(collection);
                 }
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -93,7 +92,7 @@ namespace BusyMomWeb.Controllers
         {
             UsersBLL User;
             try
-            { 
+            {
                 using (ContextBLL ctx = new ContextBLL())
                 {
                     User = ctx.UserFindByID(id);
@@ -103,10 +102,10 @@ namespace BusyMomWeb.Controllers
                     }
                 }
             }
-           catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
             return View(User);
         }
@@ -121,16 +120,16 @@ namespace BusyMomWeb.Controllers
                 {
                     return View(collection);
                 }
-                using (ContextBLL ctx= new ContextBLL())
+                using (ContextBLL ctx = new ContextBLL())
                 {
-                    ctx.UserUpdateJust(id, collection.LastName, collection.FirstName,collection.Email,collection.Phone,collection.UserName,collection.Hash,collection.Salt);
+                    ctx.UserUpdateJust(id, collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, collection.Hash, collection.Salt);
                 }
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -140,10 +139,10 @@ namespace BusyMomWeb.Controllers
             UsersBLL users;
             try
             {
-                using (ContextBLL ctx= new ContextBLL())
+                using (ContextBLL ctx = new ContextBLL())
                 {
                     users = ctx.UserFindByID(id);
-                    if(null==users)
+                    if (null == users)
                     {
                         return View("ItemNotFound");
                     }
@@ -152,7 +151,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
             return View(users);
         }
@@ -163,12 +162,12 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     return View(collection);
                 }
                 {
-                    using (ContextBLL ctx=new ContextBLL())
+                    using (ContextBLL ctx = new ContextBLL())
                     {
                         ctx.UsersDelete(id);
                     }
@@ -177,11 +176,15 @@ namespace BusyMomWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
         }
     }
+    
+
+        
+
 }

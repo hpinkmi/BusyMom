@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BusinessLogicLayer;
-using BusyMomWeb.Models;
-using System.ComponentModel.DataAnnotations;
 using Logger;
+using BusinessLogicLayer;
+using System.ComponentModel.DataAnnotations;
+using BusyMomWeb.Models;
+using System.Web.Security;
 
 namespace BusyMomWeb.Controllers
 {
+   
     public class HomeController : Controller
     {
+        
         public ActionResult Index()
         {
             return View();
@@ -23,7 +26,7 @@ namespace BusyMomWeb.Controllers
 
             return View();
         }
-
+        
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -33,9 +36,14 @@ namespace BusyMomWeb.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
-            Session.Remove("AuthUserName");
-            Session.Remove("AuthRoles");
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
             return RedirectToAction("Index");
+            //Session.Remove("AuthUserName");
+            //Session.Remove("AuthRoles");
+            //return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Login()
@@ -62,7 +70,7 @@ namespace BusyMomWeb.Controllers
                 string potential = info.Password;
                 string ValidationType = $"ClearText:({user.UserName})";
                 bool validateduser = actual == potential;
-                if (validateduser)
+                if (!validateduser)
                 {
                     potential = info.Password + user.Salt;
                     try
@@ -79,7 +87,14 @@ namespace BusyMomWeb.Controllers
                 {
                     Session["AuthUserName"] = user.UserName;
                     Session["AuthRoles"] = "LoggedIn";
-                    return Redirect(info.ReturnURL);
+                    if (string.IsNullOrEmpty(info.ReturnURL))
+                    {
+                        return Redirect("~/Home");
+                    }
+                    else
+                    {
+                        return Redirect(info.ReturnURL);
+                    }
                 }
                 info.Message = "The password was incorrect";
                 return View(info);
@@ -108,7 +123,7 @@ namespace BusyMomWeb.Controllers
             }
         }
 
-        
+
 
         [HttpPost]
         public ActionResult Register(RegistrationModel register)
@@ -144,27 +159,28 @@ namespace BusyMomWeb.Controllers
                     users.Phone = register.Phone;
                     users.Email = register.Email;
                     users.UserName = register.UserName;
+                    users.Hash = Hash;
+                    users.Salt = Salt;
                     //users.Salt = System.Web.Helpers.Crypto.
                     //    GenerateSalt(Constants.SaltLength);
                     //user.Hash = System.Web.Helpers.Crypto.
                     //    HashPassword(register.Password + user.Salt);
-                    
-                    
+
+
                     ctx.UserCreate(users);
                     //users = ctx.UsersFindByUserName(register.UserName);
-                    Session["AUTHUsername"] = user.UserName;
+                    Session["AUTHUsername"] = users.UserName;
                     Session["AUTHRoles"] = "LoggedIn";
                     Session["AUTHTYPE"] = "HASHED";
                     return RedirectToAction("Index");
                 }
-              
+
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
-            }           
+                return View("Error", ex);
+            }
         }
     }
 }
-

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
-
+using BusyMomWeb.Models;
 
 namespace BusyMomWeb.Controllers
 {
-    
+    [MustBeLoggedIn]
     public class RolesController : Controller
     {
         // GET: Roles
@@ -73,7 +73,7 @@ namespace BusyMomWeb.Controllers
             try
             {
                 // TODO: Add insert logic here
-                using (ContextBLL ctx= new ContextBLL())
+                using (ContextBLL ctx = new ContextBLL())
                 {
                     ctx.RoleCreate(collection.RoleName);
                 }
@@ -83,7 +83,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -129,7 +129,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
 
@@ -142,7 +142,7 @@ namespace BusyMomWeb.Controllers
                 using (ContextBLL ctx = new ContextBLL())
                 {
                     Role = ctx.RoleFindByID(id);
-                    if (null== Role)
+                    if (null == Role)
                     {
                         return View("ItemNotFound");
                     }
@@ -151,7 +151,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
             return View(Role);
         }
@@ -162,7 +162,7 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return View(collection);
                 }
@@ -179,7 +179,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
         }
     }

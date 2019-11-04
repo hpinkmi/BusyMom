@@ -1,0 +1,17 @@
+﻿@{ 
+    System.Web.Mvc.HandleErrorInfo handleErrorInfo = Model as System.Web.Mvc.HandleErrorInfo;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <hgroup>
+        <h1>MISTAKE</h1>
+        <h2>An error occurred while processing your request. Please be patient with us as we fix this error.</h2>
+        @handleErrorInfo.Exception
+    </hgroup>
+</body>
+</html>
