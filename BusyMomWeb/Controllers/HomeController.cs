@@ -16,13 +16,13 @@ namespace BusyMomWeb.Controllers
     {
         
         public ActionResult Index()
-        {
+        {         
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Are you tire of having to tell family members when your child has and event going on. You always miss a person. Well we are here to help you out. You can create an account and allow selected people see their schedule.";
 
             return View();
         }

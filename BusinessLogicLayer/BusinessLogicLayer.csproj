@@ -47,6 +47,7 @@
     <Compile Include="GroupActivitiesBLL.cs" />
     <Compile Include="GroupsBLL.cs" />
     <Compile Include="LocationsBLL.cs" />
+    <Compile Include="MeaningfulCalculation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleBLL.cs" />
     <Compile Include="UserActivitiesBLL.cs" />

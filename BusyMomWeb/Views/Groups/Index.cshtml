@@ -11,9 +11,9 @@
 </p>
 <table class="table">
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.GroupID)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.GroupName)
         </th>
@@ -22,9 +22,9 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.GroupID)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.GroupName)
         </td>
