@@ -11,14 +11,21 @@ namespace BusinessLogicLayer
     {
         public int GroupID { get; set; }
         public string GroupName { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
         public GroupsBLL(GroupsDAL groups)
         {
             GroupID = groups.GroupID;
             GroupName = groups.GroupName;
+            //Outside of Groups Table
+            UserID = groups.UserID;
+            RoleID = groups.RoleID;
+            RoleName = groups.RoleName;
         }
         public GroupsBLL()
         {
-
+            
         }
     }
 }

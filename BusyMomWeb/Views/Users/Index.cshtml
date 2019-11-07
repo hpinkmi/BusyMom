@@ -64,11 +64,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Salt)
         </td>*@
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserID  }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.UserID }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.UserID})
-        </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.UserID }) |
+        @Html.ActionLink("Groups", "Groups", new { id = item.UserID }) |
+
+
+    </td>
     </tr>
 }
 

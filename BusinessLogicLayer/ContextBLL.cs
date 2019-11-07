@@ -220,7 +220,7 @@ namespace BusinessLogicLayer
         }
         #endregion GroupActivities
         #region Groups
-        public int GroupsCreate(int GroupID, string GroupName )
+        public int GroupsCreate(string GroupName )
         {
             int proposedReturnValue = -1;
             proposedReturnValue = _context.GroupsCreate(GroupName);
@@ -230,7 +230,7 @@ namespace BusinessLogicLayer
         public int GroupsCreate(GroupsBLL groups)
         {
             int proposedReturnValue = -1;
-            proposedReturnValue = _context.GroupsCreate(groups.GroupName);
+            proposedReturnValue = _context.GroupsCreate( groups.GroupName);
             return proposedReturnValue;
         }
         public GroupsBLL GroupsFindByID(int GroupID)
@@ -454,13 +454,13 @@ namespace BusinessLogicLayer
         #endregion Locations
 
         #region GroupRole
-        public GroupRoleBLL GroupsFindByUserID(int UserID)
+        public List<GroupsBLL> GroupsFindByUserID(int skip, int take, int UserID)
         {
-            GroupRoleBLL proposedReturnValue = null;
-            GroupRoleDAL DataLayerObject = _context.GroupsFindbyUserID(UserID);
-            if (null != DataLayerObject)
+            List<GroupsBLL> proposedReturnValue = new List<GroupsBLL>();
+            List<GroupsDAL> DataLayerObjects = _context.GroupsFindbyUserID(skip, take, UserID);
+            foreach (var item in DataLayerObjects )
             {
-                proposedReturnValue = new GroupRoleBLL(DataLayerObject);
+                proposedReturnValue.Add(new GroupsBLL(item));
             }
             return proposedReturnValue;
         }

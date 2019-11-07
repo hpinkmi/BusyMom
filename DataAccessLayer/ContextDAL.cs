@@ -653,9 +653,10 @@ namespace DataAccessLayer
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@GroupName", GroupName);
+                    command.Parameters.AddWithValue("@GroupID",0);
                     command.Parameters["@GroupID"].Direction = System.Data.ParameterDirection.Output;
                     command.ExecuteNonQuery();
-                    proposedReturnValue = (int)command.Parameters["@UserID"].Value;
+                    proposedReturnValue = (int)command.Parameters["@GroupID"].Value;
                 }
             }
             catch (Exception ex) when (Logger.Logger.Log(ex))
@@ -669,7 +670,7 @@ namespace DataAccessLayer
             try
             {
                 EnsureConnected();
-                using (SqlCommand command = new SqlCommand("GroupsDelete"))
+                using (SqlCommand command = new SqlCommand("GroupsDelete",_con))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@GroupID", GroupID);
@@ -1324,29 +1325,27 @@ namespace DataAccessLayer
         }
         #endregion Location Stuff
         #region GroupRole
-        public GroupRoleDAL GroupsFindbyUserID(int UserID)
+        public List<GroupsDAL> GroupsFindbyUserID(int skip, int take, int UserID)
         {
 
-            GroupRoleDAL proposedReturnValue = null;
+            List<GroupsDAL> proposedReturnValue = new List<GroupsDAL>();
             try
             {
                 EnsureConnected();
                 using (SqlCommand command = new SqlCommand("GroupsFindByUserID", _con))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", skip);
+                    command.Parameters.AddWithValue("@take", take);
                     command.Parameters.AddWithValue("@UserID", UserID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        GroupRoleMapper rm = new GroupRoleMapper(reader);
-                        int count = 0;
+                        GroupsMapper rm = new GroupsMapper(reader);
+                        //int count = 0;
                         while (reader.Read())
                         {
-                            proposedReturnValue = rm.ToGroupRole(reader);
-                            count++;
-                        }
-                        if (count > 1)
-                        {
-                            throw new Exception($"{count}Multiple Users found for ID {UserID}");
+                            GroupsDAL item= rm.ToGroups(reader);
+                            proposedReturnValue.Add(item);
                         }
                     }
                 }

@@ -13,20 +13,20 @@ namespace BusyMomWeb.Controllers
     {
         // GET: OneView
 
-        List<SelectListItem> UsersGetAll(ContextBLL ctx)
+        List<SelectListItem> GroupsGetAll(ContextBLL ctx)
         {
             List<SelectListItem> proposedReturnValue = new List<SelectListItem>();
-            List<UsersBLL> users = ctx.UsersGetAll(0, 25);
-            foreach (UsersBLL u in users)
+            List<GroupsBLL> groups = ctx.GroupsGetAll(0, 25);
+            foreach (GroupsBLL g in groups)
             {
                 SelectListItem i = new SelectListItem();
 
-                i.Value = u.UserID.ToString();
-                i.Text = u.LastName.ToString();
-                i.Text = u.FirstName.ToString();
-                i.Text = u.Email.ToString();
-                i.Text = u.Phone.ToString();
-                i.Text = u.UserName.ToString();
+                i.Value = g.GroupID.ToString();
+                i.Text = g.GroupName.ToString();
+                //i.Text = u.FirstName.ToString();
+                //i.Text = u.Email.ToString();
+                //i.Text = u.Phone.ToString();
+                //i.Text = u.UserName.ToString();
                 proposedReturnValue.Add(i);
             }
             return proposedReturnValue;
@@ -41,7 +41,7 @@ namespace BusyMomWeb.Controllers
         {
             using (ContextBLL ctx = new ContextBLL())
             {
-                ViewBag.Users = UsersGetAll(ctx);
+                //ViewBag.Users = UsersGetAll(ctx);
                 //UsersBLL users = ctx.UserFindByID();
                 OneView Model = new OneView();
                 //if (users != null)
@@ -62,7 +62,7 @@ namespace BusyMomWeb.Controllers
                 {
                     if (!ModelState.IsValid)
                     {
-                        ViewBag.Users = UsersGetAll(ctx);
+                        //ViewBag.Users = UsersGetAll(ctx);
                         return View(collection);
                     }
 
@@ -76,8 +76,8 @@ namespace BusyMomWeb.Controllers
                     
                     else
                     {
-                        int GroupID = ctx.GroupsCreate(collection.GroupID, collection.GroupName);
-                        ctx.GroupsCreate(GroupID, collection.GroupName);
+                        int GroupID = ctx.GroupsCreate( collection.GroupName);
+                        ctx.GroupsCreate( collection.GroupName);
                     }
                 }
                 return RedirectToAction("Index", "OneView");

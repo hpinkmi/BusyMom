@@ -73,10 +73,13 @@ namespace BusyMomWeb.Controllers
             {
                 try
                 {
-                    // TODO: Add insert logic here
+                    if (!ModelState.IsValid)
+                {
+                    return View(collection);
+                }
                     using (ContextBLL ctx = new ContextBLL())
                     {
-                        ctx.GroupsCreate(collection.GroupID, collection.GroupName);
+                        ctx.GroupsCreate(collection);
                     }
                     return RedirectToAction("Index");
                 }
@@ -121,13 +124,10 @@ namespace BusyMomWeb.Controllers
                     {
                         return View(collection);
                     }
+                    using (ContextBLL ctx = new ContextBLL())
                     {
-                        using (ContextBLL ctx = new ContextBLL())
-                        {
-                            ctx.GroupsUpdateJust(collection.GroupID, collection.GroupName);
-                        }
+                      ctx.GroupsUpdateJust(collection.GroupID, collection.GroupName);
                     }
-                    // TODO: Add update logic here
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -162,7 +162,7 @@ namespace BusyMomWeb.Controllers
 
             // POST: Groups/Delete/5
             [HttpPost]
-            public ActionResult Delete(int id, FormCollection collection)
+            public ActionResult Delete(int id, GroupsBLL collection)
             {
                 try
                 {
@@ -183,7 +183,7 @@ namespace BusyMomWeb.Controllers
                 catch (Exception ex)
                 {
                     Logger.Logger.Log(ex);
-                    return View("Error");
+                    return View("Error",ex);
                 }
             }
         }

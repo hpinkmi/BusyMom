@@ -20,9 +20,9 @@ namespace DataAccessLayer
         #endregion
 
         #region colums from foreign tables
-        public string RoleID { get; set; }
-        public string GroupID { get; set; }
-        public string ActivityID { get; set; }
+        public int RoleID { get; set; }
+        public int GroupID { get; set; }
+        public int ActivityID { get; set; }
         
 
         #endregion

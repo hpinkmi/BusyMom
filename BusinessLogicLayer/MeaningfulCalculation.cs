@@ -9,5 +9,6 @@ namespace BusinessLogicLayer
     public class MeaningfulCalculation
     {
 
+
     }
 }

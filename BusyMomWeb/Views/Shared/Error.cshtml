@@ -1,6 +1,18 @@
 ﻿@{ 
-    Exception ex = ViewBag.Exception;
-    string error = ex?.ToString() ?? "No Error Available";
+    string error = "No Error Available";
+    HandleErrorInfo hi = Model as HandleErrorInfo;
+    if (hi != null) { error = hi.Exception.ToString(); }
+    else
+    {
+        Exception except = Model as Exception;
+        if (except != null) { error = except.ToString(); }
+        else
+        {
+            except  = ViewBag.Exception;
+            if (except != null) { error = except.ToString(); }
+        }
+    }
+    
 }
 <!DOCTYPE html>
 <html>

@@ -166,13 +166,10 @@ namespace BusyMomWeb.Controllers
                 {
                     return View(collection);
                 }
+                using (ContextBLL ctx = new ContextBLL())
                 {
-                    using (ContextBLL ctx = new ContextBLL())
-                    {
-                        ctx.UsersDelete(id);
-                    }
+                    ctx.UsersDelete(id);
                 }
-                // TODO: Add delete logic here
 
                 return RedirectToAction("Index");
             }
@@ -180,6 +177,23 @@ namespace BusyMomWeb.Controllers
             {
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
+            }
+        }
+        public ActionResult Groups(int id)
+        {
+            try
+            {
+                List<GroupsBLL> items = null;
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    items = ctx.GroupsFindByUserID( 0,100, id);
+                }
+                return View(items);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error",ex);
             }
         }
     }

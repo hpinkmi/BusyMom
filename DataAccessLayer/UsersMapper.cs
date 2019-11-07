@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace DataAccessLayer
 {
-    class UsersMapper : Mapper
+   public class UsersMapper : Mapper
     {
         int OffsetToUserID;
         int OffsetToLastName;
@@ -17,6 +17,7 @@ namespace DataAccessLayer
         int OffsetToUserName;
         int OffsetToHash;
         int OffsetToSalt;
+        
 
         public UsersMapper(SqlDataReader reader)
         {
@@ -50,6 +51,8 @@ namespace DataAccessLayer
             proposedRV.UserName = reader.GetString(OffsetToUserName);
             proposedRV.Hash = reader.GetString(OffsetToHash);
             proposedRV.Salt = reader.GetString(OffsetToSalt);
+
+
 
             return proposedRV;
         }

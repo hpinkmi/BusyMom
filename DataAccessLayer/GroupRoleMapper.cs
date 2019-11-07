@@ -18,16 +18,16 @@ namespace DataAccessLayer
         public GroupRoleMapper(SqlDataReader reader)
         {
             OffsetToGroupID = reader.GetOrdinal("GroupID");
-            OffsetToGroupName = reader.GetOrdinal("GroupName");
-            OffsetToUserID = reader.GetOrdinal("UserID");
-            OffsetToRoleID = reader.GetOrdinal("RoleID");
-            OffsetToRoleName = reader.GetOrdinal("RoleName");
-
             Assert(OffsetToGroupID == 0, $"offsetToGroupID is {OffsetToGroupID} not 0 as expected");
+            OffsetToGroupName = reader.GetOrdinal("GroupName");
             Assert(OffsetToGroupName == 1, $"offsetToGroupID is {OffsetToGroupName} not 1 as expected");
+            OffsetToUserID = reader.GetOrdinal("UserID");
             Assert(OffsetToUserID == 2, $"(OffsetToGroupID is {OffsetToUserID} not 2 as expected");
+            OffsetToRoleID = reader.GetOrdinal("RoleID");
             Assert(OffsetToRoleID == 3, $"OffsetToGroupID is {OffsetToRoleID} not 3 as expected");
+            OffsetToRoleName = reader.GetOrdinal("RoleName");
             Assert(OffsetToRoleName == 4, $"OffsetToGroupID is {OffsetToRoleName} not 4 as expected");
+
         }
         public GroupRoleDAL ToGroupRole (SqlDataReader reader)
         {
