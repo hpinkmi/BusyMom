@@ -29,12 +29,14 @@
                         @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
 
                         @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
-                        <li>@Html.ActionLink("Role", "Index", "Roles")</li>
+                        <li>@Html.ActionLink("Welcome " + User.Identity.Name, "Home")</li>
                         <li>@Html.ActionLink("Group", "Index", "Groups")</li>
                         <li>@Html.ActionLink("Activity", "Index", "Activities")</li>
                         <li>@Html.ActionLink("Location", "Index", "Locations")</li>
                         <li>@Html.ActionLink("User", "Index", "Users")</li>
-                        <li>@Html.ActionLink("OneView", "Create", "OneView")</li>
+                        <li>@Html.ActionLink("Child Registration", "Create", "OneView")</li>
+                        <li>@Html.ActionLink("Role", "Index", "Roles")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         @*<li>@Html.ActionLink("OneTabletwoViews","OneTableTwoViews","OneTableTwoView")s</li>*@
                         @*<li>@Html.ActionLink("Login", "Login", "Home")</li>
             <li>@Html.ActionLink("Register", "Register", "Home")</li>*@

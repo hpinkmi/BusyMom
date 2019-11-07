@@ -29,7 +29,7 @@ namespace BusyMomWeb.Controllers
         
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "How To Contact Us.";
 
             return View();
         }
@@ -89,7 +89,7 @@ namespace BusyMomWeb.Controllers
                     Session["AuthRoles"] = "LoggedIn";
                     if (string.IsNullOrEmpty(info.ReturnURL))
                     {
-                        return Redirect("~/Groups");
+                        return Redirect("~/Activities");
                     }
                     else
                     {
