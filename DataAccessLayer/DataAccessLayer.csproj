@@ -46,6 +46,8 @@
     <Compile Include="ContextDAL.cs" />
     <Compile Include="GroupActivitiesDAL.cs" />
     <Compile Include="GroupActivitiesMapper.cs" />
+    <Compile Include="GroupRoleDAL.cs" />
+    <Compile Include="GroupRoleMapper.cs" />
     <Compile Include="GroupsDAL.cs" />
     <Compile Include="GroupsMapper.cs" />
     <Compile Include="LocationsDAL.cs" />

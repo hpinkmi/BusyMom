@@ -12,32 +12,32 @@ namespace BusyMomWeb.Controllers
     public class OneViewController : Controller
     {
         // GET: OneView
-        
-            List<SelectListItem>UsersGetAll(ContextBLL ctx)
+
+        List<SelectListItem> UsersGetAll(ContextBLL ctx)
+        {
+            List<SelectListItem> proposedReturnValue = new List<SelectListItem>();
+            List<UsersBLL> users = ctx.UsersGetAll(0, 25);
+            foreach (UsersBLL u in users)
             {
-                List<SelectListItem> proposedReturnValue = new List<SelectListItem>();
-                List<UsersBLL> users = ctx.UsersGetAll(0, 25);
-                foreach (UsersBLL u in users)
-                {
-                    SelectListItem i = new SelectListItem();
+                SelectListItem i = new SelectListItem();
 
-                    i.Value = u.UserID.ToString();
-                    i.Text = u.LastName.ToString();
-                    i.Text = u.FirstName.ToString();
-                    i.Text = u.Email.ToString();
-                    i.Text = u.Phone.ToString();
-                    i.Text = u.UserName.ToString();
-                    proposedReturnValue.Add(i);
-                }
-                return proposedReturnValue;
-
+                i.Value = u.UserID.ToString();
+                i.Text = u.LastName.ToString();
+                i.Text = u.FirstName.ToString();
+                i.Text = u.Email.ToString();
+                i.Text = u.Phone.ToString();
+                i.Text = u.UserName.ToString();
+                proposedReturnValue.Add(i);
             }
+            return proposedReturnValue;
+
+        }
         //public ActionResult Index()
         //{
         //    return View();
         //}
 
-        public ActionResult Create ()
+        public ActionResult Create()
         {
             using (ContextBLL ctx = new ContextBLL())
             {
@@ -71,8 +71,9 @@ namespace BusyMomWeb.Controllers
                         string Salt = System.Web.Helpers.Crypto.GenerateSalt(MagicConstants.SaltSize);
                         string Hash = System.Web.Helpers.Crypto.
                             HashPassword("Password" + Salt);
-                        collection.UserID = ctx.UserCreate(collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName,Hash,Salt);
-                    }9
+                        collection.UserID = ctx.UserCreate(collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, Hash, Salt);
+                    }
+                    
                     else
                     {
                         int GroupID = ctx.GroupsCreate(collection.GroupID, collection.GroupName);
@@ -84,10 +85,11 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error",ex);
+                return View("Error", ex);
             }
 
         }
 
     }
+
 }

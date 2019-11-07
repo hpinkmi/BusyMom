@@ -1323,6 +1323,42 @@ namespace DataAccessLayer
             }
         }
         #endregion Location Stuff
+        #region GroupRole
+        public GroupRoleDAL GroupsFindbyUserID(int UserID)
+        {
+
+            GroupRoleDAL proposedReturnValue = null;
+            try
+            {
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsFindByUserID", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        GroupRoleMapper rm = new GroupRoleMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToGroupRole(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count}Multiple Users found for ID {UserID}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+            return proposedReturnValue;
+        }
+
+        #endregion
 
     }
 }

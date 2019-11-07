@@ -452,5 +452,18 @@ namespace BusinessLogicLayer
         }
 
         #endregion Locations
+
+        #region GroupRole
+        public GroupRoleBLL GroupsFindByUserID(int UserID)
+        {
+            GroupRoleBLL proposedReturnValue = null;
+            GroupRoleDAL DataLayerObject = _context.GroupsFindbyUserID(UserID);
+            if (null != DataLayerObject)
+            {
+                proposedReturnValue = new GroupRoleBLL(DataLayerObject);
+            }
+            return proposedReturnValue;
+        }
+        #endregion
     }
 }

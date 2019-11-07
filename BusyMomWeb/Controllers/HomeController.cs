@@ -89,7 +89,7 @@ namespace BusyMomWeb.Controllers
                     Session["AuthRoles"] = "LoggedIn";
                     if (string.IsNullOrEmpty(info.ReturnURL))
                     {
-                        return Redirect("~/Home");
+                        return Redirect("~/Groups");
                     }
                     else
                     {

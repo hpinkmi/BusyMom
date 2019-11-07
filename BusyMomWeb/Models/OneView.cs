@@ -42,7 +42,7 @@ namespace BusyMomWeb.Models
         public string NewGroupName { get; set; }
 
         //itemstuff Ask about that?
-        
+
         //public string ItemDescription { get; set; }
     }
 }
