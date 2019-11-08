@@ -29,7 +29,7 @@ namespace DataAccessLayer
 
         public override string ToString()
         {
-            return $"UserId:{UserID,5} GroupID: {GroupID,5} LastName: {LastName,15} FirstName {FirstName,15} Email: {Email,25} Phone {Phone,8} UserName: {UserName,15} Hash {Hash} Salt: {Salt} RoleID: {RoleID} GroupID: {GroupID} ActivityID: {ActivityID}";
+            return $"UserId:{UserID,5} GroupID: {GroupID,5} LastName: {LastName,15} FirstName {FirstName,15} Email: {Email,25} Phone {Phone,8} UserName: {UserName,15} Hash: {Hash} Salt: {Salt} RoleID: {RoleID} GroupID: {GroupID} ActivityID: {ActivityID}";
         }
             
         }

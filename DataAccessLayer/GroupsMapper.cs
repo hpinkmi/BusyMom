@@ -12,6 +12,7 @@ namespace DataAccessLayer
         int OffsetToGroupID;
         int OffsetToGroupName;
         int OffsetToUserID;
+        int OffsettoActivityOwner;
         int OffsetToRoleID;
         int OffsetToRoleName;
 
@@ -23,6 +24,8 @@ namespace DataAccessLayer
             Assert(OffsetToGroupName == 1, $"offsetToGroupID is {OffsetToGroupName} not 1 as expected");
             OffsetToUserID = reader.GetOrdinal("UserID");
             Assert(OffsetToUserID == 2, $"(OffsetToUserID is {OffsetToUserID} not 2 as expected");
+            OffsettoActivityOwner = reader.GetOrdinal("ActivityOwner");
+            Assert(OffsettoActivityOwner == 3, $"(OffsetToActivityOwner is {OffsettoActivityOwner} not 3 as expected");
             OffsetToRoleID = reader.GetOrdinal("RoleID");
             Assert(OffsetToRoleID == 4, $"OffsetToRoleID is {OffsetToRoleID} not 4 as expected");
             OffsetToRoleName = reader.GetOrdinal("RoleName");
@@ -36,6 +39,7 @@ namespace DataAccessLayer
             proposedRV.GroupID = reader.GetInt32(OffsetToGroupID);
             proposedRV.GroupName = reader.GetString(OffsetToGroupName);
             proposedRV.UserID = reader.GetInt32(OffsetToUserID);
+            proposedRV.ActivityOwner = reader.GetString(OffsettoActivityOwner);
             proposedRV.RoleID = reader.GetInt32(OffsetToRoleID);
             proposedRV.RoleName = reader.GetString(OffsetToRoleName);
 

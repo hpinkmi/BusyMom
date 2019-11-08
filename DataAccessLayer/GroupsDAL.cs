@@ -12,11 +12,12 @@ namespace DataAccessLayer
         public string GroupName { get; set; }
         //indirect properties
         public int UserID { get; set; }
+        public string ActivityOwner { get; set; }
         public int RoleID { get; set; }
         public string RoleName { get; set; }
         public override string ToString()
         {
-            return $"Groups: GroupID:{GroupID} GroupName:{GroupName,5}UserID:{UserID} Role:{RoleID} RoleName:{RoleName,5}";
+            return $"Groups: GroupID:{GroupID} GroupName:{GroupName,5}UserID:{UserID} ActivityOwner; {ActivityOwner} Role:{RoleID} RoleName:{RoleName,5}";
         }
     }
 }

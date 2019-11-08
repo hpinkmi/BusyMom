@@ -302,16 +302,16 @@ namespace BusinessLogicLayer
         }
         #endregion UserActivities
         #region Activities
-        public int ActivitiesCreate(string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
+        public int ActivitiesCreate(string ActivityName, DateTime TimeofActivity, int LocationID)
         {
             int proposedReturnValue = -1;
-            proposedReturnValue = _context.ActivitiesCreate(ActivityName, Approveby, TimeofActivity, LocationID, ApproveTime);
+            proposedReturnValue = _context.ActivitiesCreate(ActivityName, TimeofActivity, LocationID);
             return proposedReturnValue;
         }
         public int ActivitiesCreate(ActivitiesBLL activities)
         {
             int proposedReturnValue = -1;
-            proposedReturnValue = _context.ActivitiesCreate(activities.ActivityName,activities.Approveby,activities.TimeofActivity, activities.LocationID, activities.ApproveTime);
+            proposedReturnValue = _context.ActivitiesCreate(activities.ActivityName,activities.TimeofActivity, activities.LocationID);
             return proposedReturnValue;
         }
         public ActivitiesBLL ActivitiesFindbyID(int ActivityID)
@@ -369,13 +369,13 @@ namespace BusinessLogicLayer
             }
             return proposedReturnValue;
         }
-        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
+        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, DateTime TimeofActivity, int LocationID)
         {
-            _context.ActivitiesUpdateJust(ActivityID, ActivityName, Approveby, TimeofActivity, LocationID, ApproveTime);
+            _context.ActivitiesUpdateJust(ActivityID, ActivityName,  TimeofActivity, LocationID);
         }
         public void ActivitiesUpdateJust(ActivitiesBLL activities)
         {
-            _context.ActivitiesUpdateJust(activities.ActivityID, activities.ActivityName, activities.Approveby, activities.TimeofActivity, activities.LocationID, activities.ApproveTime);
+            _context.ActivitiesUpdateJust(activities.ActivityID, activities.ActivityName, activities.TimeofActivity, activities.LocationID);
         }
         public void ActivitiesDelete(int ActivityID)
         {

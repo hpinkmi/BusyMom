@@ -66,7 +66,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 ViewBag.Exception = ex;
-                return View("Error");
+                return View("Error",ex);
             }
             return View(activities);
         }
@@ -178,7 +178,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error");
+                return View("Error",ex);
             }
             return View(activities);
         }

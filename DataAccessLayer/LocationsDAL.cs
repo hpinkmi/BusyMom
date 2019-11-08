@@ -18,7 +18,7 @@ namespace DataAccessLayer
 
         public override string ToString()
         {
-            return $"{LocationID,5}{LocationName,50}{Address1,100}{Address2,100}{City,100}{State,5}{Zip,5}";
+            return $"LocationID:{LocationID,5}LocationName:{LocationName,50}Address1:{Address1,100}Address2:{Address2,100}City:{City,100}State:{State,5}Zip:{Zip,5}";
         }
     }
 }

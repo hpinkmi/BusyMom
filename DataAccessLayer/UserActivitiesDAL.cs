@@ -14,7 +14,7 @@ namespace DataAccessLayer
         #endregion
         public override string ToString()
         {
-            return $"{UserID,5}{ActivityID,5}";
+            return $"UserID:{UserID,5}ActivityID:{ActivityID,5}";
         }
     }
 }

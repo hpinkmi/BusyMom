@@ -80,7 +80,7 @@ namespace BusyMomWeb.Controllers
                         ctx.GroupsCreate( collection.GroupName);
                     }
                 }
-                return RedirectToAction("Index", "OneView");
+                return RedirectToAction("Index", "Users");
             }
             catch (Exception ex)
             {

@@ -16,7 +16,7 @@ namespace DataAccessLayer
       
         public override string ToString()
         {
-            return $"{GroupID,5}{ActivityID,5}{ActivityOwner,20}";
+            return $"GroupID:{GroupID,5}ActivityID:{ActivityID,5}ActivityOwner:{ActivityOwner,20}";
         }
     }
 }

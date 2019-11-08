@@ -1,11 +1,5 @@
 ﻿@model IEnumerable<BusinessLogicLayer.ActivitiesBLL>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -18,16 +12,10 @@
             @Html.DisplayNameFor(model => model.ActivityName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Approveby)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.TimeofActivity)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LocationID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApproveTime)
         </th>
         <th></th>
     </tr>
@@ -41,21 +29,15 @@
             @Html.DisplayFor(modelItem => item.ActivityName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Approveby)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.TimeofActivity)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LocationID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ApproveTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.ActivityID  }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ActivityID }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.ActivityID})
+            @Html.ActionLink("Edit", "Edit", new { id=item.ActivityID }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.ActivityID}) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ActivityID })
         </td>
     </tr>
 }

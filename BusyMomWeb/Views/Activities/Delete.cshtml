@@ -1,11 +1,6 @@
 ﻿@model BusinessLogicLayer.ActivitiesBLL
 
-@{
-    ViewBag.Title = "Delete";
-}
-
-<h2>Delete</h2>
-
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Activities</h4>
     <hr />
@@ -27,14 +22,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Approveby)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Approveby)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.TimeofActivity)
         </dt>
 
@@ -50,17 +37,14 @@
             @Html.DisplayFor(model => model.LocationID)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ApproveTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApproveTime)
-        </dd>
-
     </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

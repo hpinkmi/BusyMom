@@ -1066,7 +1066,7 @@ namespace DataAccessLayer
 
             return proposedReturnValue;
         }
-        public int ActivitiesCreate(string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
+        public int ActivitiesCreate(string ActivityName, DateTime TimeofActivity, int LocationID)
         {
             int proposedReturnValue = 0;
             try
@@ -1077,10 +1077,8 @@ namespace DataAccessLayer
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@ActivityID", 0);
                     command.Parameters.AddWithValue("@ActivityName", ActivityName);
-                    command.Parameters.AddWithValue("@Approveby", Approveby);
                     command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
                     command.Parameters.AddWithValue("@LocationID", LocationID);
-                    command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
                     command.Parameters["@ActivityID"].Direction = System.Data.ParameterDirection.Output;
                     command.ExecuteNonQuery();
                     proposedReturnValue = (int)command.Parameters["@ActivityID"].Value;
@@ -1112,7 +1110,7 @@ namespace DataAccessLayer
 
             }
         }
-        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, string Approveby, DateTime TimeofActivity, int LocationID, DateTime ApproveTime)
+        public void ActivitiesUpdateJust(int ActivityID, string ActivityName, DateTime TimeofActivity, int LocationID)
         {
             try
             {
@@ -1122,10 +1120,8 @@ namespace DataAccessLayer
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@ActivityID", ActivityID);
                     command.Parameters.AddWithValue("@ActivityName", ActivityName);
-                    command.Parameters.AddWithValue("@Approveby", Approveby);
                     command.Parameters.AddWithValue("@TimeofActivity", TimeofActivity);
                     command.Parameters.AddWithValue("@LocationID", LocationID);
-                    command.Parameters.AddWithValue("@ApproveTime", ApproveTime);
                     object datareturned = command.ExecuteNonQuery();
                 }
             }
@@ -1176,8 +1172,6 @@ namespace DataAccessLayer
         }
         public List<LocationsDAL> LocationGetAll(int Skip, int Take)
         {
-            //try
-            //{
                 List<LocationsDAL> proposedReturnValue = new
                 List<LocationsDAL>();
             try

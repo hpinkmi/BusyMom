@@ -15,6 +15,9 @@
             @Html.DisplayNameFor(model => model.UserID)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.ActivityOwner)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.RoleID)
         </th>
         <th>
@@ -35,15 +38,18 @@
             @Html.DisplayFor(modelItem => item.UserID)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.ActivityOwner)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.RoleID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RoleName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GroupID}) |
-            @Html.ActionLink("Details", "Details", new {id=item.GroupID }) |
-            @Html.ActionLink("Delete", "Delete", new {id=item.GroupID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.GroupID }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.GroupID }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.GroupID })
         </td>
     </tr>
 }

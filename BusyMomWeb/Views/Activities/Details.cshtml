@@ -1,11 +1,5 @@
 ﻿@model BusinessLogicLayer.ActivitiesBLL
 
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>Details</h2>
-
 <div>
     <h4>Activities</h4>
     <hr />
@@ -27,14 +21,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Approveby)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Approveby)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.TimeofActivity)
         </dt>
 
@@ -50,17 +36,9 @@
             @Html.DisplayFor(model => model.LocationID)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ApproveTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApproveTime)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ActivityID }) |
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.ActivityID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

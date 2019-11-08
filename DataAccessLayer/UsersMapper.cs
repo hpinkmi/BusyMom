@@ -18,6 +18,7 @@ namespace DataAccessLayer
         int OffsetToHash;
         int OffsetToSalt;
         
+        
 
         public UsersMapper(SqlDataReader reader)
         {
@@ -29,7 +30,7 @@ namespace DataAccessLayer
             OffsetToUserName = reader.GetOrdinal("UserName");
             OffsetToHash = reader.GetOrdinal("Hash");
             OffsetToSalt = reader.GetOrdinal("Salt");
-
+            
             Assert(OffsetToUserID == 0, $"OffsetToUserID is {OffsetToUserID} not 0 as expected");
             Assert(OffsetToLastName == 1, $"OffsetToLastName is {OffsetToLastName} not 1 as expected");
             Assert(OffsetToFirstName == 2, $"OffsetToFirstName is {OffsetToFirstName} not 2 as expected");

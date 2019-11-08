@@ -25,7 +25,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View(ex);
+                return View("Error",ex);
             }
         }
 
@@ -186,7 +186,7 @@ namespace BusyMomWeb.Controllers
                 List<GroupsBLL> items = null;
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    items = ctx.GroupsFindByUserID( 0,100, id);
+                    items = ctx.GroupsGetAll( 0,100);
                 }
                 return View(items);
             }

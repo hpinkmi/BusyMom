@@ -12,6 +12,7 @@ namespace BusinessLogicLayer
         public int GroupID { get; set; }
         public string GroupName { get; set; }
         public int UserID { get; set; }
+        public string ActivityOwner { get; set; }
         public int RoleID { get; set; }
         public string RoleName { get; set; }
         public GroupsBLL(GroupsDAL groups)
@@ -20,6 +21,7 @@ namespace BusinessLogicLayer
             GroupName = groups.GroupName;
             //Outside of Groups Table
             UserID = groups.UserID;
+            ActivityOwner = groups.ActivityOwner;
             RoleID = groups.RoleID;
             RoleName = groups.RoleName;
         }
