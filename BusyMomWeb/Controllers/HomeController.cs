@@ -188,7 +188,8 @@ namespace BusyMomWeb.Controllers
                     Session["AuthUserName"] = user.UserName;
                     Session["AuthRoles"] = "None";
                     Session["AuthType"] = "Hashed";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("~/Groups");
+                    
                 }
 
             }

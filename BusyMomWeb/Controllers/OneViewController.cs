@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using Logger;
+using static BusyMomWeb.Models.MustBeLoggedInAttribute;
 
 namespace BusyMomWeb.Controllers
 {

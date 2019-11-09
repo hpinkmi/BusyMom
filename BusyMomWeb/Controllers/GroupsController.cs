@@ -5,7 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
+using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+
 namespace BusyMomWeb.Controllers
+
 {
     [MustBeLoggedIn]
     public class GroupsController : Controller
@@ -52,7 +55,7 @@ namespace BusyMomWeb.Controllers
             }
         }
 
-        // GET: Groups/Create
+        [MustBeInRole(Roles = "Administrator, Parent, NonParent")]
         public ActionResult Create()
         {
             try

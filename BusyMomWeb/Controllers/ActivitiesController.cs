@@ -6,6 +6,10 @@ using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using Logger;
+using System.Web.Security;
+using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+
+
 
 namespace BusyMomWeb.Controllers
 {
@@ -80,6 +84,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Activities/Create
+        [MustBeInRole(Roles = "Administrator, Parent, Child")]
         public ActionResult Create()
 
         {
@@ -100,6 +105,7 @@ namespace BusyMomWeb.Controllers
 
         // POST: Activities/Create
         [HttpPost]
+        [MustBeInRole(Roles = "Administrator, Parent, Child")]
         public ActionResult Create(ActivitiesBLL collection)
         {
             try
@@ -121,6 +127,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Activities/Edit/5
+        [MustBeInRole(Roles = "Administrator, Parent")]
         public ActionResult Edit(int id)
         {
             ActivitiesBLL activities;
@@ -145,6 +152,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // POST: Activities/Edit/5
+        [MustBeInRole(Roles = "Administrator, Parent")]
         [HttpPost]
         public ActionResult Edit(int id, ActivitiesBLL collection)
         {
@@ -169,7 +177,7 @@ namespace BusyMomWeb.Controllers
             }
         }
 
-        // GET: Activities/Delete/5
+        [MustBeInRole(Roles = "Administrator")]
         public ActionResult Delete(int id)
         {
             ActivitiesBLL activities;
@@ -192,7 +200,7 @@ namespace BusyMomWeb.Controllers
             return View(activities);
         }
 
-        // POST: Activities/Delete/5
+        [MustBeInRole(Roles = "Administrator")]
         [HttpPost]
         public ActionResult Delete(int id, ActivitiesBLL collection)
         {

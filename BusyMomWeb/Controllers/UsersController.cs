@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
+using static BusyMomWeb.Models.MustBeLoggedInAttribute;
 
 namespace BusyMomWeb.Controllers
 {
