@@ -15,42 +15,37 @@ namespace BusyMomWeb.Controllers
 
         List<SelectListItem> GroupsGetAll(ContextBLL ctx)
         {
-            List<SelectListItem> proposedReturnValue = new List<SelectListItem>();
+            List<SelectListItem> items = new List<SelectListItem>();
+            ViewBag.ListItems = items;
             List<GroupsBLL> groups = ctx.GroupsGetAll(0, 25);
             foreach (GroupsBLL g in groups)
             {
                 SelectListItem i = new SelectListItem();
 
                 i.Value = g.GroupID.ToString();
-                i.Text = g.GroupName.ToString();
-                //i.Text = u.FirstName.ToString();
-                //i.Text = u.Email.ToString();
-                //i.Text = u.Phone.ToString();
-                //i.Text = u.UserName.ToString();
-                proposedReturnValue.Add(i);
+                i.Text = g.GroupName;
+                items.Add(i);
             }
-            return proposedReturnValue;
+            return items;
 
         }
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+
 
         public ActionResult Create()
         {
             using (ContextBLL ctx = new ContextBLL())
-            {
-                //ViewBag.Users = UsersGetAll(ctx);
-                //UsersBLL users = ctx.UserFindByID();
-                OneView Model = new OneView();
-                //if (users != null)
-                //{
-                //    //Model.UserID = users.UserID;
-                //    Model.NewUserName = "";
-                //}
-                return View(Model);
-            }
+                try
+                {
+                    {
+                        OneView Model = new OneView();
+                        return View(Model);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
         }
 
         [HttpPost]
@@ -62,11 +57,11 @@ namespace BusyMomWeb.Controllers
                 {
                     if (!ModelState.IsValid)
                     {
-                        //ViewBag.Users = UsersGetAll(ctx);
+                        //ViewBag.Groups = GroupsGetAll(ctx);
                         return View(collection);
                     }
 
-                    if (!string.IsNullOrWhiteSpace(collection.NewUserName))
+                    if (!ModelState.IsValid)
                     {
                         string Salt = System.Web.Helpers.Crypto.GenerateSalt(MagicConstants.SaltSize);
                         string Hash = System.Web.Helpers.Crypto.
@@ -76,8 +71,9 @@ namespace BusyMomWeb.Controllers
                     
                     else
                     {
-                        int GroupID = ctx.GroupsCreate( collection.GroupName);
-                        ctx.GroupsCreate( collection.GroupName);
+                        int GroupID = ctx.GroupsCreate(collection.GroupName);
+                        ctx.GroupsCreate(collection.GroupName);
+                        ViewBag.items = GroupsGetAll(ctx);
                     }
                 }
                 return RedirectToAction("Index", "Users");

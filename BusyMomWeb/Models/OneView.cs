@@ -33,13 +33,11 @@ namespace BusyMomWeb.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password Again")]
         public string PasswordAgain { get; set; }
-        public string NewUserName { get; set; }
         public string Hash { get; set; }
         public string Salt { get; set; }
         //groups
         public int GroupID { get; set; }
         public string GroupName { get; set; }
-        public string NewGroupName { get; set; }
 
         //itemstuff Ask about that?
 

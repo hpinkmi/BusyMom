@@ -186,7 +186,7 @@ namespace BusyMomWeb.Controllers
                 List<GroupsBLL> items = null;
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    items = ctx.GroupsGetAll( 0,100);
+                    items = ctx.GroupsFindByUserID(0, 100, id);
                 }
                 return View(items);
             }

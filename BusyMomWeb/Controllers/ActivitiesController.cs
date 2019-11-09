@@ -12,31 +12,39 @@ namespace BusyMomWeb.Controllers
     [MustBeLoggedIn]
     public class ActivitiesController : Controller
     {
-        List<SelectListItem> LocationGetAll()
-        {
-            List<SelectListItem> ProposedReturnValue = new List<SelectListItem>();
-            using (ContextBLL ctx = new ContextBLL())
-            {
-                List<LocationsBLL> locations = ctx.LocationGetAll(0, 100);
-                foreach (LocationsBLL l in locations)
-                {
-                    SelectListItem i = new SelectListItem();
-                    i.Value = l.LocationID.ToString();
-                    ProposedReturnValue.Add(i);
-                }
-                return ProposedReturnValue;
-            }
-        }
+        //List<SelectListItem> LocationGetAll()
+        //{
+        //    List<SelectListItem> ProposedReturnValue = new List<SelectListItem>();
+        //    using (ContextBLL ctx = new ContextBLL())
+        //    {
+        //        List<LocationsBLL> locations = ctx.LocationGetAll(0, 100);
+        //        foreach (LocationsBLL l in locations)
+        //        {
+        //            SelectListItem i = new SelectListItem();
+        //            i.Value = l.LocationID.ToString();
+        //            ProposedReturnValue.Add(i);
+        //        }
+        //        return ProposedReturnValue;
+        //    }
+        //}
         // GET: Activities
         public ActionResult Index()
         {
             try
             {
-                List<ActivitiesBLL> items = null;
+                List<ActivitiesBLL> items = new List<ActivitiesBLL>();
                 using (ContextBLL ctx = new ContextBLL())
                 {
+                    var data = User.Identity.AuthenticationType.Split(':');
+                    if (data.Length != 2)
+                    {
 
-                    items = ctx.ActivitiesGetAll(0, 100);
+                    }
+                    else
+                    {
+                        int groupID = int.Parse(data[1]);
+                        items = ctx.ActivitiesGetAllbyGroupID(0, 100, groupID);
+                    }
                 }
                 return View(items);
             }
@@ -77,9 +85,10 @@ namespace BusyMomWeb.Controllers
         {
             try
             {
+
                 ActivitiesBLL defActivities = new ActivitiesBLL();
                 defActivities.ActivityID = 0;
-                ViewBag.Locations = LocationGetAll();
+                //ViewBag.Locations = LocationGetAll();
                 return View(defActivities);
             }
             catch (Exception ex)
@@ -131,7 +140,7 @@ namespace BusyMomWeb.Controllers
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
-            ViewBag.Locations = LocationGetAll();
+            //ViewBag.Locations = LocationGetAll();
             return View(activities);
         }
 

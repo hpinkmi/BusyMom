@@ -14,7 +14,22 @@ namespace BusyMomWeb.Controllers
    
     public class HomeController : Controller
     {
-        
+        List<SelectListItem> GroupsGetAll(ContextBLL ctx)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            ViewBag.ListItems = items;
+            List<GroupsBLL> groups = ctx.GroupsGetAll(0, 25);
+            foreach (GroupsBLL g in groups)
+            {
+                SelectListItem i = new SelectListItem();
+
+                i.Value = g.GroupID.ToString();
+                i.Text = g.GroupName;
+                items.Add(i);
+            }
+            return items;
+
+        }
         public ActionResult Index()
         {         
             return View();
@@ -41,19 +56,25 @@ namespace BusyMomWeb.Controllers
             Session.RemoveAll();
             Session.Abandon();
             return RedirectToAction("Index");
-            //Session.Remove("AuthUserName");
-            //Session.Remove("AuthRoles");
-            //return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Login()
         {
-            LoginModel m = new LoginModel();
-            m.Message = TempData["Message"]?.ToString() ?? "";
-            m.ReturnURL = TempData["ReturnURL"]?.ToString() ?? @"~/Home";
-            m.UserName = "";
-            m.Password = "";
-            return View(m);
+            try
+            {
+                LoginModel m = new LoginModel();
+                m.Message = TempData["Message"]?.ToString() ?? "";
+                m.ReturnURL = TempData["ReturnURL"]?.ToString() ?? @"~/Home";
+                m.UserName = "";
+                m.Password = "";
+                return View(m);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                ViewBag.Exception = ex;
+                return View("Error", ex);
+            }
         }
         [HttpPost]
         public ActionResult Login(LoginModel info)
@@ -86,10 +107,11 @@ namespace BusyMomWeb.Controllers
                 if (validateduser)
                 {
                     Session["AuthUserName"] = user.UserName;
-                    Session["AuthRoles"] = "LoggedIn";
+                    Session["AuthRoles"] = "None";
+                    Session["AuthType"] = ValidationType;
                     if (string.IsNullOrEmpty(info.ReturnURL))
                     {
-                        return Redirect("~/Activities");
+                        return Redirect("~/Groups");
                     }
                     else
                     {
@@ -161,17 +183,11 @@ namespace BusyMomWeb.Controllers
                     users.UserName = register.UserName;
                     users.Hash = Hash;
                     users.Salt = Salt;
-                    //users.Salt = System.Web.Helpers.Crypto.
-                    //    GenerateSalt(Constants.SaltLength);
-                    //user.Hash = System.Web.Helpers.Crypto.
-                    //    HashPassword(register.Password + user.Salt);
-
 
                     ctx.UserCreate(users);
-                    //users = ctx.UsersFindByUserName(register.UserName);
-                    Session["AUTHUsername"] = users.UserName;
-                    Session["AUTHRoles"] = "LoggedIn";
-                    Session["AUTHTYPE"] = "HASHED";
+                    Session["AuthUserName"] = user.UserName;
+                    Session["AuthRoles"] = "None";
+                    Session["AuthType"] = "Hashed";
                     return RedirectToAction("Index");
                 }
 

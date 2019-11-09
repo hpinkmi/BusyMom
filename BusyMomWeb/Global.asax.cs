@@ -25,13 +25,15 @@ namespace BusyMomWeb
         protected void Application_AcquireRequestState(Object sender, EventArgs e)
         {
             string UserName = Session["AuthUserName"] as string;
-            string Sessrole = Session["Authroles"] as string;
+            string Sessrole = Session["AuthRoles"] as string;
+            string SessType = Session["AuthType"] as string;
+
             if (string.IsNullOrEmpty(UserName))
             {
                 return;
             }
 
-            GenericIdentity i = new GenericIdentity(UserName, "MyCustomType");
+            GenericIdentity i = new GenericIdentity(UserName, Sessrole);
             if (Sessrole == null) { Sessrole = ""; }
             string[] roles = Sessrole.Split(',');
             GenericPrincipal p = new GenericPrincipal(i, roles);

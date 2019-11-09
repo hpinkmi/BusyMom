@@ -13,9 +13,9 @@ namespace BusyMomWeb.Models
         //[Display(Name ="UserName")]
         public string UserName { get; set; }
         [Required]
-        public string Password { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
+        public string Password { get; set; }       
         public string Message { get; set; }
         public string ReturnURL { get; set; }
     }
