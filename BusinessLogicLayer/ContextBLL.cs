@@ -150,7 +150,7 @@ namespace BusinessLogicLayer
             }
             return proposedReturnValue;
         }
-        public List<UsersBLL> UsersGetAllbyGroupId(int skip, int take, int GroupID)
+        public List<UsersBLL> UsersGetAllbyGroupID(int skip, int take, int GroupID)
         {
             List<UsersBLL> proposedReturnValue = new List<UsersBLL>();
             List<UsersDAL> ListofDataLayerObjects =_context.UsersGetAllbyGroupID(skip, take, GroupID);
@@ -243,6 +243,16 @@ namespace BusinessLogicLayer
             }
             return proposedReturnValue;
     }
+        public GroupsBLL GroupsFindByGroupName(string GroupName)
+        {
+            GroupsBLL proposedReturnValue = null;
+            GroupsDAL DataLayerObject = _context.GroupsFindByGroupName(GroupName);
+            if (null != DataLayerObject)
+            {
+                proposedReturnValue = new GroupsBLL(DataLayerObject);
+            }
+            return proposedReturnValue;
+        }
         public List<GroupsBLL> GroupsGetAll(int skip, int take)
         {
             List<GroupsBLL> proposedReturnValue = new List<GroupsBLL>();
@@ -428,11 +438,11 @@ namespace BusinessLogicLayer
             }
             return proposedReturnValue;
         }
-        public void LocationsUpdateJust(int LocationID, string LocationName, string Address1, string Address2, string City, string Zip)
+        public void LocationUpdateJust(int LocationID, string LocationName, string Address1, string Address2, string City, string Zip)
         {
             _context.LocationUpdateJust(LocationID, LocationName, Address1, Address2, Address2, City, Zip);
         }
-        public void LocationsUpdateJust(LocationsBLL locations)
+        public void LocationUpdateJust(LocationsBLL locations)
         {
             _context.LocationUpdateJust(locations.LocationID, locations.LocationName, locations.Address1, locations.Address2, locations.City, locations.State, locations.Zip);
         }

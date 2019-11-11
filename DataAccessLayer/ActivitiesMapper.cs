@@ -13,7 +13,6 @@ namespace DataAccessLayer
         int OffsetToActivityName;
         int OffsetToTimeofActivity;
         int OffsetToLocationID;
-        
 
         public ActivitiesMapper(SqlDataReader reader)
         {
@@ -25,7 +24,6 @@ namespace DataAccessLayer
             Assert(2 == OffsetToTimeofActivity, $"TimeofActivity is {OffsetToTimeofActivity} instead of 2 as expected"); 
             OffsetToLocationID = reader.GetOrdinal("LocationID");
             Assert(3 == OffsetToLocationID, $"LocationID is {OffsetToLocationID} instead of 3 as expected");
-            
         }
         public ActivitiesDAL ToActivities(SqlDataReader reader)
         {

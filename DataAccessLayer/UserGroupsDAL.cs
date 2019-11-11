@@ -18,7 +18,7 @@ namespace DataAccessLayer
 
         public override string ToString()
         {
-            return $"UserID:{UserID,5} GroupID:{GroupID,5} RoleID: {RoleID,5}";
+            return $"UserID:{UserID} GroupID:{GroupID} RoleID: {RoleID}";
         }
     }
 }

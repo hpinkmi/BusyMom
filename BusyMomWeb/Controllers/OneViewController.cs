@@ -7,41 +7,46 @@ using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using Logger;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+using System.Web.Security;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
+    [MustBeInRole(Roles = MagicConstants.ParentAboveName)]
     public class OneViewController : Controller
     {
         // GET: OneView
 
-        List<SelectListItem> GroupsGetAll(ContextBLL ctx)
+        List<SelectListItem> GroupsFindbyUserID(int id)
         {
             List<SelectListItem> items = new List<SelectListItem>();
             ViewBag.ListItems = items;
-            List<GroupsBLL> groups = ctx.GroupsGetAll(0, 25);
-            foreach (GroupsBLL g in groups)
-            {
-                SelectListItem i = new SelectListItem();
 
-                i.Value = g.GroupID.ToString();
-                i.Text = g.GroupName;
-                items.Add(i);
-            }
-            return items;
-
+                using (ContextBLL ctx = new ContextBLL())
+                {
+                    List<GroupsBLL> groups = ctx.GroupsFindByUserID(0, 25,id);
+                    foreach (GroupsBLL g in groups)
+                    {
+                        SelectListItem i = new SelectListItem();
+                        i.Text = g.GroupName;
+                        i.Value = g.GroupID.ToString();
+                        items.Add(i);
+                    }
+                }
+                return items;
         }
-
-
+            
         public ActionResult Create()
         {
             using (ContextBLL ctx = new ContextBLL())
-                try
+                try               
                 {
-                    {
                         OneView Model = new OneView();
+                    var user = ctx.UsersFindByUserName(User.Identity.Name);
+                    
+                    ViewBag.ListItems = GroupsFindbyUserID(user.UserID);
                         return View(Model);
-                    }
-                }
+                }               
                 catch (Exception ex)
                 {
                     Logger.Logger.Log(ex);
@@ -50,7 +55,7 @@ namespace BusyMomWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(OneView collection)
+        public ActionResult Create(OneView collection, int id)
         {
             try
             {
@@ -69,12 +74,12 @@ namespace BusyMomWeb.Controllers
                             HashPassword("Password" + Salt);
                         collection.UserID = ctx.UserCreate(collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, Hash, Salt);
                     }
-                    
+
                     else
                     {
-                        int GroupID = ctx.GroupsCreate(collection.GroupName);
+                        int Group = ctx.GroupsCreate(collection.GroupName);
                         ctx.GroupsCreate(collection.GroupName);
-                        ViewBag.items = GroupsGetAll(ctx);
+                        ViewBag.items = GroupsFindbyUserID(id);
                     }
                 }
                 return RedirectToAction("Index", "Users");

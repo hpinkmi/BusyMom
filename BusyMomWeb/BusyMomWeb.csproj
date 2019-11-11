@@ -130,14 +130,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Filters.cs" />
+    <Compile Include="Models\MustBeInRoleAttribute.cs" />
+    <Compile Include="Models\MustBeLoggedIn.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\MagicConstants.cs" />
     <Compile Include="Models\OneView.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Background\busy-mom-with-kids.jpg" />
+    <Content Include="Content\Background\forbidden.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -189,15 +191,10 @@
     <Content Include="Views\Roles\Details.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\NotLoggedIn.cshtml" />
     <Content Include="Views\Shared\YouAreNotAuthorized.cshtml" />
     <Content Include="Views\Users\Groups.cshtml" />
-    <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Activities\Create.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
     <Content Include="Views\Activities\Delete.cshtml" />
@@ -205,6 +202,11 @@
     <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\OneView\Create.cshtml" />
     <Content Include="Views\Groups\Activity.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -226,6 +228,10 @@
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">
       <Project>{f0cea547-e2fd-4c14-b813-b9d7ae36c68b}</Project>
       <Name>BusinessLogicLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{4e2452e7-816d-4b6e-acea-8bddd0602876}</Project>
+      <Name>DataAccessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{082721c6-f2fb-4b30-b323-cee903a4dc53}</Project>

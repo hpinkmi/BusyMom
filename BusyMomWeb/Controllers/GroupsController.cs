@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+using Logger;
+using DataAccessLayer;
+using System.Web.Security;
 
 namespace BusyMomWeb.Controllers
 
@@ -55,7 +58,7 @@ namespace BusyMomWeb.Controllers
             }
         }
 
-        [MustBeInRole(Roles = "Administrator, Parent, NonParent")]
+        
         public ActionResult Create()
         {
             try
@@ -74,8 +77,9 @@ namespace BusyMomWeb.Controllers
 
         // POST: Groups/Create
         [HttpPost]
-        public ActionResult Create(GroupsBLL collection)
+        public ActionResult Create(GroupsBLL collection )
         {
+            GroupsBLL groups;
             try
             {
                 if (!ModelState.IsValid)
@@ -84,19 +88,24 @@ namespace BusyMomWeb.Controllers
                 }
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    ctx.GroupsCreate(collection);
+                    groups = ctx.GroupsFindByGroupName(collection.GroupName);
+                    if (null == groups)
+                    {
+                       groups.Message = $"The Group '{groups.GroupName}' already exists in the database";
+                        return View(collection);
+                    }
                 }
-                return RedirectToAction("Index");
             }
-
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
+            return View(groups);
         }
 
         // GET: Groups/Edit/5
+        [MustBeInRole(Roles = MagicConstants.ParentAboveName)]
         public ActionResult Edit(int id)
         {
             GroupsBLL groups;
@@ -144,6 +153,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Groups/Delete/5
+        [MustBeInRole(Roles = MagicConstants.ParentAboveName)]
         public ActionResult Delete(int id)
         {
             GroupsBLL groups;
@@ -204,7 +214,8 @@ namespace BusyMomWeb.Controllers
                     groups = ctx.GroupsFindByUserID(0, 100, user.UserID);
                     var group = (groups
                         .Where(x => x.GroupID == id)).FirstOrDefault();
-                    Session["AuthRoles"] = group.RoleName+":"+group.GroupID.ToString();
+                    Session["AuthRoles"] = group.RoleName;
+                     Session["AuthType"] += ":" +group.GroupID.ToString();
                 }
                 return RedirectToRoute(new { Controller = "Activities"});
             }

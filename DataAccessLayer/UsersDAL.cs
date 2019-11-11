@@ -21,15 +21,16 @@ namespace DataAccessLayer
 
         #region colums from foreign tables
         public int RoleID { get; set; }
+        public string RoleName { get; set; }
         public int GroupID { get; set; }
         public int ActivityID { get; set; }
-        
+
 
         #endregion
 
         public override string ToString()
         {
-            return $"UserId:{UserID,5} GroupID: {GroupID,5} LastName: {LastName,15} FirstName {FirstName,15} Email: {Email,25} Phone {Phone,8} UserName: {UserName,15} Hash: {Hash} Salt: {Salt} RoleID: {RoleID} GroupID: {GroupID} ActivityID: {ActivityID}";
+            return $"UserId:{UserID,5} GroupID: {GroupID,5} LastName: {LastName,15} FirstName {FirstName,15} Email: {Email,25} Phone {Phone,8} UserName: {UserName,15} Hash: {Hash} Salt: {Salt} RoleID: {RoleID} ";
         }
             
         }

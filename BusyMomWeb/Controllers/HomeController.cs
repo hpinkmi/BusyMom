@@ -8,6 +8,7 @@ using BusinessLogicLayer;
 using System.ComponentModel.DataAnnotations;
 using BusyMomWeb.Models;
 using System.Web.Security;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
@@ -72,8 +73,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                ViewBag.Exception = ex;
-                return View("Error", ex);
+                return View("Error",ex);
             }
         }
         [HttpPost]
@@ -185,11 +185,11 @@ namespace BusyMomWeb.Controllers
                     users.Salt = Salt;
 
                     ctx.UserCreate(users);
-                    Session["AuthUserName"] = user.UserName;
+                    Session["AuthUserName"] = users.UserName;
                     Session["AuthRoles"] = "None";
                     Session["AuthType"] = "Hashed";
-                    return RedirectToAction("~/Groups");
-                    
+                    return Redirect("~/Groups");
+
                 }
 
             }

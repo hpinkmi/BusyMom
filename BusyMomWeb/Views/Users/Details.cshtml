@@ -1,11 +1,5 @@
 ﻿@model BusinessLogicLayer.UsersBLL
 
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>Details</h2>
-
 <div>
     <h4>Users</h4>
     <hr />
@@ -58,25 +52,57 @@
             @Html.DisplayFor(model => model.UserName)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Hash)
+        </dt>*@
+
+        @*<dd>
+            @Html.DisplayFor(model => model.Hash)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Salt)
+        </dt>*@
+
+        @*<dd>
+            @Html.DisplayFor(model => model.Salt)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hash)
+            @Html.DisplayFor(model => model.RoleID)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Salt)
+            @Html.DisplayNameFor(model => model.RoleName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Salt)
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivityID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivityID)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserID}) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

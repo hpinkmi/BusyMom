@@ -23,6 +23,9 @@
         <th>
             @Html.DisplayNameFor(model => model.RoleName)
         </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>*@
         <th></th>
     </tr>
 
@@ -46,15 +49,15 @@
         <td>
             @Html.DisplayFor(modelItem => item.RoleName)
         </td>
-        <td>
-            @Html.ActionLink("Activity", "Activity", new { id = item.GroupID }) |
-            @Html.ActionLink("Edit", "Edit", new { id = item.GroupID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.GroupID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.GroupID }) |
-            @Html.ActionLink("Login to This Group", "SelectGroup", new { id = item.GroupID })
-
-
-        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>*@
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id= item.GroupID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.GroupID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.GroupID }) |
+        @Html.ActionLink("Login to This Group", "SelectGroup", new { id = item.GroupID })
+    </td>
     </tr>
 }
 

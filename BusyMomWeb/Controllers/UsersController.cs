@@ -6,200 +6,199 @@ using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+using System.Web.Security;
+using Logger;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
-    public class UsersController : Controller
-    {
-        [MustBeLoggedIn]
-        public ActionResult Index()
+    [MustBeLoggedIn]
+     public class UsersController : Controller
         {
-            try
+            public ActionResult Index()
             {
-                List<UsersBLL> items = null;
-                using (ContextBLL ctx = new ContextBLL())
+                try
                 {
-                    items = ctx.UsersGetAll(0, 100);
-                }
-                return View(items);
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error",ex);
-            }
-        }
-
-        // GET: Users/Details/5
-        public ActionResult Details(int id)
-        {
-            try
-            {
-                UsersBLL it = null;
-                using (ContextBLL ctx = new ContextBLL())
-                {
-                    it = ctx.UserFindByID(id);
-                }
-                return View(it);
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-        }
-
-        // GET: Users/Create
-        public ActionResult Create()
-        {
-            try
-            {
-                UsersBLL defUser = new UsersBLL();
-                defUser.UserID = 0;
-                return View(defUser);
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-        }
-
-        // POST: Users/Create
-        [HttpPost]
-        public ActionResult Create(UsersBLL collection)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return View(collection);
-                }
-                using (ContextBLL ctx = new ContextBLL())
-                {
-                    ctx.UserCreate(collection);
-                }
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-        }
-
-        // GET: Users/Edit/5
-        public ActionResult Edit(int id)
-        {
-            UsersBLL User;
-            try
-            {
-                using (ContextBLL ctx = new ContextBLL())
-                {
-                    User = ctx.UserFindByID(id);
-                    if (null == User)
+                    List<UsersBLL> items = null;
+                    using (ContextBLL ctx = new ContextBLL())
                     {
-                        return View("ItemNotFound");
+                        items = ctx.UsersGetAll(1,100);
+                    }
+                    return View(items);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
+            }
+
+            // GET: Users/Details/5
+            public ActionResult Details(int id)
+            {
+                try
+                {
+                    UsersBLL it = null;
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        it = ctx.UserFindByID(id);
+                    }
+                    return View(it);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
+            }
+
+            // GET: Users/Create
+            public ActionResult Create()
+            {
+                try
+                {
+                    UsersBLL defUser = new UsersBLL();
+                    defUser.UserID = 0;
+                    return View(defUser);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
+            }
+
+            // POST: Users/Create
+            [HttpPost]
+            public ActionResult Create(UsersBLL collection)
+            {
+                try
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return View(collection);
+                    }
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        ctx.UserCreate(collection);
+                    }
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
+            }
+
+            // GET: Users/Edit/5
+            public ActionResult Edit(int id)
+            {
+                UsersBLL User;
+                try
+                {
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        User = ctx.UserFindByID(id);
+                        if (null == User)
+                        {
+                            return View("ItemNotFound");
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-            return View(User);
-        }
-
-        // POST: Users/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, UsersBLL collection)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
+                catch (Exception ex)
                 {
-                    return View(collection);
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
                 }
-                using (ContextBLL ctx = new ContextBLL())
-                {
-                    ctx.UserUpdateJust(id, collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, collection.Hash, collection.Salt);
-                }
-                return RedirectToAction("Index");
+                return View(User);
             }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-        }
 
-        // GET: Users/Delete/5
-        public ActionResult Delete(int id)
-        {
-            UsersBLL users;
-            try
+            // POST: Users/Edit/5
+            [HttpPost]
+            public ActionResult Edit(int id, UsersBLL collection)
             {
-                using (ContextBLL ctx = new ContextBLL())
+                try
                 {
-                    users = ctx.UserFindByID(id);
-                    if (null == users)
+                    if (!ModelState.IsValid)
                     {
-                        return View("ItemNotFound");
+                        return View(collection);
+                    }
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        ctx.UserUpdateJust(id, collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, collection.Hash, collection.Salt);
+                    }
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
+            }
+
+            // GET: Users/Delete/5
+            public ActionResult Delete(int id)
+            {
+                UsersBLL users;
+                try
+                {
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        users = ctx.UserFindByID(id);
+                        if (null == users)
+                        {
+                            return View("ItemNotFound");
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
-            }
-            return View(users);
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, UsersBLL collection)
-        {
-            try
-            {
-                if (ModelState.IsValid)
+                catch (Exception ex)
                 {
-                    return View(collection);
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
                 }
-                using (ContextBLL ctx = new ContextBLL())
-                {
-                    ctx.UsersDelete(id);
-                }
-
-                return RedirectToAction("Index");
+                return View(users);
             }
-            catch (Exception ex)
+
+            // POST: Users/Delete/5
+            [HttpPost]
+            public ActionResult Delete(int id, UsersBLL collection)
             {
-                Logger.Logger.Log(ex);
-                return View("Error", ex);
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        return View(collection);
+                    }
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        ctx.UsersDelete(id);
+                    }
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
+            }
+            public ActionResult Groups(int id)
+            {
+                try
+                {
+                    List<GroupsBLL> items = null;
+                    using (ContextBLL ctx = new ContextBLL())
+                    {
+                        items = ctx.GroupsFindByUserID(0, 100, id);
+                    }
+                    return View(items);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Logger.Log(ex);
+                    return View("Error", ex);
+                }
             }
         }
-        public ActionResult Groups(int id)
-        {
-            try
-            {
-                List<GroupsBLL> items = null;
-                using (ContextBLL ctx = new ContextBLL())
-                {
-                    items = ctx.GroupsFindByUserID(0, 100, id);
-                }
-                return View(items);
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Log(ex);
-                return View("Error",ex);
-            }
-        }
-    }
-    
-
-        
-
 }

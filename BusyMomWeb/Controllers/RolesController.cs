@@ -6,10 +6,13 @@ using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+using Logger;
+using System.Web.Security;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
-    [MustBeLoggedIn]
+    [MustBeInRole (Roles = MagicConstants.Admin)]
     public class RolesController : Controller
     {
         // GET: Roles

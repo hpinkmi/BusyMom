@@ -7,6 +7,8 @@ using BusinessLogicLayer;
 using BusyMomWeb.Models;
 using Logger;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+using System.Web.Security;
+using DataAccessLayer;
 
 namespace BusyMomWeb.Controllers
 {
@@ -53,6 +55,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Locations/Create
+        [MustBeInRole(Roles = MagicConstants.ChildAboveName)]
         public ActionResult Create()
         {
             try
@@ -79,6 +82,9 @@ namespace BusyMomWeb.Controllers
                     return View(collection);
                 }
                 using (ContextBLL ctx = new ContextBLL())
+                {
+                    ctx.LocationCreate(collection);
+                }
                     // TODO: Add insert logic here
 
                     return RedirectToAction("Index");
@@ -91,6 +97,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Locations/Edit/5
+        [MustBeInRole(Roles =MagicConstants.ParentAboveName)]
         public ActionResult Edit(int id)
         {
             LocationsBLL locations;
@@ -101,7 +108,7 @@ namespace BusyMomWeb.Controllers
                     locations = ctx.LocationFindbyID(id);
                     if (null == locations)
                     {
-                        return View("ItemNotFound");
+                        return View(locations);
                     }
 
                 }
@@ -126,7 +133,7 @@ namespace BusyMomWeb.Controllers
                 }
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    ctx.LocationsUpdateJust(collection);
+                    ctx.LocationUpdateJust(collection);
                 }
                 return RedirectToAction("Index");
             }
@@ -138,6 +145,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Locations/Delete/5
+        [MustBeInRole(Roles = MagicConstants.ParentAboveName)]
         public ActionResult Delete(int id)
         {
             LocationsBLL locations;

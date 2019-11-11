@@ -17,8 +17,12 @@ namespace DataAccessLayer
         int OffsetToUserName;
         int OffsetToHash;
         int OffsetToSalt;
-        
-        
+        int OffsetToRoleID;
+        int OffsetToRoleName;
+        //int OffsetToActivityID;
+        //int OffsetToGroupID;
+
+
 
         public UsersMapper(SqlDataReader reader)
         {
@@ -30,7 +34,10 @@ namespace DataAccessLayer
             OffsetToUserName = reader.GetOrdinal("UserName");
             OffsetToHash = reader.GetOrdinal("Hash");
             OffsetToSalt = reader.GetOrdinal("Salt");
-            
+            OffsetToRoleID = reader.GetOrdinal("RoleID");
+            OffsetToRoleName = reader.GetOrdinal("RoleName");
+            //OffsetToActivityID = reader.GetOrdinal("ActivityID");
+            //OffsetToGroupID = reader.GetOrdinal("GroupID");
             Assert(OffsetToUserID == 0, $"OffsetToUserID is {OffsetToUserID} not 0 as expected");
             Assert(OffsetToLastName == 1, $"OffsetToLastName is {OffsetToLastName} not 1 as expected");
             Assert(OffsetToFirstName == 2, $"OffsetToFirstName is {OffsetToFirstName} not 2 as expected");
@@ -39,6 +46,10 @@ namespace DataAccessLayer
             Assert(OffsetToUserName == 5, $"OffsetToUserName is {OffsetToUserName} not 5 as expected");
             Assert(OffsetToHash == 6, $"OffsetToHash is {OffsetToHash} not 6 as expected");
             Assert(OffsetToSalt == 7, $"OffsetToSalt is {OffsetToSalt} not 7 as expected");
+            Assert(OffsetToRoleID == 8, $"OffsetToRoleID is {OffsetToRoleID} not 8 as expected");
+            Assert(OffsetToRoleName == 9, $"OffsetToRoleName is {OffsetToRoleName} not 10 as expected");
+            //Assert(OffsetToActivityID == 10, $"OffsetToActivityID is {OffsetToActivityID} not 10 as expected");
+            //Assert(OffsetToGroupID == 11, $"OffsetToGroupID is {OffsetToGroupID} not 11 as expected");
         }
         public UsersDAL ToUser(SqlDataReader reader)
         {
@@ -52,8 +63,10 @@ namespace DataAccessLayer
             proposedRV.UserName = reader.GetString(OffsetToUserName);
             proposedRV.Hash = reader.GetString(OffsetToHash);
             proposedRV.Salt = reader.GetString(OffsetToSalt);
-
-
+            proposedRV.RoleID = reader.GetInt32(OffsetToRoleID);
+            proposedRV.RoleName = reader.GetString(OffsetToRoleName);
+            //proposedRV.ActivityID = reader.GetInt32(OffsetToActivityID);
+            //proposedRV.GroupID = reader.GetInt32(OffsetToGroupID);
 
             return proposedRV;
         }

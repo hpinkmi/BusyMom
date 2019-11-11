@@ -12,7 +12,7 @@ namespace DataAccessLayer
         public string RoleName { get; set; }
         public override string ToString()
         {
-            return $"RoleID:{RoleID,5}RoleName: {RoleName}";
+            return $"RoleID:{RoleID}RoleName: {RoleName}";
         }
     }
 }

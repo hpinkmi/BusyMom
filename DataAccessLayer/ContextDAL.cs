@@ -566,6 +566,39 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public GroupsDAL GroupsFindByGroupName(string GroupName)
+        {
+
+            GroupsDAL proposedReturnValue = null;
+            try
+            {
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsFindByGroupName", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupName", GroupName);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        GroupsMapper rm = new GroupsMapper(reader);
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            proposedReturnValue = rm.ToGroups(reader);
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            throw new Exception($"{count}Multiple Groups found for GroupName {GroupName}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+            return proposedReturnValue;
+        }
         public List<GroupsDAL> GroupsGetAll(int Skip, int Take)
                 {
                 List<GroupsDAL> proposedReturnValue = new List<GroupsDAL>();

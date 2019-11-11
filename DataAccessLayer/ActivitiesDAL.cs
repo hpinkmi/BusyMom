@@ -12,9 +12,11 @@ namespace DataAccessLayer
         public string ActivityName { get; set; }
         public DateTime TimeofActivity { get; set; }
         public int LocationID { get; set; }
+
+
         public override string ToString()
         {
-            return $"ActivityID:{ActivityID,5}ActivityName:{ActivityName,5}TimeofActivity:{TimeofActivity,5}LocationID:{LocationID}";
+            return $"ActivityID:{ActivityID}ActivityName:{ActivityName,5}TimeofActivity:{TimeofActivity,5}LocationID:{LocationID}";
         }
     }
 }

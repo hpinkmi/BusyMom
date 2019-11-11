@@ -8,6 +8,7 @@ using BusyMomWeb.Models;
 using Logger;
 using System.Web.Security;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
+using DataAccessLayer;
 
 
 
@@ -46,8 +47,8 @@ namespace BusyMomWeb.Controllers
                     }
                     else
                     {
-                        int groupID = int.Parse(data[1]);
-                        items = ctx.ActivitiesGetAllbyGroupID(0, 100, groupID);
+                        int GroupID = int.Parse(data[1]);
+                        items = ctx.ActivitiesGetAllbyGroupID(0, 100, GroupID);
                     }
                 }
                 return View(items);
@@ -55,7 +56,7 @@ namespace BusyMomWeb.Controllers
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
-                return View("Error", ex);
+                return View("YouAreNotAurhorized", ex);
             }
 
         }
@@ -84,7 +85,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Activities/Create
-        [MustBeInRole(Roles = "Administrator, Parent, Child")]
+        [MustBeInRole(Roles= MagicConstants.ChildAboveName)]
         public ActionResult Create()
 
         {
@@ -93,7 +94,6 @@ namespace BusyMomWeb.Controllers
 
                 ActivitiesBLL defActivities = new ActivitiesBLL();
                 defActivities.ActivityID = 0;
-                //ViewBag.Locations = LocationGetAll();
                 return View(defActivities);
             }
             catch (Exception ex)
@@ -105,7 +105,6 @@ namespace BusyMomWeb.Controllers
 
         // POST: Activities/Create
         [HttpPost]
-        [MustBeInRole(Roles = "Administrator, Parent, Child")]
         public ActionResult Create(ActivitiesBLL collection)
         {
             try
@@ -116,6 +115,9 @@ namespace BusyMomWeb.Controllers
                     return View(collection);
                 }
                 using (ContextBLL ctx = new ContextBLL())
+                {
+                    ctx.ActivitiesCreate(collection);
+                }
 
                     return RedirectToAction("Index");
             }
@@ -127,7 +129,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // GET: Activities/Edit/5
-        [MustBeInRole(Roles = "Administrator, Parent")]
+        [MustBeInRole(Roles = MagicConstants.ParentAboveName)]
         public ActionResult Edit(int id)
         {
             ActivitiesBLL activities;
@@ -152,7 +154,6 @@ namespace BusyMomWeb.Controllers
         }
 
         // POST: Activities/Edit/5
-        [MustBeInRole(Roles = "Administrator, Parent")]
         [HttpPost]
         public ActionResult Edit(int id, ActivitiesBLL collection)
         {
@@ -176,8 +177,7 @@ namespace BusyMomWeb.Controllers
                 return View("Error", ex);
             }
         }
-
-        [MustBeInRole(Roles = "Administrator")]
+        [MustBeInRole(Roles = MagicConstants.ParentAboveName)]
         public ActionResult Delete(int id)
         {
             ActivitiesBLL activities;
@@ -200,7 +200,6 @@ namespace BusyMomWeb.Controllers
             return View(activities);
         }
 
-        [MustBeInRole(Roles = "Administrator")]
         [HttpPost]
         public ActionResult Delete(int id, ActivitiesBLL collection)
         {
