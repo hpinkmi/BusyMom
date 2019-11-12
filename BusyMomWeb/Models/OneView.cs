@@ -37,9 +37,12 @@ namespace BusyMomWeb.Models
         public string PasswordAgain { get; set; }
         public string Hash { get; set; }
         public string Salt { get; set; }
-        //groups
+        //UserGroup
         public int GroupID { get; set; }
         public string GroupName { get; set; }
+        public string NewGroupName { get; set; }
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
 
         //itemstuff Ask about that?
 

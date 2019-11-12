@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer
+namespace BusyMomWeb
 {
     public class MagicConstants
     {
@@ -22,14 +22,15 @@ namespace DataAccessLayer
             public const int ChildRole = 4;
             public const string ChildRoleName = "Child";
             //NonUser
-            public const int Unknown = 6;
+            public const int UnknownRole = 6;
             public const string NoneName = "Unknown";
 
             //public const int NonUser = 5;
             //public const string NonUser = "None";
-            public const int ParentAbove = 5;
+            public const int ParentAboveRole= 5;
             public const string ParentAboveName = "Admins,Parent";
-            public const int ChildAbove = 6;
+
+            public const int ChildAboveRole = 6;
             public const string ChildAboveName = "Child,Parent,Admins";
 
             public const int DefaultDefaultPageSize = 3;

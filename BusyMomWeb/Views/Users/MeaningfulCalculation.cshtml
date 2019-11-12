@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BusinessLogicLayer.UserGroupStats>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountofUser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountofParents)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountOfChild)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountofNonParent)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountofUser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountofParents)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountOfChild)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountofNonParent)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        </td>
+    </tr>
+}
+
+</table>

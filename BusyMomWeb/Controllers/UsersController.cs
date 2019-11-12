@@ -8,7 +8,7 @@ using BusyMomWeb.Models;
 using static BusyMomWeb.Models.MustBeLoggedInAttribute;
 using System.Web.Security;
 using Logger;
-using DataAccessLayer;
+using BusyMomWeb;
 
 namespace BusyMomWeb.Controllers
 {
@@ -52,8 +52,9 @@ namespace BusyMomWeb.Controllers
                 }
             }
 
-            // GET: Users/Create
-            public ActionResult Create()
+        // GET: Users/Create
+        [MustBeInRole(Roles = (MagicConstants.ParentAboveName))]
+        public ActionResult Create()
             {
                 try
                 {
@@ -91,8 +92,9 @@ namespace BusyMomWeb.Controllers
                 }
             }
 
-            // GET: Users/Edit/5
-            public ActionResult Edit(int id)
+        // GET: Users/Edit/5
+        [MustBeInRole(Roles = (MagicConstants.ParentAboveName))]
+        public ActionResult Edit(int id)
             {
                 UsersBLL User;
                 try
@@ -137,8 +139,8 @@ namespace BusyMomWeb.Controllers
                 }
             }
 
-            // GET: Users/Delete/5
-            public ActionResult Delete(int id)
+        // GET: Users/Delete/5
+        public ActionResult Delete(int id)
             {
                 UsersBLL users;
                 try
@@ -160,30 +162,65 @@ namespace BusyMomWeb.Controllers
                 return View(users);
             }
 
-            // POST: Users/Delete/5
-            [HttpPost]
-            public ActionResult Delete(int id, UsersBLL collection)
+        // POST: Users/Delete/5
+        [MustBeInRole(Roles = (MagicConstants.ParentAboveName))]
+        [HttpPost]
+        public ActionResult Delete(int id, UsersBLL collection)
+        {
+            try
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
-                    {
-                        return View(collection);
-                    }
-                    using (ContextBLL ctx = new ContextBLL())
-                    {
-                        ctx.UsersDelete(id);
-                    }
-
-                    return RedirectToAction("Index");
+                    return View(collection);
                 }
-                catch (Exception ex)
+                using (ContextBLL ctx = new ContextBLL())
                 {
-                    Logger.Logger.Log(ex);
-                    return View("Error", ex);
+                    ctx.UsersDelete(id);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
+        }
+        //meaningfulCalculation
+        [MustBeInRole(Roles = (MagicConstants.ParentAboveName))]
+        public ActionResult MeaningfulCalculation()
+        {
+           try
+            {
+                
+                using (ContextBLL grp = new ContextBLL()) 
+                {
+                    List<GroupsBLL> g = grp.GroupsGetAll(0, 100);
+                    Dictionary<int, GroupsBLL> d = new Dictionary<int, GroupsBLL>();
+                    GroupsBLL throwaway;
+                    foreach (var v in g)
+                    {
+                       if (!d.TryGetValue(v.GroupID,out throwaway))
+                        {
+                            d.Add(v.GroupID, v);
+                        }
+                    }
+                    List<UserGroupsBLL> x =grp.UserGroupsGetAll(0, 100);
+                    HowManyUsersInAGroup mc = new HowManyUsersInAGroup();
+                    List<UserGroupStats> stats= mc.GroupCal(x, d);
+                    return View(stats);
+                    
                 }
             }
-            public ActionResult Groups(int id)
+            catch (Exception ex)
+            {
+                Logger.Logger.Log(ex);
+                return View("Error", ex);
+            }
+          
+        }
+
+        public ActionResult Groups(int id)
             {
                 try
                 {

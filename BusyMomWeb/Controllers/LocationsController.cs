@@ -72,6 +72,7 @@ namespace BusyMomWeb.Controllers
         }
 
         // POST: Locations/Create
+        [MustBeInRole(Roles = (MagicConstants.ChildAboveName))]
         [HttpPost]
         public ActionResult Create(LocationsBLL collection)
         {

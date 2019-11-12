@@ -17,21 +17,7 @@ namespace BusyMomWeb.Controllers
     [MustBeLoggedIn]
     public class ActivitiesController : Controller
     {
-        //List<SelectListItem> LocationGetAll()
-        //{
-        //    List<SelectListItem> ProposedReturnValue = new List<SelectListItem>();
-        //    using (ContextBLL ctx = new ContextBLL())
-        //    {
-        //        List<LocationsBLL> locations = ctx.LocationGetAll(0, 100);
-        //        foreach (LocationsBLL l in locations)
-        //        {
-        //            SelectListItem i = new SelectListItem();
-        //            i.Value = l.LocationID.ToString();
-        //            ProposedReturnValue.Add(i);
-        //        }
-        //        return ProposedReturnValue;
-        //    }
-        //}
+       
         // GET: Activities
         public ActionResult Index()
         {
@@ -199,6 +185,7 @@ namespace BusyMomWeb.Controllers
             }
             return View(activities);
         }
+        [MustBeInRole(Roles= MagicConstants.ParentAboveName)]
 
         [HttpPost]
         public ActionResult Delete(int id, ActivitiesBLL collection)

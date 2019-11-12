@@ -1,37 +1,55 @@
-﻿@model IEnumerable<BusinessLogicLayer.RoleBLL>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
+﻿@model IEnumerable<BusinessLogicLayer.UserGroupsBLL>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>
-        @*<th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupID)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.RoleID)
-        </th>*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.RoleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupName)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        @*<td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupID)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.RoleID)
-        </td>*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.RoleName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.RoleID  }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.RoleID }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.RoleID })
+            @Html.DisplayFor(modelItem => item.GroupName)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new {  id=item.RoleID }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.RoleID  }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.RoleID })*@
         </td>
     </tr>
 }

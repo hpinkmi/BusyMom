@@ -76,10 +76,11 @@ namespace BusyMomWeb.Controllers
         }
 
         // POST: Groups/Create
+        [MustBeInRole(Roles=(MagicConstants.ParentAboveName))]
         [HttpPost]
         public ActionResult Create(GroupsBLL collection )
         {
-            GroupsBLL groups;
+            //GroupsBLL groups;
             try
             {
                 if (!ModelState.IsValid)
@@ -88,20 +89,16 @@ namespace BusyMomWeb.Controllers
                 }
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    groups = ctx.GroupsFindByGroupName(collection.GroupName);
-                    if (null == groups)
-                    {
-                       groups.Message = $"The Group '{groups.GroupName}' already exists in the database";
-                        return View(collection);
-                    }
+                    
+                    ctx.GroupsCreate(collection);
                 }
+                return RedirectToAction ("Index");
             }
             catch (Exception ex)
             {
                 Logger.Logger.Log(ex);
                 return View("Error", ex);
             }
-            return View(groups);
         }
 
         // GET: Groups/Edit/5
@@ -215,7 +212,7 @@ namespace BusyMomWeb.Controllers
                     var group = (groups
                         .Where(x => x.GroupID == id)).FirstOrDefault();
                     Session["AuthRoles"] = group.RoleName;
-                     Session["AuthType"] += ":" +group.GroupID.ToString();
+                     Session["AuthType"] = (Session["AuthType"].ToString().Split(':')[0])+ ":" +group.GroupID.ToString();
                 }
                 return RedirectToRoute(new { Controller = "Activities"});
             }

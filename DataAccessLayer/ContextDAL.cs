@@ -151,27 +151,6 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
-        public int RoleCreateIDReturned(string RoleName)
-        {
-            int proposedReturnValue = 0;
-            try
-            {
-                EnsureConnected();
-                using (SqlCommand command = new SqlCommand("RoleCreateIDReturned", _con))
-                {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@RoleName", RoleName);
-
-
-                    proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
-                }
-            }
-            catch (Exception ex) when (Logger.Logger.Log(ex))
-            {
-
-            }
-            return proposedReturnValue;
-        }
         public void RoleDelete(int RoleID)
         {
             try
@@ -461,32 +440,32 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
-        public int UserCreateIDReturn(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
-        {
-            int proposedReturnValue = 0;
-            try
-            {
-                EnsureConnected();
-                using (SqlCommand command = new SqlCommand("UserCreateIDReturn", _con))
-                {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@LastName", LastName);
-                    command.Parameters.AddWithValue("@FirstName", FirstName);
-                    command.Parameters.AddWithValue("@Email", Email);
-                    command.Parameters.AddWithValue("@Phone", Phone);
-                    command.Parameters.AddWithValue("@UserName", UserName);
-                    command.Parameters.AddWithValue("@Hash", Hash);
-                    command.Parameters.AddWithValue("@Salt", Salt);
+        //public int UserCreateIDReturn(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
+        //{
+        //    int proposedReturnValue = 0;
+        //    try
+        //    {
+        //        EnsureConnected();
+        //        using (SqlCommand command = new SqlCommand("UserCreateIDReturn", _con))
+        //        {
+        //            command.CommandType = System.Data.CommandType.StoredProcedure;
+        //            command.Parameters.AddWithValue("@LastName", LastName);
+        //            command.Parameters.AddWithValue("@FirstName", FirstName);
+        //            command.Parameters.AddWithValue("@Email", Email);
+        //            command.Parameters.AddWithValue("@Phone", Phone);
+        //            command.Parameters.AddWithValue("@UserName", UserName);
+        //            command.Parameters.AddWithValue("@Hash", Hash);
+        //            command.Parameters.AddWithValue("@Salt", Salt);
 
-                    proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
-                }
-            }
-            catch (Exception ex) when (Logger.Logger.Log(ex))
-            {
+        //            proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+        //        }
+        //    }
+        //    catch (Exception ex) when (Logger.Logger.Log(ex))
+        //    {
 
-            }
-            return proposedReturnValue;
-        }
+        //    }
+        //    return proposedReturnValue;
+        //}
         public void UsersDelete(int UserID)
         {
             try
@@ -698,6 +677,27 @@ namespace DataAccessLayer
             }
             return proposedReturnValue;
         }
+        public int GroupsCreateIDReturned(string GroupsName)
+        {
+            int proposedReturnValue = 0;
+            try
+            {
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("GroupsCreateIDReturned", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@GroupsName", GroupsName);
+
+
+                    proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+            return proposedReturnValue;
+        }
         public void GroupsDelete(int GroupID)
         {
             try
@@ -737,15 +737,46 @@ namespace DataAccessLayer
 
         #endregion Groups
         #region UserGroups
-        public void UserGroupsCreate(int UserID, int GroupID, int RoleID )
+        public List<UserGroupsDAL> UserGroupsGetAll(int Skip, int Take)
         {
+            List<UserGroupsDAL> proposedReturnValue = new List<UserGroupsDAL>();
+            try
+            {
+                EnsureConnected();
+                using (SqlCommand command = new SqlCommand("UserGroupsGetAll", _con))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@skip", Skip);
+                    command.Parameters.AddWithValue("@take", Take);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        UserGroupsMapper rm = new UserGroupsMapper(reader);
+
+                        while (reader.Read())
+                        {
+                            UserGroupsDAL item = rm.ToUserGroups(reader);
+                            proposedReturnValue.Add(item);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) when (Logger.Logger.Log(ex))
+            {
+
+            }
+            return proposedReturnValue;
+        }
+        public int UserGroupsCreate(int UserID, int GroupID, int RoleID )
+        {
+            int proposedReturnValue = 0;
             try
             {
                 EnsureConnected();
                 using (SqlCommand command = new SqlCommand("UserGroupsCreate", _con))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("UserID", UserID);
                     command.Parameters.AddWithValue("@GroupID", GroupID);
                     command.Parameters.AddWithValue("@RoleID", RoleID);
                     command.ExecuteNonQuery();
@@ -756,8 +787,35 @@ namespace DataAccessLayer
             {
 
             }
-            
+            return proposedReturnValue;
+
         }
+        //public int UserGroupsCreateIDReturn(string LastName, string FirstName, string Email, string Phone, string UserName, string Hash, string Salt)
+        //{
+        //    int proposedReturnValue = 0;
+        //    try
+        //    {
+        //        EnsureConnected();
+        //        using (SqlCommand command = new SqlCommand("UserGroupsCreateIDReturn", _con))
+        //        {
+        //            command.CommandType = System.Data.CommandType.StoredProcedure;
+        //            command.Parameters.AddWithValue("@LastName", LastName);
+        //            command.Parameters.AddWithValue("@FirstName", FirstName);
+        //            command.Parameters.AddWithValue("@Email", Email);
+        //            command.Parameters.AddWithValue("@Phone", Phone);
+        //            command.Parameters.AddWithValue("@UserName", UserName);
+        //            command.Parameters.AddWithValue("@Hash", Hash);
+        //            command.Parameters.AddWithValue("@Salt", Salt);
+
+        //            proposedReturnValue = Convert.ToInt32(command.ExecuteScalar());
+        //        }
+        //    }
+        //    catch (Exception ex) when (Logger.Logger.Log(ex))
+        //    {
+
+        //    }
+        //    return proposedReturnValue;
+        //}
         public void UserGroupsDelete(int UserID, int GroupID)
         {
             try
@@ -1105,7 +1163,7 @@ namespace DataAccessLayer
             try
             {
                 EnsureConnected();
-                using (SqlCommand command = new SqlCommand("ActivitesCreate", _con))
+                using (SqlCommand command = new SqlCommand("ActivitiesCreate", _con))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@ActivityID", 0);

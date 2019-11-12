@@ -19,21 +19,36 @@ namespace BusyMomWeb.Controllers
 
         List<SelectListItem> GroupsFindbyUserID(int id)
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            ViewBag.ListItems = items;
-
+            List<SelectListItem> groups = new List<SelectListItem>();
+ 
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    List<GroupsBLL> groups = ctx.GroupsFindByUserID(0, 25,id);
-                    foreach (GroupsBLL g in groups)
+                    List<GroupsBLL> group = ctx.GroupsFindByUserID(0, 25,id);
+                    foreach (GroupsBLL g in group)
                     {
                         SelectListItem i = new SelectListItem();
                         i.Text = g.GroupName;
                         i.Value = g.GroupID.ToString();
-                        items.Add(i);
+                        groups.Add(i);
                     }
                 }
-                return items;
+                return groups;
+        }
+        List<SelectListItem>RolesGetAll()
+        {
+            List<SelectListItem> roles = new List<SelectListItem>();
+            using (ContextBLL ctx = new ContextBLL())
+            {
+                List<RoleBLL> role = ctx.RolesGetAll(0, 100);
+                foreach (RoleBLL r in role)
+                {
+                    SelectListItem i = new SelectListItem();
+                    i.Text = r.RoleName;
+                    i.Value = r.RoleID.ToString();
+                    roles.Add(i);
+                }
+            }
+            return roles;
         }
             
         public ActionResult Create()
@@ -44,7 +59,8 @@ namespace BusyMomWeb.Controllers
                         OneView Model = new OneView();
                     var user = ctx.UsersFindByUserName(User.Identity.Name);
                     
-                    ViewBag.ListItems = GroupsFindbyUserID(user.UserID);
+                    ViewBag.ListGroups = GroupsFindbyUserID(user.UserID);
+                    ViewBag.ListRoles = RolesGetAll();
                         return View(Model);
                 }               
                 catch (Exception ex)
@@ -55,7 +71,7 @@ namespace BusyMomWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(OneView collection, int id)
+        public ActionResult Create(OneView collection)
         {
             try
             {
@@ -63,24 +79,23 @@ namespace BusyMomWeb.Controllers
                 {
                     if (!ModelState.IsValid)
                     {
-                        //ViewBag.Groups = GroupsGetAll(ctx);
+          
                         return View(collection);
                     }
 
-                    if (!ModelState.IsValid)
-                    {
+            
+                    
                         string Salt = System.Web.Helpers.Crypto.GenerateSalt(MagicConstants.SaltSize);
                         string Hash = System.Web.Helpers.Crypto.
                             HashPassword("Password" + Salt);
-                        collection.UserID = ctx.UserCreate(collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, Hash, Salt);
-                    }
+                        int UserID = ctx.UserCreate(collection.LastName, collection.FirstName, collection.Email, collection.Phone, collection.UserName, Hash, Salt);
+                    
 
-                    else
-                    {
-                        int Group = ctx.GroupsCreate(collection.GroupName);
-                        ctx.GroupsCreate(collection.GroupName);
-                        ViewBag.items = GroupsFindbyUserID(id);
-                    }
+                   
+                    
+                        int Group = ctx.UserGroupsCreate(UserID, collection.GroupID, collection.RoleID);
+                        ViewBag.Groups = GroupsFindbyUserID                  (collection.GroupID);
+   
                 }
                 return RedirectToAction("Index", "Users");
             }

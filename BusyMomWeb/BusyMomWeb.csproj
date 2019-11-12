@@ -130,6 +130,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MagicConstants.cs" />
     <Compile Include="Models\MustBeInRoleAttribute.cs" />
     <Compile Include="Models\MustBeLoggedIn.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -186,11 +187,6 @@
     <Content Include="Views\Locations\Details.cshtml" />
     <Content Include="Views\Locations\Edit.cshtml" />
     <Content Include="Views\Locations\Index.cshtml" />
-    <Content Include="Views\Roles\Create.cshtml" />
-    <Content Include="Views\Roles\Delete.cshtml" />
-    <Content Include="Views\Roles\Details.cshtml" />
-    <Content Include="Views\Roles\Edit.cshtml" />
-    <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Shared\NotLoggedIn.cshtml" />
     <Content Include="Views\Shared\YouAreNotAuthorized.cshtml" />
@@ -200,13 +196,17 @@
     <Content Include="Views\Activities\Delete.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Details.cshtml" />
-    <Content Include="Views\OneView\Create.cshtml" />
     <Content Include="Views\Groups\Activity.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\OneView\Create.cshtml" />
+    <Content Include="Views\Users\MeaningfulCalculation.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

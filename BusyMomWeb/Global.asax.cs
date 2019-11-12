@@ -33,7 +33,7 @@ namespace BusyMomWeb
                 return;
             }
 
-            GenericIdentity i = new GenericIdentity(UserName, Sessrole);
+            GenericIdentity i = new GenericIdentity(UserName, SessType);
             if (Sessrole == null) { Sessrole = ""; }
             string[] roles = Sessrole.Split(',');
             GenericPrincipal p = new GenericPrincipal(i, roles);

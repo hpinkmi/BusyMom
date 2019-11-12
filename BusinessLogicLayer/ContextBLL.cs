@@ -94,9 +94,9 @@ namespace BusinessLogicLayer
         }
         public int UserCreate(UsersBLL User)
         {
-            int proposeReturnValue = -1;
-            proposeReturnValue = _context.UserCreate(User.LastName, User.FirstName, User.Email, User.Phone, User.UserName, User.Hash, User.Salt);
-            return proposeReturnValue;
+            int proposedReturnValue = -1;
+            proposedReturnValue = _context.UserCreate(User.LastName, User.FirstName, User.Email, User.Phone, User.UserName, User.Hash, User.Salt);
+            return proposedReturnValue;
         }
         public UsersBLL UserFindByID(int UserID)
         {
@@ -183,14 +183,24 @@ namespace BusinessLogicLayer
         #endregion Users
         #region UserGroups
 
-        public void UserGroupsCreate(int UserID, int GroupID, int RoleID)
+        public int UserGroupsCreate(int UserID, int GroupID, int RoleID)
         {
-            _context.UserGroupsCreate(UserID,GroupID,RoleID);
+            int proposedReturnValue = -1;
+            proposedReturnValue =_context.UserGroupsCreate(UserID, GroupID,RoleID);
+            return proposedReturnValue;
         }
-        public void UserGroupsCreate(UserGroupsBLL userGroups)
+        public List<UserGroupsBLL> UserGroupsGetAll(int skip, int take)
         {
-        _context.UserGroupsCreate(userGroups.UserID,userGroups.GroupID, userGroups.RoleID);
+            List<UserGroupsBLL> proposedReturnValue = new List<UserGroupsBLL>();
+            List<UserGroupsDAL> ListofDataLayerObjects = _context.UserGroupsGetAll(skip, take);
+            foreach (UserGroupsDAL User in ListofDataLayerObjects)
+            {
+                UserGroupsBLL BusinessObject = new UserGroupsBLL(User);
+                proposedReturnValue.Add(BusinessObject);
+            }
+            return proposedReturnValue;
         }
+
         public void UserGroupsDelete(UserGroupsBLL userGroups)
         {
             _context.UserGroupsDelete(userGroups.UserID, userGroups.GroupID);

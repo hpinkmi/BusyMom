@@ -50,7 +50,6 @@
     <Compile Include="GroupsMapper.cs" />
     <Compile Include="LocationsDAL.cs" />
     <Compile Include="LocationsMapper.cs" />
-    <Compile Include="MagicConstants.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="RoleDAL.cs" />
     <Compile Include="RoleMapper.cs" />

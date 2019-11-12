@@ -22,13 +22,19 @@
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Welcome " + User.Identity.Name + ":" + User.Identity.AuthenticationType, "Index","Users")</li>
+                        <li>@Html.ActionLink("Welcome " + User.Identity.Name +":" + Session["AuthRoles"], "Index","Users")</li>
                         <li>@Html.ActionLink("Group", "Index", "Groups")</li>
                         <li>@Html.ActionLink("Activity", "Index", "Activities")</li>
                         <li>@Html.ActionLink("Location", "Index", "Locations")</li>
                         <li>@Html.ActionLink("User", "Index", "Users")</li>
+                        if (User.IsInRole(MagicConstants.ParentAboveName))
+                        {
                         <li>@Html.ActionLink("Child Registration", "Create", "OneView")</li>
+                        }
+                        if (User.IsInRole(MagicConstants.Admin))
+                        {
                         <li>@Html.ActionLink("Role", "Index", "Roles")</li>
+                        }
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
                     }
