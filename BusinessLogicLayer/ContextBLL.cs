@@ -215,7 +215,7 @@ namespace BusinessLogicLayer
         #region GroupActivities
         public void GroupActivitiesCreate(int ActivityID, int GroupID, string ActivityOwner)
         {
-            _context.GroupActivitiesCreate(ActivityID, GroupID,ActivityOwner);  
+            _context.GroupActivitiesCreate(GroupID, ActivityID,ActivityOwner);  
         }
 
         public void GroupsActivitiesDelete(GroupActivitiesBLL GroupActivities)

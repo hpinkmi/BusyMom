@@ -863,7 +863,7 @@ namespace DataAccessLayer
             try
             {
                 EnsureConnected();
-                using (SqlCommand command = new SqlCommand("GroupActivitiesCreate", _con))
+                using (SqlCommand command = new SqlCommand("GroupsActivitiesCreate", _con))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@GroupID", GroupID);

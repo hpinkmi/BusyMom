@@ -102,7 +102,22 @@ namespace BusyMomWeb.Controllers
                 }
                 using (ContextBLL ctx = new ContextBLL())
                 {
-                    ctx.ActivitiesCreate(collection);
+
+                    int a=ctx.ActivitiesCreate(collection);
+                    UsersBLL u = ctx.UsersFindByUserName(User.Identity.Name);
+                    ctx.UserActivitiesCreate(u.UserID, a);
+
+                    var data = User.Identity.AuthenticationType.Split(':');
+                    if (data.Length != 2)
+                    {
+
+                    }
+                    else
+                    {
+                        int GroupID = int.Parse(data[1]);
+                        //GroupsBLL g=ctx.GroupsFindByID(GroupID);
+                        ctx.GroupActivitiesCreate(a, GroupID,"Unknown");
+                    }
                 }
 
                     return RedirectToAction("Index");

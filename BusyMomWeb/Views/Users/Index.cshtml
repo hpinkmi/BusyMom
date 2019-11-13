@@ -7,10 +7,9 @@
         }
     </p>
     <p>
-        @if (User.IsInRole(BusyMomWeb.MagicConstants.ParentAboveName))
-        {
+       
             @Html.ActionLink("show Stats", "MeaningfulCalculation")
-        }
+        
     </p>
 <table class="table">
     <tr>
@@ -73,11 +72,10 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) <text>|</text>
             }
             @Html.ActionLink("Details", "Details", new { id = item.UserID }) |
-            @if (User.IsInRole(BusyMomWeb.MagicConstants.ParentAboveName))
-            {
+            
                 @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
                 <text>|</text>
-            }
+            
             @Html.ActionLink("Groups", "Groups", new { id = item.UserID })
         </td>
     </tr>

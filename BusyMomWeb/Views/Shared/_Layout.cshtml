@@ -27,10 +27,9 @@
                         <li>@Html.ActionLink("Activity", "Index", "Activities")</li>
                         <li>@Html.ActionLink("Location", "Index", "Locations")</li>
                         <li>@Html.ActionLink("User", "Index", "Users")</li>
-                        if (User.IsInRole(MagicConstants.ParentAboveName))
-                        {
+                        
                         <li>@Html.ActionLink("Child Registration", "Create", "OneView")</li>
-                        }
+                        
                         if (User.IsInRole(MagicConstants.Admin))
                         {
                         <li>@Html.ActionLink("Role", "Index", "Roles")</li>
